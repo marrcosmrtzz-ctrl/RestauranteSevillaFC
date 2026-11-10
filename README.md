@@ -4,6 +4,8 @@ Aplicación de escritorio en JavaFX para gestionar un restaurante. Proyecto de D
 
 Equipo Sevilla FC: Marcos Martínez, Juan de la Puerta, Eduardo Contreras y Rubén Fernández.
 
+Tablero de Trello: https://trello.com/b/kv6CVTfn
+
 ## Tecnologías
 
 - Java 21 y JavaFX 21 (FXML con Scene Builder y CSS)
@@ -15,8 +17,10 @@ Equipo Sevilla FC: Marcos Martínez, Juan de la Puerta, Eduardo Contreras y Rub�
 1. Clonar el repositorio:
 
    ```
-   git clone [enlace del repositorio]
+   git clone https://github.com/marrcosmrtzz-ctrl/RestauranteSevillaFC.git
    ```
+
+   También se puede hacer desde IntelliJ: File > New > Project from Version Control y pegar la URL.
 
 2. Abrir la carpeta en IntelliJ (File > Open) y esperar a que Maven descargue las dependencias.
 
@@ -45,8 +49,11 @@ com/example/restaurantesevillafc/
 
 Las vistas están en `resources/.../fxml/` y los estilos en `resources/.../css/`.
 
+La documentación está en `docs/`: el diseño de la base de datos en `docs/base_datos/` y la arquitectura en `docs/arquitectura/`.
+
 ## Cómo trabajamos
 
-- `main` es la rama estable.
-- Cada tarea en su rama (`feature/login`...).
-- Al terminar se hace un pull request y lo revisa otro compañero.
+- `main` es la rama estable y nadie sube directamente a ella.
+- Cada tarea en su rama: `feature/nombre-de-la-tarea` (por ejemplo `feature/login`).
+- Al terminar se abre un pull request hacia `main` y lo revisa otro compañero antes de juntarlo.
+- Los datos de conexión a la base de datos irán en `config.properties`, que está en el `.gitignore` para no subir contraseñas.
