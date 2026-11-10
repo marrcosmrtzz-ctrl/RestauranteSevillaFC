@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="640.0" prefWidth="1000.0" styleClass="fondo" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.restaurantesevillafc.controller.LoginController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="Archivo">
+                    <items>
+                        <MenuItem accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#salir" text="Salir" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ayuda">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#acercaDe" text="Acerca de" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <HBox BorderPane.alignment="CENTER">
+            <children>
+                <VBox alignment="BOTTOM_LEFT" prefWidth="480.0" spacing="8.0" styleClass="panel-izquierdo" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                    </padding>
+                    <children>
+                        <Label styleClass="etiqueta-dorada" text="COCINA SEVILLANA" />
+                        <Label styleClass="texto-claro" text="desde el corazón de Nervión" />
+                        <Label styleClass="eslogan" text="El sabor de Sevilla,&#10;en cada plato." wrapText="true" />
+                        <Label styleClass="texto-claro" text="Pide desde casa o reserva tu mesa en un par de clics." wrapText="true" />
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" prefWidth="520.0" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+                    </padding>
+                    <children>
+                        <VBox maxWidth="360.0" spacing="8.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <StackPane styleClass="logo">
+                                            <children>
+                                                <Label styleClass="logo-texto" text="SF" />
+                                            </children>
+                                        </StackPane>
+                                        <VBox>
+                                            <children>
+                                                <Label styleClass="marca" text="Sevilla FC" />
+                                                <Label styleClass="marca-sub" text="RESTAURANTE" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="14.0" />
+                                    </VBox.margin>
+                                </HBox>
+                                <Label fx:id="lblTitulo" styleClass="titulo" text="Bienvenido de nuevo" />
+                                <Label fx:id="lblSubtitulo" styleClass="subtitulo" text="Inicia sesión para continuar" />
+                                <HBox styleClass="selector-rol">
+                                    <children>
+                                        <ToggleButton fx:id="btnCliente" maxWidth="Infinity" mnemonicParsing="false" onAction="#cambiarRol" selected="true" text="Cliente" HBox.hgrow="ALWAYS">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="grupoRol" />
+                                            </toggleGroup>
+                                        </ToggleButton>
+                                        <ToggleButton fx:id="btnTrabajador" maxWidth="Infinity" mnemonicParsing="false" onAction="#cambiarRol" text="Trabajador" toggleGroup="$grupoRol" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="6.0" top="10.0" />
+                                    </VBox.margin>
+                                </HBox>
+                                <Label styleClass="etiqueta-campo" text="Correo electrónico" />
+                                <TextField fx:id="txtCorreo" promptText="usuario@correo.com">
+                                    <tooltip>
+                                        <Tooltip text="El correo con el que te registraste" />
+                                    </tooltip>
+                                </TextField>
+                                <Label styleClass="etiqueta-campo" text="Contraseña" />
+                                <PasswordField fx:id="txtPassword" onAction="#entrar" promptText="Contraseña" />
+                                <Label fx:id="lblError" managed="false" styleClass="mensaje-error" visible="false" wrapText="true" />
+                                <Button fx:id="btnEntrar" defaultButton="true" maxWidth="Infinity" mnemonicParsing="false" onAction="#entrar" styleClass="boton-principal" text="Entrar">
+                                    <VBox.margin>
+                                        <Insets top="8.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <HBox alignment="CENTER" spacing="2.0">
+                                    <children>
+                                        <Label styleClass="subtitulo" text="¿No tienes cuenta?" />
+                                        <Hyperlink fx:id="linkRegistro" onAction="#irARegistro" styleClass="enlace" text="Regístrate" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </center>
+</BorderPane>

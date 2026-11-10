@@ -1,0 +1,139 @@
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 13px;
+}
+
+.fondo {
+    -fx-background-color: #faf7f2;
+}
+
+/* Panel de la izquierda */
+.panel-izquierdo {
+    -fx-background-color: linear-gradient(to bottom, #4a2c35, #2a1218);
+}
+
+.etiqueta-dorada {
+    -fx-text-fill: #e3b341;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}
+
+.texto-claro {
+    -fx-text-fill: #f1e9e6;
+}
+
+.eslogan {
+    -fx-text-fill: white;
+    -fx-font-family: Georgia;
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+}
+
+/* Logo y titulos */
+.logo {
+    -fx-background-color: #c8102e;
+    -fx-background-radius: 50%;
+    -fx-min-width: 36px;
+    -fx-min-height: 36px;
+    -fx-max-width: 36px;
+    -fx-max-height: 36px;
+}
+
+.logo-texto {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.marca {
+    -fx-font-family: Georgia;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.marca-sub {
+    -fx-font-size: 9px;
+    -fx-text-fill: #6b6b6b;
+}
+
+.titulo {
+    -fx-font-family: Georgia;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.subtitulo {
+    -fx-text-fill: #6b6b6b;
+}
+
+.etiqueta-campo {
+    -fx-font-weight: bold;
+    -fx-padding: 6 0 0 0;
+}
+
+.text-field, .password-field {
+    -fx-background-color: white;
+    -fx-border-color: #dcd6cf;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 10 8 10;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #c8102e;
+}
+
+/* Botones Cliente / Trabajador */
+.selector-rol {
+    -fx-background-color: #ece6de;
+    -fx-background-radius: 8;
+    -fx-padding: 4;
+}
+
+.selector-rol .toggle-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6b6b6b;
+    -fx-padding: 7;
+    -fx-cursor: hand;
+}
+
+.selector-rol .toggle-button:selected {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+/* Boton Entrar, cambia de color al pasar el raton */
+.boton-principal {
+    -fx-background-color: #c8102e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 10;
+    -fx-cursor: hand;
+}
+
+.boton-principal:hover {
+    -fx-background-color: #9e0c24;
+}
+
+.boton-principal:pressed {
+    -fx-background-color: #7a0a1c;
+}
+
+.boton-principal:disabled {
+    -fx-opacity: 0.5;
+}
+
+.mensaje-error {
+    -fx-text-fill: #c8102e;
+    -fx-background-color: #fdecee;
+    -fx-background-radius: 6;
+    -fx-padding: 8;
+}
+
+.enlace {
+    -fx-text-fill: #c8102e;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+}
