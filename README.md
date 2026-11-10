@@ -49,8 +49,6 @@ com/example/restaurantesevillafc/
 
 Las vistas están en `resources/.../fxml/` y los estilos en `resources/.../css/`.
 
-La documentación está en `docs/`: el diseño de la base de datos en `docs/base_datos/` y la arquitectura en `docs/arquitectura/`.
-
 ## Cómo trabajamos
 
 - `main` es la rama estable y nadie sube directamente a ella.
