@@ -52,6 +52,15 @@ Las vistas están en `resources/.../fxml/` y los estilos en `resources/.../css/`
 ## Cómo trabajamos
 
 - `main` es la rama estable y nadie sube directamente a ella.
-- Cada tarea en su rama: `feature/nombre-de-la-tarea` (por ejemplo `feature/login`).
-- Al terminar se abre un pull request hacia `main` y lo revisa otro compañero antes de juntarlo.
+- Cada integrante tiene su propia rama:
+
+  | Integrante | Rama |
+  |---|---|
+  | Marcos Martínez | `marcos` |
+  | Juan de la Puerta | `juanpuerta` |
+  | Eduardo Contreras | `eduardo` |
+  | Rubén Fernández | `ruben` |
+
+- Antes de empezar una tarea, cada uno actualiza su rama con lo último de `main`.
+- Al terminar, abre un pull request de su rama hacia `main` y lo revisa otro compañero antes de juntarlo.
 - Los datos de conexión a la base de datos irán en `config.properties`, que está en el `.gitignore` para no subir contraseñas.
