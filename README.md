@@ -8,7 +8,7 @@ Tablero de Trello: https://trello.com/b/kv6CVTfn
 
 ## Tecnologías
 
-- Java 21 y JavaFX 21 (FXML con Scene Builder y CSS)
+- Java 25 y JavaFX 25 (FXML con Scene Builder y CSS)
 - Maven
 - MySQL (se conectará en los siguientes sprints)
 
