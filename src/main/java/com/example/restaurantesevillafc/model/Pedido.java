@@ -20,9 +20,15 @@ public class Pedido {
         setFechaHora(LocalDateTime.now());
         setEstado("RECIBIDO");
         this.lineas.addAll(lineas);
-        setTotal(lineas.stream().mapToDouble(LineaPedido::getSubtotal).sum());
+        double suma=0;
+        for(LineaPedido l:lineas)suma+=l.getSubtotal();
+        setTotal(suma);
     }
-    public int getNumPlatos(){return lineas.stream().mapToInt(LineaPedido::getCantidad).sum();}
+    public int getNumPlatos(){
+        int num=0;
+        for(LineaPedido l:lineas)num+=l.getCantidad();
+        return num;
+    }
     public ObservableList<LineaPedido> getLineas(){return lineas;}
     public int getId(){return id.get();}
     public void setId(int v){id.set(v);}

@@ -5,7 +5,6 @@ import com.example.restaurantesevillafc.model.LineaPedido;
 import com.example.restaurantesevillafc.model.Pedido;
 import com.example.restaurantesevillafc.model.Plato;
 import com.example.restaurantesevillafc.model.Usuario;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.ArrayList;
@@ -16,8 +15,7 @@ public class PedidoService {
     public static final int MAX_OBSERVACIONES=250;
 
     // El pedido que va montando el cliente antes de confirmarlo. Es static para que la carta y Mi pedido usen el mismo.
-    // El extractor hace que la lista avise tambien cuando cambia la cantidad de una linea.
-    private static final ObservableList<LineaPedido> CARRITO=FXCollections.observableArrayList(l->new Observable[]{l.cantidadProperty()});
+    private static final ObservableList<LineaPedido> CARRITO=FXCollections.observableArrayList();
 
     // De momento, hasta que este la carta, metemos unos platos para poder probar la pantalla
     static{
@@ -46,8 +44,16 @@ public class PedidoService {
     public void quitar(LineaPedido linea){CARRITO.remove(linea);}
     public void vaciar(){CARRITO.clear();}
 
-    public int totalArticulos(){return CARRITO.stream().mapToInt(LineaPedido::getCantidad).sum();}
-    public double total(){return CARRITO.stream().mapToDouble(LineaPedido::getSubtotal).sum();}
+    public int totalArticulos(){
+        int num=0;
+        for(LineaPedido l:CARRITO)num+=l.getCantidad();
+        return num;
+    }
+    public double total(){
+        double suma=0;
+        for(LineaPedido l:CARRITO)suma+=l.getSubtotal();
+        return suma;
+    }
     // Los precios ya llevan el IVA incluido, asi que lo sacamos del total
     public double ivaIncluido(){return total()-total()/(1+IVA);}
 
