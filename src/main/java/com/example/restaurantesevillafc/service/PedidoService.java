@@ -37,7 +37,7 @@ public class PedidoService {
         if(linea.getCantidad()>=MAX_UNIDADES)throw new Exception("No puedes pedir más de "+MAX_UNIDADES+" unidades del mismo plato.");
         linea.setCantidad(linea.getCantidad()+1);
     }
-    // La cantidad minima es 1, para quitar el plato esta el boton de la papelera
+    // La cantidad minima es 1, para quitar el plato del todo esta el boton Quitar plato
     public void restar(LineaPedido linea){
         if(linea.getCantidad()>1)linea.setCantidad(linea.getCantidad()-1);
     }

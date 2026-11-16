@@ -138,7 +138,7 @@
     -fx-border-color: transparent;
 }
 
-/* ===== Pantallas del cliente: barra de arriba ===== */
+/* ===== Barra de arriba de las pantallas del cliente ===== */
 .barra-cliente {
     -fx-background-color: white;
     -fx-border-color: transparent transparent #ece6de transparent;
@@ -306,12 +306,38 @@
     -fx-text-fill: #c8102e;
 }
 
-.barra-progreso .bar {
-    -fx-background-color: #c8102e;
-    -fx-background-radius: 4;
+.boton-cantidad {
+    -fx-background-color: white;
+    -fx-border-color: #dcd6cf;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #c8102e;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-min-width: 36px;
+    -fx-padding: 2 10 2 10;
+    -fx-cursor: hand;
 }
 
-.barra-progreso .track {
-    -fx-background-color: #ece6de;
-    -fx-background-radius: 4;
+.boton-cantidad:hover {
+    -fx-background-color: #fdecee;
+}
+
+.boton-peligro {
+    -fx-background-color: white;
+    -fx-border-color: #e8a3ae;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #c8102e;
+    -fx-font-weight: bold;
+    -fx-padding: 6 12 6 12;
+    -fx-cursor: hand;
+}
+
+.boton-peligro:hover {
+    -fx-background-color: #fdecee;
+}
+
+.boton-cantidad:disabled, .boton-peligro:disabled, .boton-principal:disabled {
+    -fx-opacity: 0.4;
 }
