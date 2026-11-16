@@ -1,9 +1,13 @@
 package com.example.restaurantesevillafc.controller;
+import com.example.restaurantesevillafc.App;
 import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.UsuarioService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import java.io.IOException;
 public class LoginController {
     @FXML private TextField txtCorreo;
     @FXML private PasswordField txtPassword;
@@ -30,6 +34,7 @@ public class LoginController {
     @FXML private void entrar(){
         try{
             Usuario u=usuarioService.iniciarSesion(txtCorreo.getText(),txtPassword.getText(),btnTrabajador.isSelected());
+            if(u.esTrabajador()){abrirPanelTrabajador(u);return;}
             Alert alert=new Alert(Alert.AlertType.INFORMATION,"Has iniciado sesión como "+u.getRol().toLowerCase()+".");
             alert.setHeaderText("¡Hola, "+u.getNombre()+"!");
             alert.showAndWait();
@@ -49,6 +54,16 @@ public class LoginController {
         Alert info=new Alert(Alert.AlertType.INFORMATION,"Proyecto de Desarrollo de Interfaces · 2.º DAM\nEquipo Sevilla FC");
         info.setHeaderText("Restaurante Sevilla FC");
         info.showAndWait();
+    }
+    private void abrirPanelTrabajador(Usuario u){
+        try{
+            FXMLLoader loader=new FXMLLoader(App.class.getResource("fxml/trabajador.fxml"));
+            Parent panel=loader.load();
+            loader.<TrabajadorController>getController().setUsuario(u);
+            btnEntrar.getScene().setRoot(panel);
+        }catch(IOException e){
+            new Alert(Alert.AlertType.ERROR,"No se ha podido abrir el panel del trabajador.").showAndWait();
+        }
     }
     private void ocultarError(){lblError.setVisible(false);lblError.setManaged(false);}
 }

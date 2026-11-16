@@ -137,3 +137,154 @@
     -fx-font-weight: bold;
     -fx-border-color: transparent;
 }
+
+/* ===== Panel del trabajador ===== */
+.barra-lateral {
+    -fx-background-color: #1f1b1c;
+}
+
+.marca-clara {
+    -fx-text-fill: white;
+    -fx-font-family: Georgia;
+    -fx-font-weight: bold;
+}
+
+.marca-sub-clara {
+    -fx-text-fill: #a9a2a3;
+    -fx-font-size: 9px;
+}
+
+.titulo-seccion-lateral {
+    -fx-text-fill: #8a8384;
+    -fx-font-size: 10px;
+    -fx-padding: 0 0 4 4;
+}
+
+.boton-lateral {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e9e3e4;
+    -fx-alignment: center-left;
+    -fx-padding: 9 12 9 12;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.boton-lateral:hover {
+    -fx-background-color: #3a3233;
+}
+
+.boton-lateral:selected {
+    -fx-background-color: #c8102e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.caja-usuario {
+    -fx-border-color: #3a3233 transparent transparent transparent;
+    -fx-padding: 12 0 0 0;
+}
+
+.avatar {
+    -fx-background-color: #3a3233;
+    -fx-background-radius: 50%;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+}
+
+.avatar-texto {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.boton-salir {
+    -fx-background-color: #3a3233;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.boton-salir:hover {
+    -fx-background-color: #c8102e;
+}
+
+/* ===== Gestion del menu ===== */
+.boton-secundario {
+    -fx-background-color: white;
+    -fx-border-color: #dcd6cf;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 9 14 9 14;
+    -fx-cursor: hand;
+}
+
+.boton-peligro {
+    -fx-background-color: white;
+    -fx-text-fill: #c8102e;
+    -fx-border-color: #c8102e;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 9 14 9 14;
+    -fx-cursor: hand;
+}
+
+.tabla {
+    -fx-background-color: white;
+    -fx-border-color: #e6e0d9;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.tabla .column-header, .tabla .column-header-background, .tabla .filler {
+    -fx-background-color: white;
+    -fx-text-fill: #8a8384;
+    -fx-font-size: 10px;
+}
+
+.tabla .table-row-cell {
+    -fx-cell-size: 52px;
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #f0ebe5 transparent;
+}
+
+.tabla .table-row-cell:selected {
+    -fx-background-color: #fdecee;
+}
+
+.tabla .table-cell {
+    -fx-text-fill: black;
+    -fx-alignment: center-left;
+}
+
+.plato-nombre {
+    -fx-font-weight: bold;
+}
+
+.plato-descripcion {
+    -fx-text-fill: #6b6b6b;
+    -fx-font-size: 11px;
+}
+
+.etiqueta-categoria {
+    -fx-background-color: #f3eee8;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8 2 8;
+    -fx-font-size: 11px;
+}
+
+.estado-disponible {
+    -fx-text-fill: #1f7a3a;
+    -fx-background-color: #e5f4e9;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+.estado-agotado {
+    -fx-text-fill: #c8102e;
+    -fx-background-color: #fdecee;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
