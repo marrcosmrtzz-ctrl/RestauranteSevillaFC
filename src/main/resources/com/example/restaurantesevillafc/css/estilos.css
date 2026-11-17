@@ -288,3 +288,49 @@
     -fx-padding: 2 9 2 9;
     -fx-font-size: 11px;
 }
+
+/* ===== Formulario datos del plato ===== */
+.panel-formulario {
+    -fx-background-color: white;
+    -fx-border-color: #e6e0d9;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.titulo-formulario {
+    -fx-font-family: Georgia;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.etiqueta-modo {
+    -fx-text-fill: #c8102e;
+    -fx-background-color: #fdecee;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+.combo-box, .text-area {
+    -fx-background-color: white;
+    -fx-border-color: #dcd6cf;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.text-area .content {
+    -fx-background-color: white;
+}
+
+.combo-box:focused, .text-area:focused {
+    -fx-border-color: #c8102e;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #c8102e;
+    -fx-background-radius: 3;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
