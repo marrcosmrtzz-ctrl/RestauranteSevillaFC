@@ -22,4 +22,21 @@ public final class PlatoDAO {
     private PlatoDAO() {}
 
     public static ObservableList<Plato> todos() { return PLATOS; }
+
+    public static Plato buscarPorNombre(String nombre) {
+        for (Plato p : PLATOS) {
+            if (p.getNombre().equalsIgnoreCase(nombre)) return p;
+        }
+        return null;
+    }
+
+    public static int siguienteId() {
+        int max = 0;
+        for (Plato p : PLATOS) max = Math.max(max, p.getId());
+        return max + 1;
+    }
+
+    public static void anadir(Plato plato) { PLATOS.add(plato); }
+
+    public static void eliminar(Plato plato) { PLATOS.remove(plato); }
 }
