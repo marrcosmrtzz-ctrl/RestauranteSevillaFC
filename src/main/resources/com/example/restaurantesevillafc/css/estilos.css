@@ -248,25 +248,25 @@
     -fx-padding: 6;
 }
 
-/* ===== Mi pedido ===== */
-.tabla-pedido {
+/* ===== Tablas de la carta y de Mi pedido ===== */
+.tabla {
     -fx-background-color: #ece6de, white;
     -fx-background-insets: 0, 1;
     -fx-background-radius: 12;
     -fx-padding: 6;
 }
 
-.tabla-pedido .column-header-background, .tabla-pedido .filler {
+.tabla .column-header-background, .tabla .filler {
     -fx-background-color: white;
 }
 
-.tabla-pedido .column-header {
+.tabla .column-header {
     -fx-background-color: white;
     -fx-border-color: transparent transparent #ece6de transparent;
     -fx-padding: 8 0 8 0;
 }
 
-.tabla-pedido .column-header .label {
+.tabla .column-header .label {
     -fx-text-fill: #6b6b6b;
     -fx-font-size: 10px;
     -fx-font-weight: bold;
@@ -274,23 +274,23 @@
     -fx-padding: 0 8 0 8;
 }
 
-.tabla-pedido .table-row-cell {
+.tabla .table-row-cell {
     -fx-background-color: white;
     -fx-border-color: transparent transparent #f1ece6 transparent;
 }
 
-.tabla-pedido .table-row-cell:selected {
+.tabla .table-row-cell:selected {
     -fx-background-color: #fdecee;
 }
 
-.tabla-pedido .table-cell {
+.tabla .table-cell {
     -fx-alignment: CENTER_LEFT;
     -fx-text-fill: black;
     -fx-border-color: transparent;
     -fx-padding: 0 8 0 8;
 }
 
-.tabla-pedido .placeholder .label {
+.tabla .placeholder .label {
     -fx-text-fill: #6b6b6b;
 }
 
@@ -340,4 +340,38 @@
 
 .boton-cantidad:disabled, .boton-peligro:disabled, .boton-principal:disabled {
     -fx-opacity: 0.4;
+}
+
+/* ===== Carta ===== */
+.etiqueta-seccion {
+    -fx-text-fill: #6b6b6b;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 6 4;
+}
+
+.boton-categoria {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-text-fill: #3a3a3a;
+    -fx-padding: 9 12 9 12;
+    -fx-cursor: hand;
+}
+
+.boton-categoria:hover {
+    -fx-background-color: #f1ebe4;
+}
+
+.boton-categoria:selected {
+    -fx-background-color: #fdecee;
+    -fx-text-fill: #c8102e;
+    -fx-font-weight: bold;
+}
+
+.mensaje-ok {
+    -fx-text-fill: #1e7b3c;
+    -fx-background-color: #e6f4ea;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10 6 10;
+    -fx-font-weight: bold;
 }

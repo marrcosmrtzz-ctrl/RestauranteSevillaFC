@@ -116,7 +116,7 @@
                     <children>
                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                             <children>
-                                <TableView fx:id="tablaPedido" fixedCellSize="64.0" prefHeight="250.0" styleClass="tabla-pedido" VBox.vgrow="ALWAYS">
+                                <TableView fx:id="tablaPedido" fixedCellSize="64.0" prefHeight="250.0" styleClass="tabla" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="colPlato" prefWidth="250.0" text="PLATO" />
                                         <TableColumn fx:id="colPrecio" prefWidth="90.0" text="PRECIO" />
