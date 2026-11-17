@@ -1,25 +1,116 @@
 package com.example.restaurantesevillafc.controller;
+import com.example.restaurantesevillafc.App;
 import com.example.restaurantesevillafc.dao.PlatoDAO;
 import com.example.restaurantesevillafc.model.Plato;
 import com.example.restaurantesevillafc.service.PedidoService;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
 public class CartaController {
-    @FXML private TableView<Plato> tablaCarta;
-    @FXML private TableColumn<Plato,String> colPlato,colCategoria,colAlergenos,colPrecio;
-    @FXML private Label lblNumPlatos;
+    @FXML private FlowPane panelPlatos;
+    @FXML private Label lblNumPlatos,lblSinResultados,lblNumTodos,lblNumEntrantes,lblNumPrincipales,lblNumPostres,lblNumBebidas;
+    @FXML private TextField txtBuscar;
+    @FXML private ToggleGroup grupoCategoria;
+    @FXML private ToggleButton btnEntrantes,btnPrincipales,btnPostres,btnBebidas;
     private final PedidoService pedidoService=new PedidoService();
 
     @FXML public void initialize(){
-        colPlato.setCellValueFactory(d->new SimpleStringProperty(d.getValue().getNombre()+"\n"+d.getValue().getDescripcion()));
-        colCategoria.setCellValueFactory(d->d.getValue().categoriaProperty());
-        colAlergenos.setCellValueFactory(d->d.getValue().alergenosProperty());
-        colPrecio.setCellValueFactory(d->new SimpleStringProperty(String.format("%.2f €",d.getValue().getPrecio())));
-        tablaCarta.setItems(PlatoDAO.todos());
-        tablaCarta.setPlaceholder(new Label("No hay platos que coincidan con tu búsqueda."));
-        tablaCarta.getSelectionModel().selectFirst();
-        // El numero del boton Mi pedido son los platos que lleva el cliente en el pedido
+        // Si vuelve a pulsar la categoria que ya estaba marcada no se desmarca, y cada vez que cambia se filtran los platos
+        grupoCategoria.selectedToggleProperty().addListener((obs,antes,ahora)->{
+            if(ahora==null)antes.setSelected(true);
+            else filtrar();
+        });
+        // Cada letra que escribe en el buscador vuelve a filtrar los platos
+        txtBuscar.textProperty().addListener((obs,antes,ahora)->filtrar());
+        contarCategorias();
+        filtrar();
+        actualizarContador();
+    }
+    // Pone al lado de cada categoria cuantos platos tiene
+    private void contarCategorias(){
+        int entrantes=0,principales=0,postres=0,bebidas=0;
+        for(Plato p:PlatoDAO.todos()){
+            if(p.getCategoria().equals("Entrantes"))entrantes++;
+            else if(p.getCategoria().equals("Principales"))principales++;
+            else if(p.getCategoria().equals("Postres"))postres++;
+            else if(p.getCategoria().equals("Bebidas"))bebidas++;
+        }
+        lblNumTodos.setText(String.valueOf(PlatoDAO.todos().size()));
+        lblNumEntrantes.setText(String.valueOf(entrantes));
+        lblNumPrincipales.setText(String.valueOf(principales));
+        lblNumPostres.setText(String.valueOf(postres));
+        lblNumBebidas.setText(String.valueOf(bebidas));
+    }
+    // Vacia el panel y vuelve a poner solo las tarjetas de los platos de la categoria marcada que tengan en el nombre lo que ha escrito
+    private void filtrar(){
+        String categoria="Todos";
+        Toggle marcado=grupoCategoria.getSelectedToggle();
+        if(marcado==btnEntrantes)categoria="Entrantes";
+        else if(marcado==btnPrincipales)categoria="Principales";
+        else if(marcado==btnPostres)categoria="Postres";
+        else if(marcado==btnBebidas)categoria="Bebidas";
+        String texto=txtBuscar.getText().trim().toLowerCase();
+        panelPlatos.getChildren().clear();
+        for(Plato p:PlatoDAO.todos()){
+            boolean mismaCategoria=categoria.equals("Todos")||p.getCategoria().equals(categoria);
+            boolean contieneTexto=p.getNombre().toLowerCase().contains(texto);
+            if(mismaCategoria&&contieneTexto)crearTarjeta(p);
+        }
+        // Si no queda ningun plato se ensena el aviso
+        boolean vacio=panelPlatos.getChildren().isEmpty();
+        lblSinResultados.setVisible(vacio);
+        lblSinResultados.setManaged(vacio);
+    }
+    // Carga la tarjeta del plato desde su fxml, le pasa el plato y la mete en el panel
+    private void crearTarjeta(Plato plato){
+        try{
+            FXMLLoader loader=new FXMLLoader(App.class.getResource("fxml/tarjeta_plato.fxml"));
+            Parent tarjeta=loader.load();
+            TarjetaPlatoController controller=loader.getController();
+            controller.setDatos(plato,this);
+            panelPlatos.getChildren().add(tarjeta);
+        }catch(Exception e){
+            new Alert(Alert.AlertType.ERROR,"No se pudo cargar el plato "+plato.getNombre()+": "+e.getMessage()).showAndWait();
+        }
+    }
+    // Lo llama la tarjeta cuando se anade un plato, el numero del boton Mi pedido son los platos que lleva el cliente
+    public void actualizarContador(){
         lblNumPlatos.setText(String.valueOf(pedidoService.totalArticulos()));
+    }
+    @FXML private void vaciarPedido(){
+        if(pedidoService.getCarrito().isEmpty()){
+            new Alert(Alert.AlertType.INFORMATION,"Tu pedido ya está vacío.").showAndWait();
+            return;
+        }
+        Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,"Se quitarán los "+pedidoService.totalArticulos()+" platos de tu pedido.",ButtonType.YES,ButtonType.NO);
+        confirm.setHeaderText("¿Vaciar el pedido?");
+        confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->{
+            pedidoService.vaciar();
+            // Se vuelven a crear las tarjetas para que los botones dejen de estar en verde
+            filtrar();
+            actualizarContador();
+        });
+    }
+    @FXML private void verMenuDia(){
+        Alert info=new Alert(Alert.AlertType.INFORMATION,"Primero, segundo, postre y bebida por 14,90 €.\nLos platos cambian cada día, pregunta en el local cuáles hay hoy.");
+        info.setHeaderText("Menú del día");
+        info.showAndWait();
+    }
+    // Mi pedido, Reservar mesa y Cerrar sesion se conectan cuando esten las otras pantallas
+    @FXML private void pantallaPendiente(){new Alert(Alert.AlertType.INFORMATION,"Esta pantalla todavía no está hecha.").showAndWait();}
+    @FXML private void salir(){
+        String mensaje="¿Seguro que quieres salir?";
+        if(!pedidoService.getCarrito().isEmpty())mensaje+="\nTienes platos sin confirmar y se perderán.";
+        Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,mensaje,ButtonType.YES,ButtonType.NO);
+        confirm.setHeaderText("Salir");
+        confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->Platform.exit());
+    }
+    @FXML private void acercaDe(){
+        Alert info=new Alert(Alert.AlertType.INFORMATION,"Proyecto de Desarrollo de Interfaces · 2.º DAM\nEquipo Sevilla FC");
+        info.setHeaderText("Restaurante Sevilla FC");
+        info.showAndWait();
     }
 }

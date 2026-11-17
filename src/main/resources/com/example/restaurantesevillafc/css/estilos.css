@@ -375,3 +375,156 @@
     -fx-padding: 6 10 6 10;
     -fx-font-weight: bold;
 }
+
+/* ===== Iconos de las pantallas del cliente ===== */
+.icono {
+    -fx-fill: transparent;
+    -fx-stroke: #6e6a6f;
+    -fx-stroke-width: 1.5;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-line-join: round;
+}
+
+.icono-logo {
+    -fx-fill: transparent;
+    -fx-stroke: white;
+    -fx-stroke-width: 1.8;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-line-join: round;
+}
+
+.texto-nav {
+    -fx-text-fill: #3a3a3a;
+}
+
+.nav-boton-activo .icono {
+    -fx-stroke: white;
+}
+
+.nav-boton-activo .texto-nav {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Boton cuadrado solo con icono, el de cerrar sesion */
+.boton-icono {
+    -fx-background-color: white;
+    -fx-border-color: #dcd6cf;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 9;
+    -fx-cursor: hand;
+}
+
+.boton-icono:hover {
+    -fx-background-color: #f5f0ea;
+}
+
+/* ===== Categorias con icono y numero de platos ===== */
+.texto-categoria {
+    -fx-text-fill: #3a3a3a;
+}
+
+.num-categoria {
+    -fx-text-fill: #9a9499;
+    -fx-font-size: 11px;
+}
+
+.boton-categoria:selected .texto-categoria, .boton-categoria:selected .num-categoria {
+    -fx-text-fill: #c8102e;
+    -fx-font-weight: bold;
+}
+
+.boton-categoria:selected .icono {
+    -fx-stroke: #c8102e;
+}
+
+/* Tarjeta roja del menu del dia */
+.menu-dia {
+    -fx-background-color: linear-gradient(to bottom, #c8102e, #8f0a20);
+    -fx-background-radius: 14;
+}
+
+.menu-dia-hoy {
+    -fx-text-fill: #f6c9d0;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.menu-dia-titulo {
+    -fx-text-fill: white;
+    -fx-font-family: Georgia;
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+}
+
+.menu-dia-texto {
+    -fx-text-fill: #fbe3e7;
+    -fx-font-size: 11px;
+}
+
+.menu-dia-precio {
+    -fx-text-fill: white;
+    -fx-font-family: Georgia;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.boton-blanco {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-text-fill: #c8102e;
+    -fx-font-weight: bold;
+    -fx-padding: 8;
+    -fx-cursor: hand;
+}
+
+.boton-blanco:hover {
+    -fx-background-color: #fdecee;
+}
+
+/* ===== Buscador y tarjetas de los platos ===== */
+.buscador {
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 9 14 9 38;
+}
+
+.scroll-carta, .scroll-carta > .viewport {
+    -fx-background-color: transparent;
+}
+
+.tarjeta-plato {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: #ece6de;
+    -fx-border-radius: 12;
+}
+
+.nombre-plato {
+    -fx-font-family: Georgia;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.chip {
+    -fx-background-color: #f3eee8;
+    -fx-background-radius: 6;
+    -fx-text-fill: #6b6b6b;
+    -fx-font-size: 10px;
+    -fx-padding: 3 8 3 8;
+}
+
+.precio-plato {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+/* El boton de anadir se pone verde cuando el plato ya esta en el pedido */
+.boton-anadido {
+    -fx-background-color: #1e7b3c;
+}
+
+.boton-anadido:hover {
+    -fx-background-color: #176330;
+}

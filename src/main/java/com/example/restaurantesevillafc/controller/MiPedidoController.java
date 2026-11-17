@@ -1,17 +1,24 @@
 package com.example.restaurantesevillafc.controller;
+import com.example.restaurantesevillafc.App;
 import com.example.restaurantesevillafc.dao.UsuarioDAO;
 import com.example.restaurantesevillafc.model.LineaPedido;
 import com.example.restaurantesevillafc.model.Pedido;
+import com.example.restaurantesevillafc.model.Plato;
 import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.PedidoService;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.net.URL;
 public class MiPedidoController {
     @FXML private TableView<LineaPedido> tablaPedido;
     @FXML private TableColumn<LineaPedido,String> colPlato,colPrecio,colSubtotal;
     @FXML private TableColumn<LineaPedido,Number> colCantidad;
+    @FXML private TableColumn<LineaPedido,ImageView> colFoto;
     @FXML private Label lblNumPlatos,lblTextoSubtotal,lblSubtotal,lblIva,lblTotal,lblContador,lblSaludo,lblInicial;
     @FXML private Button btnRestar,btnSumar,btnQuitar,btnConfirmar;
     @FXML private TextArea txtObservaciones;
@@ -19,6 +26,8 @@ public class MiPedidoController {
     private Usuario usuario;
 
     @FXML public void initialize(){
+        // La columna de la foto devuelve la foto pequena del plato y la tabla la pinta sola
+        colFoto.setCellValueFactory(d->new SimpleObjectProperty<>(fotoPequena(d.getValue().getPlato())));
         colPlato.setCellValueFactory(d->new SimpleStringProperty(d.getValue().getPlato().getNombre()+"\n"+d.getValue().getPlato().getDescripcion()));
         colPrecio.setCellValueFactory(d->new SimpleStringProperty(String.format("%.2f €",d.getValue().getPrecioUnidad())));
         colCantidad.setCellValueFactory(d->d.getValue().cantidadProperty());
@@ -38,6 +47,15 @@ public class MiPedidoController {
         setUsuario(UsuarioDAO.buscarPorEmail("lucia.garcia@correo.com"));
         tablaPedido.getSelectionModel().selectFirst();
         actualizarResumen();
+    }
+    // Busca la foto pequena del plato, se llama plato y el id con _mini, si no hay foto la columna se queda vacia
+    private ImageView fotoPequena(Plato plato){
+        URL foto=App.class.getResource("images/platos/plato"+plato.getId()+"_mini.jpg");
+        if(foto==null)return null;
+        ImageView imagen=new ImageView(new Image(foto.toExternalForm()));
+        imagen.setFitWidth(48);
+        imagen.setFitHeight(48);
+        return imagen;
     }
     public void setUsuario(Usuario usuario){
         this.usuario=usuario;
@@ -79,6 +97,18 @@ public class MiPedidoController {
         confirm.setHeaderText("Quitar plato");
         confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->{
             pedidoService.quitar(linea);
+            actualizarResumen();
+        });
+    }
+    @FXML private void vaciarPedido(){
+        if(pedidoService.getCarrito().isEmpty()){
+            new Alert(Alert.AlertType.INFORMATION,"Tu pedido ya está vacío.").showAndWait();
+            return;
+        }
+        Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,"Se quitarán los "+pedidoService.totalArticulos()+" platos de tu pedido.",ButtonType.YES,ButtonType.NO);
+        confirm.setHeaderText("¿Vaciar el pedido?");
+        confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->{
+            pedidoService.vaciar();
             actualizarResumen();
         });
     }

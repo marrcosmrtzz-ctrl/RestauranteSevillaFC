@@ -44,6 +44,13 @@ public class PedidoService {
     public void quitar(LineaPedido linea){CARRITO.remove(linea);}
     public void vaciar(){CARRITO.clear();}
 
+    // Cuantas unidades de este plato lleva ya el cliente en el pedido, 0 si no lo lleva
+    public int cantidadDe(Plato plato){
+        for(LineaPedido l:CARRITO){
+            if(l.getPlato().getId()==plato.getId())return l.getCantidad();
+        }
+        return 0;
+    }
     public int totalArticulos(){
         int num=0;
         for(LineaPedido l:CARRITO)num+=l.getCantidad();

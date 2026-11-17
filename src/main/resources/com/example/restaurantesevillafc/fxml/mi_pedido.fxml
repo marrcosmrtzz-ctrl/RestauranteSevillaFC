@@ -8,6 +8,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -20,6 +21,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
 
 <BorderPane prefHeight="640.0" prefWidth="1000.0" styleClass="fondo" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.restaurantesevillafc.controller.MiPedidoController">
     <top>
@@ -29,7 +31,21 @@
                     <menus>
                         <Menu mnemonicParsing="false" text="Archivo">
                             <items>
+                                <MenuItem fx:id="itemCerrarSesion" mnemonicParsing="false" onAction="#pantallaPendiente" text="Cerrar sesión" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem fx:id="itemSalir" accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#salir" text="Salir" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Editar">
+                            <items>
+                                <MenuItem fx:id="itemVaciar" mnemonicParsing="false" onAction="#vaciarPedido" text="Vaciar pedido" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Ver">
+                            <items>
+                                <MenuItem fx:id="itemVerCarta" mnemonicParsing="false" onAction="#pantallaPendiente" text="Carta" />
+                                <MenuItem fx:id="itemVerPedido" accelerator="Shortcut+P" disable="true" mnemonicParsing="false" text="Mi pedido" />
+                                <MenuItem fx:id="itemVerReservar" mnemonicParsing="false" onAction="#pantallaPendiente" text="Reservar mesa" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Ayuda">
@@ -46,7 +62,7 @@
                     <children>
                         <StackPane styleClass="logo">
                             <children>
-                                <Label styleClass="logo-texto" text="SF" />
+                                <SVGPath content="M2.9 0.9V18.9M0.9 0.9V5.9C0.9 6.43 1.11 6.94 1.49 7.31C1.86 7.69 2.37 7.9 2.9 7.9C3.43 7.9 3.94 7.69 4.31 7.31C4.69 6.94 4.9 6.43 4.9 5.9V0.9M11.9 0.9C9.7 2.7 9.4 7.9 11.9 9.9V18.9" styleClass="icono-logo" />
                             </children>
                         </StackPane>
                         <VBox>
@@ -58,21 +74,33 @@
                         <Region HBox.hgrow="ALWAYS" />
                         <HBox alignment="CENTER" spacing="8.0">
                             <children>
-                                <Button fx:id="btnCarta" mnemonicParsing="false" onAction="#pantallaPendiente" styleClass="nav-boton" text="Carta">
+                                <Button fx:id="btnCarta" graphicTextGap="8.0" mnemonicParsing="false" onAction="#pantallaPendiente" styleClass="nav-boton" text="Carta">
+                                    <graphic>
+                                        <SVGPath content="M0.79 10.79H15.79M2.46 10.79C2.46 9.24 3.07 7.76 4.17 6.67C5.26 5.57 6.74 4.96 8.29 4.96C9.84 4.96 11.32 5.57 12.42 6.67C13.51 7.76 14.13 9.24 14.13 10.79M8.29 2.46V0.79M6.63 0.79H9.96" styleClass="icono" />
+                                    </graphic>
                                     <tooltip>
                                         <Tooltip text="Ver la carta del restaurante" />
                                     </tooltip>
                                 </Button>
-                                <Button fx:id="btnMiPedido" contentDisplay="RIGHT" graphicTextGap="8.0" mnemonicParsing="false" text="Mi pedido">
-                                    <graphic>
-                                        <Label fx:id="lblNumPlatos" styleClass="badge" text="0" />
-                                    </graphic>
+                                <Button fx:id="btnMiPedido" mnemonicParsing="false">
                                     <styleClass>
                                         <String fx:value="nav-boton" />
                                         <String fx:value="nav-boton-activo" />
                                     </styleClass>
+                                    <graphic>
+                                        <HBox alignment="CENTER" spacing="8.0">
+                                            <children>
+                                                <SVGPath content="M0.8 1H3L5 10.2C5.1 10.8 5.6 11.2 6.2 11.2H12.6C13.2 11.2 13.7 10.8 13.8 10.2L15 4H3.7M5.6 14.2a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0M11.6 14.2a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0" styleClass="icono" />
+                                                <Label styleClass="texto-nav" text="Mi pedido" />
+                                                <Label fx:id="lblNumPlatos" styleClass="badge" text="0" />
+                                            </children>
+                                        </HBox>
+                                    </graphic>
                                 </Button>
-                                <Button fx:id="btnReservar" mnemonicParsing="false" onAction="#pantallaPendiente" styleClass="nav-boton" text="Reservar mesa">
+                                <Button fx:id="btnReservar" graphicTextGap="8.0" mnemonicParsing="false" onAction="#pantallaPendiente" styleClass="nav-boton" text="Reservar mesa">
+                                    <graphic>
+                                        <SVGPath content="M12.71 2.21H2.21C1.38 2.21 0.71 2.88 0.71 3.71V12.71C0.71 13.54 1.38 14.21 2.21 14.21H12.71C13.54 14.21 14.21 13.54 14.21 12.71V3.71C14.21 2.88 13.54 2.21 12.71 2.21Z M0.71 5.96H14.21M4.46 0.71V3.71M10.46 0.71V3.71" styleClass="icono" />
+                                    </graphic>
                                     <tooltip>
                                         <Tooltip text="Reservar una mesa en el restaurante" />
                                     </tooltip>
@@ -91,7 +119,10 @@
                                 <Label styleClass="marca-sub" text="Cliente" />
                             </children>
                         </VBox>
-                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#pantallaPendiente" styleClass="boton-secundario" text="Salir">
+                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#pantallaPendiente" styleClass="boton-icono">
+                            <graphic>
+                                <SVGPath content="M10 1H13.5C14.3 1 15 1.7 15 2.5V13.5C15 14.3 14.3 15 13.5 15H10M5 4.5L1.5 8L5 11.5M1.5 8H10.5" styleClass="icono" />
+                            </graphic>
                             <tooltip>
                                 <Tooltip text="Cerrar sesión" />
                             </tooltip>
@@ -118,7 +149,8 @@
                             <children>
                                 <TableView fx:id="tablaPedido" fixedCellSize="64.0" prefHeight="250.0" styleClass="tabla" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="colPlato" prefWidth="250.0" text="PLATO" />
+                                        <TableColumn fx:id="colFoto" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" sortable="false" />
+                                        <TableColumn fx:id="colPlato" prefWidth="210.0" text="PLATO" />
                                         <TableColumn fx:id="colPrecio" prefWidth="90.0" text="PRECIO" />
                                         <TableColumn fx:id="colCantidad" prefWidth="120.0" text="CANTIDAD" />
                                         <TableColumn fx:id="colSubtotal" prefWidth="100.0" text="SUBTOTAL" />
