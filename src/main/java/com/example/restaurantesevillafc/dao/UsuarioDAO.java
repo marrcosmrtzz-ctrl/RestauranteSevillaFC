@@ -17,4 +17,8 @@ public final class UsuarioDAO {
         }
         return null;
     }
+    public static void insertar(Usuario u){
+        u.setId(USUARIOS.size()+1);
+        USUARIOS.add(u);
+    }
 }

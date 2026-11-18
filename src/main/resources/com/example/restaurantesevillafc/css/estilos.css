@@ -8,8 +8,18 @@
 }
 
 /* Panel de la izquierda */
+/* Foto de la Plaza de España (inicio1) de fondo */
 .panel-izquierdo {
-    -fx-background-color: linear-gradient(to bottom, #4a2c35, #2a1218);
+    -fx-background-color: #2a1218;
+    -fx-background-image: url("../img/inicio1.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+/* Degradado (inicio2) encima de la foto */
+.capa-inicio {
+    -fx-background-image: url("../img/inicio2.png");
+    -fx-background-size: stretch;
 }
 
 .etiqueta-dorada {
@@ -136,4 +146,64 @@
     -fx-text-fill: #c8102e;
     -fx-font-weight: bold;
     -fx-border-color: transparent;
+}
+
+/* ---------- Registro (C2) ---------- */
+
+/* Foto de la Giralda (registro1) de fondo */
+.panel-registro {
+    -fx-background-color: #5a0714;
+    -fx-background-image: url("../img/registro1.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+/* Degradado rojo (registro2) encima de la foto */
+.capa-registro {
+    -fx-background-image: url("../img/registro2.png");
+    -fx-background-size: stretch;
+}
+
+.nota {
+    -fx-text-fill: #6b6b6b;
+    -fx-font-size: 11px;
+}
+
+.texto-ok {
+    -fx-text-fill: #1e7b45;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* Tramos de la barra de seguridad de la contraseña */
+.segmento {
+    -fx-background-color: #e9e3dc;
+    -fx-background-radius: 3;
+    -fx-min-height: 5px;
+    -fx-pref-height: 5px;
+    -fx-max-height: 5px;
+}
+
+/* Boton Volver */
+.boton-secundario {
+    -fx-background-color: white;
+    -fx-border-color: #dcd6cf;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 10 18 10 18;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #f3eee8;
+}
+
+/* Casilla de privacidad en rojo al marcarla */
+.check-box:selected .box {
+    -fx-background-color: #c8102e;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
 }

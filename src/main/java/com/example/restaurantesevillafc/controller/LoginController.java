@@ -1,8 +1,10 @@
 package com.example.restaurantesevillafc.controller;
+import com.example.restaurantesevillafc.App;
 import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.UsuarioService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 public class LoginController {
     @FXML private TextField txtCorreo;
@@ -39,7 +41,10 @@ public class LoginController {
             lblError.setManaged(true);
         }
     }
-    @FXML private void irARegistro(){new Alert(Alert.AlertType.INFORMATION,"El registro todavía no está hecho.").showAndWait();}
+    @FXML private void irARegistro(){
+        try{ txtCorreo.getScene().setRoot(new FXMLLoader(App.class.getResource("fxml/registro.fxml")).load()); }
+        catch(java.io.IOException e){ new Alert(Alert.AlertType.ERROR,"No se pudo abrir el registro.").showAndWait(); }
+    }
     @FXML private void salir(){
         Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,"¿Seguro que quieres salir?",ButtonType.YES,ButtonType.NO);
         confirm.setHeaderText("Salir");
