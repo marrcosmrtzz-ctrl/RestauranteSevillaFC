@@ -22,7 +22,7 @@ public class UsuarioService {
         if(!aceptaPrivacidad)throw new Exception("Tienes que aceptar la política de privacidad.");
         if(UsuarioDAO.buscarPorEmail(email.trim())!=null)throw new Exception("Ya existe una cuenta con ese correo.");
         Usuario nuevo=new Usuario(0,nombre.trim(),apellidos.trim(),email.trim().toLowerCase(),password,"CLIENTE");
-        nuevo.setTelefono(telefono.trim());
+        nuevo.setTelefono(telefono.replace(" ",""));
         UsuarioDAO.insertar(nuevo);
         return nuevo;
     }

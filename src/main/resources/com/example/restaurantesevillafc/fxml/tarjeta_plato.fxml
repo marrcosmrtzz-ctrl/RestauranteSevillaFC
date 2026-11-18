@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefWidth="236.0" styleClass="tarjeta-plato" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.restaurantesevillafc.controller.TarjetaPlatoController">
+    <children>
+        <ImageView fx:id="imgPlato" fitHeight="103.0" fitWidth="236.0" pickOnBounds="true" />
+        <VBox spacing="4.0">
+            <padding>
+                <Insets bottom="14.0" left="14.0" right="14.0" top="10.0" />
+            </padding>
+            <children>
+                <Label fx:id="lblNombre" styleClass="nombre-plato" text="Salmorejo" />
+                <Label fx:id="lblDescripcion" styleClass="contador" text="Con jamón ibérico y huevo duro" />
+                <Label fx:id="lblAlergenos" styleClass="chip" text="Gluten · Huevo">
+                    <VBox.margin>
+                        <Insets bottom="6.0" top="4.0" />
+                    </VBox.margin>
+                    <tooltip>
+                        <Tooltip text="Alérgenos del plato" />
+                    </tooltip>
+                </Label>
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <Label fx:id="lblPrecio" styleClass="precio-plato" text="6,50 €" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnAnadir" mnemonicParsing="false" onAction="#anadir" styleClass="boton-principal" text="+  Añadir" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</VBox>

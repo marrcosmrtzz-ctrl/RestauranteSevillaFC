@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane prefHeight="640.0" prefWidth="1000.0" styleClass="fondo" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.restaurantesevillafc.controller.CartaController">
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <MenuBar>
+                    <menus>
+                        <Menu mnemonicParsing="false" text="Archivo">
+                            <items>
+                                <MenuItem fx:id="itemCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem fx:id="itemSalir" accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#salir" text="Salir" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Editar">
+                            <items>
+                                <MenuItem fx:id="itemVaciar" mnemonicParsing="false" onAction="#vaciarPedido" text="Vaciar pedido" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Ver">
+                            <items>
+                                <MenuItem fx:id="itemVerCarta" disable="true" mnemonicParsing="false" text="Carta" />
+                                <MenuItem fx:id="itemVerPedido" accelerator="Shortcut+P" mnemonicParsing="false" onAction="#irAMiPedido" text="Mi pedido" />
+                                <MenuItem fx:id="itemVerReservar" mnemonicParsing="false" onAction="#pantallaPendiente" text="Reservar mesa" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Ayuda">
+                            <items>
+                                <MenuItem fx:id="itemAcercaDe" mnemonicParsing="false" onAction="#acercaDe" text="Acerca de" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+                <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="barra-cliente">
+                    <padding>
+                        <Insets bottom="12.0" left="24.0" right="24.0" top="12.0" />
+                    </padding>
+                    <children>
+                        <StackPane styleClass="logo">
+                            <children>
+                                <SVGPath content="M2.9 0.9V18.9M0.9 0.9V5.9C0.9 6.43 1.11 6.94 1.49 7.31C1.86 7.69 2.37 7.9 2.9 7.9C3.43 7.9 3.94 7.69 4.31 7.31C4.69 6.94 4.9 6.43 4.9 5.9V0.9M11.9 0.9C9.7 2.7 9.4 7.9 11.9 9.9V18.9" styleClass="icono-logo" />
+                            </children>
+                        </StackPane>
+                        <VBox>
+                            <children>
+                                <Label styleClass="marca" text="Sevilla FC" />
+                                <Label styleClass="marca-sub" text="RESTAURANTE" />
+                            </children>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="8.0">
+                            <children>
+                                <Button fx:id="btnCarta" graphicTextGap="8.0" mnemonicParsing="false" text="Carta">
+                                    <graphic>
+                                        <SVGPath content="M0.79 10.79H15.79M2.46 10.79C2.46 9.24 3.07 7.76 4.17 6.67C5.26 5.57 6.74 4.96 8.29 4.96C9.84 4.96 11.32 5.57 12.42 6.67C13.51 7.76 14.13 9.24 14.13 10.79M8.29 2.46V0.79M6.63 0.79H9.96" styleClass="icono" />
+                                    </graphic>
+                                    <styleClass>
+                                        <String fx:value="nav-boton" />
+                                        <String fx:value="nav-boton-activo" />
+                                    </styleClass>
+                                </Button>
+                                <Button fx:id="btnMiPedido" mnemonicParsing="false" onAction="#irAMiPedido" styleClass="nav-boton">
+                                    <graphic>
+                                        <HBox alignment="CENTER" spacing="8.0">
+                                            <children>
+                                                <SVGPath content="M0.8 1H3L5 10.2C5.1 10.8 5.6 11.2 6.2 11.2H12.6C13.2 11.2 13.7 10.8 13.8 10.2L15 4H3.7M5.6 14.2a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0M11.6 14.2a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0" styleClass="icono" />
+                                                <Label styleClass="texto-nav" text="Mi pedido" />
+                                                <Label fx:id="lblNumPlatos" styleClass="badge" text="0" />
+                                            </children>
+                                        </HBox>
+                                    </graphic>
+                                    <tooltip>
+                                        <Tooltip text="Ver los platos que has añadido y confirmar el pedido" />
+                                    </tooltip>
+                                </Button>
+                                <Button fx:id="btnReservar" graphicTextGap="8.0" mnemonicParsing="false" onAction="#pantallaPendiente" styleClass="nav-boton" text="Reservar mesa">
+                                    <graphic>
+                                        <SVGPath content="M12.71 2.21H2.21C1.38 2.21 0.71 2.88 0.71 3.71V12.71C0.71 13.54 1.38 14.21 2.21 14.21H12.71C13.54 14.21 14.21 13.54 14.21 12.71V3.71C14.21 2.88 13.54 2.21 12.71 2.21Z M0.71 5.96H14.21M4.46 0.71V3.71M10.46 0.71V3.71" styleClass="icono" />
+                                    </graphic>
+                                    <tooltip>
+                                        <Tooltip text="Reservar una mesa en el restaurante" />
+                                    </tooltip>
+                                </Button>
+                            </children>
+                        </HBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <StackPane styleClass="avatar">
+                            <children>
+                                <Label fx:id="lblInicial" styleClass="avatar-texto" text="L" />
+                            </children>
+                        </StackPane>
+                        <VBox>
+                            <children>
+                                <Label fx:id="lblSaludo" styleClass="saludo" text="Hola, Lucía" />
+                                <Label styleClass="marca-sub" text="Cliente" />
+                            </children>
+                        </VBox>
+                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" styleClass="boton-icono">
+                            <graphic>
+                                <SVGPath content="M10 1H13.5C14.3 1 15 1.7 15 2.5V13.5C15 14.3 14.3 15 13.5 15H10M5 4.5L1.5 8L5 11.5M1.5 8H10.5" styleClass="icono" />
+                            </graphic>
+                            <tooltip>
+                                <Tooltip text="Cerrar sesión" />
+                            </tooltip>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <left>
+        <VBox prefWidth="200.0" spacing="4.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="20.0" left="16.0" right="8.0" top="20.0" />
+            </padding>
+            <children>
+                <Label styleClass="etiqueta-seccion" text="CATEGORÍAS" />
+                <ToggleButton fx:id="btnTodos" maxWidth="Infinity" mnemonicParsing="false" selected="true" styleClass="boton-categoria">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="grupoCategoria" />
+                    </toggleGroup>
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="148.0" spacing="10.0">
+                            <children>
+                                <StackPane minWidth="18.0" prefWidth="18.0">
+                                    <children>
+                                        <SVGPath content="M1 1H6.5V6.5H1Z M9.5 1H15V6.5H9.5Z M9.5 9.5H15V15H9.5Z M1 9.5H6.5V15H1Z" styleClass="icono" />
+                                    </children>
+                                </StackPane>
+                                <Label styleClass="texto-categoria" text="Todos" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="lblNumTodos" styleClass="num-categoria" text="0" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="Ver todos los platos" />
+                    </tooltip>
+                </ToggleButton>
+                <ToggleButton fx:id="btnEntrantes" maxWidth="Infinity" mnemonicParsing="false" styleClass="boton-categoria" toggleGroup="$grupoCategoria">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="148.0" spacing="10.0">
+                            <children>
+                                <StackPane minWidth="18.0" prefWidth="18.0">
+                                    <children>
+                                        <SVGPath content="M0.79 10.79H15.79M2.46 10.79C2.46 9.24 3.07 7.76 4.17 6.67C5.26 5.57 6.74 4.96 8.29 4.96C9.84 4.96 11.32 5.57 12.42 6.67C13.51 7.76 14.13 9.24 14.13 10.79M8.29 2.46V0.79M6.63 0.79H9.96" styleClass="icono" />
+                                    </children>
+                                </StackPane>
+                                <Label styleClass="texto-categoria" text="Entrantes" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="lblNumEntrantes" styleClass="num-categoria" text="0" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                </ToggleButton>
+                <ToggleButton fx:id="btnPrincipales" maxWidth="Infinity" mnemonicParsing="false" styleClass="boton-categoria" toggleGroup="$grupoCategoria">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="148.0" spacing="10.0">
+                            <children>
+                                <StackPane minWidth="18.0" prefWidth="18.0">
+                                    <children>
+                                        <SVGPath content="M2.46 0.79V15.79M0.79 0.79V4.96C0.79 5.4 0.97 5.82 1.28 6.14C1.59 6.45 2.02 6.63 2.46 6.63C2.9 6.63 3.32 6.45 3.64 6.14C3.95 5.82 4.13 5.4 4.13 4.96V0.79M9.96 0.79C8.13 2.29 7.88 6.63 9.96 8.29V15.79" styleClass="icono" />
+                                    </children>
+                                </StackPane>
+                                <Label styleClass="texto-categoria" text="Principales" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="lblNumPrincipales" styleClass="num-categoria" text="0" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                </ToggleButton>
+                <ToggleButton fx:id="btnPostres" maxWidth="Infinity" mnemonicParsing="false" styleClass="boton-categoria" toggleGroup="$grupoCategoria">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="148.0" spacing="10.0">
+                            <children>
+                                <StackPane minWidth="18.0" prefWidth="18.0">
+                                    <children>
+                                        <SVGPath content="M8 1L10.06 5.17L14.66 5.84L11.33 9.09L12.12 13.67L8 11.51L3.88 13.67L4.67 9.09L1.34 5.84L5.94 5.17Z" styleClass="icono" />
+                                    </children>
+                                </StackPane>
+                                <Label styleClass="texto-categoria" text="Postres" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="lblNumPostres" styleClass="num-categoria" text="0" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                </ToggleButton>
+                <ToggleButton fx:id="btnBebidas" maxWidth="Infinity" mnemonicParsing="false" styleClass="boton-categoria" toggleGroup="$grupoCategoria">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="148.0" spacing="10.0">
+                            <children>
+                                <StackPane minWidth="18.0" prefWidth="18.0">
+                                    <children>
+                                        <SVGPath content="M4.96 9.96C5.84 9.96 6.69 9.61 7.32 8.98C7.94 8.36 8.29 7.51 8.29 6.63L9.13 0.79H0.79L1.63 6.63C1.63 7.51 1.98 8.36 2.6 8.98C3.23 9.61 4.07 9.96 4.96 9.96ZM4.96 9.96V15.79M2.04 15.79H7.88" styleClass="icono" />
+                                    </children>
+                                </StackPane>
+                                <Label styleClass="texto-categoria" text="Bebidas" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="lblNumBebidas" styleClass="num-categoria" text="0" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                </ToggleButton>
+                <Region VBox.vgrow="ALWAYS" />
+                <VBox spacing="4.0" styleClass="menu-dia">
+                    <padding>
+                        <Insets bottom="16.0" left="16.0" right="16.0" top="14.0" />
+                    </padding>
+                    <children>
+                        <Label styleClass="menu-dia-hoy" text="HOY" />
+                        <Label styleClass="menu-dia-titulo" text="Menú del día" />
+                        <Label styleClass="menu-dia-texto" text="Primero, segundo, postre y bebida" wrapText="true" />
+                        <Label styleClass="menu-dia-precio" text="14,90 €">
+                            <VBox.margin>
+                                <Insets bottom="6.0" top="6.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Button fx:id="btnMenuDia" maxWidth="Infinity" mnemonicParsing="false" onAction="#verMenuDia" styleClass="boton-blanco" text="Ver menú">
+                            <tooltip>
+                                <Tooltip text="Ver qué incluye el menú del día" />
+                            </tooltip>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox spacing="14.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets left="14.0" top="20.0" />
+            </padding>
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                    <VBox.margin>
+                        <Insets right="28.0" />
+                    </VBox.margin>
+                    <children>
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label styleClass="titulo-pagina" text="Nuestra carta" />
+                                <Label styleClass="subtitulo" text="Cocina tradicional sevillana, hecha cada día con producto de mercado." />
+                            </children>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <StackPane alignment="CENTER_LEFT">
+                            <children>
+                                <TextField fx:id="txtBuscar" prefWidth="230.0" promptText="Buscar plato..." styleClass="buscador">
+                                    <tooltip>
+                                        <Tooltip text="Escribe el nombre de un plato para encontrarlo" />
+                                    </tooltip>
+                                </TextField>
+                                <SVGPath content="M6.58 12.42C9.8 12.42 12.42 9.8 12.42 6.58C12.42 3.36 9.8 0.75 6.58 0.75C3.36 0.75 0.75 3.36 0.75 6.58C0.75 9.8 3.36 12.42 6.58 12.42Z M11.17 11.17L14.92 14.92" mouseTransparent="true" styleClass="icono">
+                                    <StackPane.margin>
+                                        <Insets left="14.0" />
+                                    </StackPane.margin>
+                                </SVGPath>
+                            </children>
+                        </StackPane>
+                    </children>
+                </HBox>
+                <Label fx:id="lblSinResultados" managed="false" styleClass="subtitulo" text="No hay platos que coincidan con tu búsqueda." visible="false" />
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-carta" VBox.vgrow="ALWAYS">
+                    <content>
+                        <FlowPane fx:id="panelPlatos" hgap="16.0" vgap="16.0">
+                            <padding>
+                                <Insets bottom="24.0" right="20.0" />
+                            </padding>
+                        </FlowPane>
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
