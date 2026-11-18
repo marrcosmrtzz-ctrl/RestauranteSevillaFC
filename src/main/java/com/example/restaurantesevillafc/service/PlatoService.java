@@ -21,7 +21,7 @@ public class PlatoService {
     // Crea un plato nuevo despues de validar los datos del formulario
     public Plato crear(String nombre, String descripcion, String categoria, String precioTexto, boolean disponible) throws Exception {
         double precio = validar(null, nombre, categoria, precioTexto);
-        Plato plato = new Plato(PlatoDAO.siguienteId(), nombre.trim(), descripcion.trim(), categoria, precio, disponible);
+        Plato plato = new Plato(PlatoDAO.siguienteId(), nombre.trim(), descripcion.trim(), null, precio, disponible, categoria);
         PlatoDAO.anadir(plato);
         return plato;
     }
