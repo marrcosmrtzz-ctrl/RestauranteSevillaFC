@@ -10,6 +10,8 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -131,7 +133,29 @@ public class MiPedidoController {
             new Alert(Alert.AlertType.WARNING,e.getMessage()).showAndWait();
         }
     }
-    // Carta, Reservar mesa, Seguir comprando y Cerrar sesion se conectan cuando esten las otras pantallas
+    // Cambia lo que se ve en la ventana por otra pantalla, el pedido no se pierde porque esta guardado en PedidoService
+    private void abrirPantalla(String fxml){
+        try{
+            Parent pantalla=FXMLLoader.load(App.class.getResource(fxml));
+            tablaPedido.getScene().setRoot(pantalla);
+        }catch(Exception e){
+            new Alert(Alert.AlertType.ERROR,"No se pudo abrir la pantalla: "+e.getMessage()).showAndWait();
+        }
+    }
+    // Lo usan el boton Carta de arriba, el menu Ver y el boton Seguir comprando
+    @FXML private void irACarta(){abrirPantalla("fxml/carta.fxml");}
+    @FXML private void cerrarSesion(){
+        String mensaje="¿Seguro que quieres cerrar sesión?";
+        if(!pedidoService.getCarrito().isEmpty())mensaje+="\nTienes platos sin confirmar y se perderán.";
+        Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,mensaje,ButtonType.YES,ButtonType.NO);
+        confirm.setHeaderText("Cerrar sesión");
+        confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->{
+            // Al salir se borra el pedido para que el siguiente cliente empiece de cero
+            pedidoService.vaciar();
+            abrirPantalla("fxml/login.fxml");
+        });
+    }
+    // Reservar mesa se conecta cuando este su pantalla
     @FXML private void pantallaPendiente(){new Alert(Alert.AlertType.INFORMATION,"Esta pantalla todavía no está hecha.").showAndWait();}
     @FXML private void salir(){
         String mensaje="¿Seguro que quieres salir?";

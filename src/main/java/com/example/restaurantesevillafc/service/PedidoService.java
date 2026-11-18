@@ -1,6 +1,5 @@
 package com.example.restaurantesevillafc.service;
 import com.example.restaurantesevillafc.dao.PedidoDAO;
-import com.example.restaurantesevillafc.dao.PlatoDAO;
 import com.example.restaurantesevillafc.model.LineaPedido;
 import com.example.restaurantesevillafc.model.Pedido;
 import com.example.restaurantesevillafc.model.Plato;
@@ -16,13 +15,6 @@ public class PedidoService {
 
     // El pedido que va montando el cliente antes de confirmarlo. Es static para que la carta y Mi pedido usen el mismo.
     private static final ObservableList<LineaPedido> CARRITO=FXCollections.observableArrayList();
-
-    // De momento, hasta que este la carta, metemos unos platos para poder probar la pantalla
-    static{
-        CARRITO.add(new LineaPedido(PlatoDAO.buscarPorId(1),2));
-        CARRITO.add(new LineaPedido(PlatoDAO.buscarPorId(4),1));
-        CARRITO.add(new LineaPedido(PlatoDAO.buscarPorId(7),2));
-    }
 
     public ObservableList<LineaPedido> getCarrito(){return CARRITO;}
 

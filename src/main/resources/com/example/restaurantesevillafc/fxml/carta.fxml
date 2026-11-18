@@ -29,7 +29,7 @@
                     <menus>
                         <Menu mnemonicParsing="false" text="Archivo">
                             <items>
-                                <MenuItem fx:id="itemCerrarSesion" mnemonicParsing="false" onAction="#pantallaPendiente" text="Cerrar sesión" />
+                                <MenuItem fx:id="itemCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
                                 <MenuItem fx:id="itemSalir" accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#salir" text="Salir" />
                             </items>
@@ -42,7 +42,7 @@
                         <Menu mnemonicParsing="false" text="Ver">
                             <items>
                                 <MenuItem fx:id="itemVerCarta" disable="true" mnemonicParsing="false" text="Carta" />
-                                <MenuItem fx:id="itemVerPedido" accelerator="Shortcut+P" mnemonicParsing="false" onAction="#pantallaPendiente" text="Mi pedido" />
+                                <MenuItem fx:id="itemVerPedido" accelerator="Shortcut+P" mnemonicParsing="false" onAction="#irAMiPedido" text="Mi pedido" />
                                 <MenuItem fx:id="itemVerReservar" mnemonicParsing="false" onAction="#pantallaPendiente" text="Reservar mesa" />
                             </items>
                         </Menu>
@@ -81,7 +81,7 @@
                                         <String fx:value="nav-boton-activo" />
                                     </styleClass>
                                 </Button>
-                                <Button fx:id="btnMiPedido" mnemonicParsing="false" onAction="#pantallaPendiente" styleClass="nav-boton">
+                                <Button fx:id="btnMiPedido" mnemonicParsing="false" onAction="#irAMiPedido" styleClass="nav-boton">
                                     <graphic>
                                         <HBox alignment="CENTER" spacing="8.0">
                                             <children>
@@ -117,7 +117,7 @@
                                 <Label styleClass="marca-sub" text="Cliente" />
                             </children>
                         </VBox>
-                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#pantallaPendiente" styleClass="boton-icono">
+                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" styleClass="boton-icono">
                             <graphic>
                                 <SVGPath content="M10 1H13.5C14.3 1 15 1.7 15 2.5V13.5C15 14.3 14.3 15 13.5 15H10M5 4.5L1.5 8L5 11.5M1.5 8H10.5" styleClass="icono" />
                             </graphic>
