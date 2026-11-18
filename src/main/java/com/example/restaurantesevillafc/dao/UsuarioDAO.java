@@ -8,9 +8,17 @@ public final class UsuarioDAO {
 
     private static final ObservableList<Usuario> USUARIOS=FXCollections.observableArrayList(
             new Usuario(1,"Antonio","Ruiz","antonio.ruiz@sevillafc.es","1234","TRABAJADOR"),
-            new Usuario(2,"Lucía","García Romero","lucia.garcia@correo.com","1234","CLIENTE"));
+            new Usuario(2,"Lucía","García Romero","lucia.garcia@correo.com","1234","CLIENTE"),
+            new Usuario(3,"Manuel","Pérez","manuel.perez@correo.com","1234","CLIENTE"),
+            new Usuario(4,"Carmen","Ruiz","carmen.ruiz@correo.com","1234","CLIENTE"));
     private UsuarioDAO(){}
     public static ObservableList<Usuario> todos(){return USUARIOS;}
+    public static Usuario buscarPorId(int id){
+        for(Usuario u:USUARIOS){
+            if(u.getId()==id)return u;
+        }
+        return null;
+    }
     public static Usuario buscarPorEmail(String email){
         for(Usuario u:USUARIOS){
             if(u.getEmail().equalsIgnoreCase(email))return u;
