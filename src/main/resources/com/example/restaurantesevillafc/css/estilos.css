@@ -334,3 +334,169 @@
 .check-box:selected .mark {
     -fx-background-color: white;
 }
+
+/* ===== Gestion de pedidos ===== */
+.badge-lateral {
+    -fx-background-color: #e3b341;
+    -fx-background-radius: 10;
+    -fx-text-fill: #1f1b1c;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 1 7 1 7;
+}
+
+.selector-pestanas {
+    -fx-background-color: #ece6de;
+    -fx-background-radius: 8;
+    -fx-padding: 4;
+}
+
+.pestana {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6b6b6b;
+    -fx-padding: 7 14 7 14;
+    -fx-content-display: right;
+    -fx-graphic-text-gap: 8;
+    -fx-cursor: hand;
+}
+
+.pestana:selected {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.badge-pestana {
+    -fx-background-color: #c8102e;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 1 7 1 7;
+}
+
+.badge-pestana-gris {
+    -fx-text-fill: #8a8384;
+    -fx-font-size: 10px;
+}
+
+.estado-recibido {
+    -fx-text-fill: #1d4ed8;
+    -fx-background-color: #e5edfd;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+.estado-preparacion {
+    -fx-text-fill: #9a6b00;
+    -fx-background-color: #fdf3d6;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+.estado-entregado {
+    -fx-text-fill: #6b6b6b;
+    -fx-background-color: #eeeeee;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+.nota-info {
+    -fx-background-color: #f8f4ef;
+    -fx-background-radius: 8;
+    -fx-text-fill: #6b6b6b;
+    -fx-font-size: 11px;
+    -fx-padding: 12;
+}
+
+.paso, .paso-actual, .paso-hecho {
+    -fx-min-width: 16px;
+    -fx-min-height: 16px;
+    -fx-max-width: 16px;
+    -fx-max-height: 16px;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-alignment: center;
+    -fx-font-size: 9px;
+    -fx-text-fill: white;
+}
+
+.paso {
+    -fx-background-color: white;
+    -fx-border-color: #cfc8c1;
+    -fx-border-width: 2;
+}
+
+.paso-actual {
+    -fx-background-color: white;
+    -fx-border-color: #c8102e;
+    -fx-border-width: 4;
+}
+
+.paso-hecho {
+    -fx-background-color: #c8102e;
+}
+
+.linea-paso, .linea-hecha {
+    -fx-min-height: 2px;
+    -fx-max-height: 2px;
+    -fx-translate-y: 7;
+}
+
+.linea-paso {
+    -fx-background-color: #e6e0d9;
+}
+
+.linea-hecha {
+    -fx-background-color: #c8102e;
+}
+
+.texto-paso {
+    -fx-text-fill: #8a8384;
+    -fx-font-size: 9px;
+}
+
+.texto-paso-actual {
+    -fx-text-fill: #c8102e;
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+}
+
+.scroll-lineas, .scroll-lineas > .viewport {
+    -fx-background-color: transparent;
+    -fx-background: white;
+}
+
+.fila-total {
+    -fx-border-color: #f0ebe5 transparent transparent transparent;
+    -fx-padding: 8 0 0 0;
+}
+
+.total-pedido {
+    -fx-font-family: Georgia;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #c8102e;
+}
+
+.caja-observaciones {
+    -fx-background-color: #fdf3d6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #7a5600;
+    -fx-font-size: 11px;
+    -fx-padding: 8;
+}
+
+.caja-observaciones-vacia {
+    -fx-text-fill: #8a8384;
+    -fx-font-size: 11px;
+}
+
+.ticket {
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 12px;
+}

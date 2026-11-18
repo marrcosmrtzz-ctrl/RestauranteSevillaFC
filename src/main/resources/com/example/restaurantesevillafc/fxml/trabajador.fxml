@@ -78,7 +78,10 @@
                         <Tooltip text="Confirmar o cancelar reservas (Ctrl+2)" />
                     </tooltip>
                 </ToggleButton>
-                <ToggleButton fx:id="btnPedidos" maxWidth="Infinity" mnemonicParsing="false" onAction="#mostrarPedidos" styleClass="boton-lateral" text="Pedidos" toggleGroup="$grupoSecciones">
+                <ToggleButton fx:id="btnPedidos" contentDisplay="RIGHT" graphicTextGap="10.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#mostrarPedidos" styleClass="boton-lateral" text="Pedidos" toggleGroup="$grupoSecciones">
+                    <graphic>
+                        <Label fx:id="lblBadgePedidos" styleClass="badge-lateral" text="0" />
+                    </graphic>
                     <tooltip>
                         <Tooltip text="Pedidos en curso y finalizados (Ctrl+3)" />
                     </tooltip>
