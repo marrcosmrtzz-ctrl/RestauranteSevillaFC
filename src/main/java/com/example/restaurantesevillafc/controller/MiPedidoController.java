@@ -156,7 +156,8 @@ public class MiPedidoController {
         });
     }
     // Reservar mesa se conecta cuando este su pantalla
-    @FXML private void pantallaPendiente(){new Alert(Alert.AlertType.INFORMATION,"Esta pantalla todavía no está hecha.").showAndWait();}
+    // Abre la pantalla de Reservar mesa (la hace Eduardo)
+    @FXML private void irAReservar(){abrirPantalla("fxml/reservar_mesa.fxml");}
     @FXML private void salir(){
         String mensaje="¿Seguro que quieres salir?";
         if(!pedidoService.getCarrito().isEmpty())mensaje+="\nTienes platos sin confirmar y se perderán.";
