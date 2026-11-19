@@ -3,47 +3,110 @@ import com.example.restaurantesevillafc.config.Conexion;
 import com.example.restaurantesevillafc.model.Plato;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
-// Los platos se cogen de la tabla plato de MySQL
+// Los platos se leen de la tabla plato. Se cargan una vez en la lista y cada cambio se guarda tambien en la base de datos
 public final class PlatoDAO {
 
-    // Junta cada plato con su categoria para tener el nombre de la categoria y no solo su numero
-    private static final String SELECT_PLATOS="SELECT p.id_plato, p.nombre, p.descripcion, p.alergenos, p.precio, p.disponible, c.nombre AS categoria "
-            +"FROM plato p JOIN categoria c ON p.id_categoria = c.id_categoria";
+    private static final ObservableList<Plato> PLATOS=FXCollections.observableArrayList();
+    private static boolean cargados=false;
     private PlatoDAO(){}
 
-    // Crea un plato con los datos de la fila por la que va el ResultSet
-    private static Plato leerPlato(ResultSet rs) throws SQLException{
-        return new Plato(rs.getInt("id_plato"),rs.getString("nombre"),rs.getString("descripcion"),rs.getString("alergenos"),
-                rs.getDouble("precio"),rs.getBoolean("disponible"),rs.getString("categoria"));
-    }
-    // Trae todos los platos, si MySQL falla devuelve la lista vacia
+    // Si MySQL falla devuelve la lista vacia (la carta del cliente avisa en ese caso)
     public static ObservableList<Plato> todos(){
-        ObservableList<Plato> lista=FXCollections.observableArrayList();
-        try(Connection con=Conexion.getConexion();
-            PreparedStatement ps=con.prepareStatement(SELECT_PLATOS+" ORDER BY p.id_plato");
-            ResultSet rs=ps.executeQuery()){
-            while(rs.next())lista.add(leerPlato(rs));
-        }catch(SQLException e){
-            System.out.println("Error al cargar los platos "+e.getMessage());
+        if(!cargados){
+            try{
+                recargar();
+            }catch(RuntimeException e){
+                System.out.println("Error al cargar los platos "+e.getMessage());
+            }
         }
-        return lista;
+        return PLATOS;
     }
-    // Busca un plato por su numero, devuelve null si no existe
-    public static Plato buscarPorId(int id){
+    // Vuelve a leer la carta de la base de datos (por si otro la ha cambiado)
+    public static void recargar(){
+        String sql="SELECT p.id_plato,p.nombre,p.descripcion,p.alergenos,p.precio,p.disponible,c.nombre AS categoria "
+                +"FROM plato p JOIN categoria c ON p.id_categoria=c.id_categoria ORDER BY p.id_plato";
+        ObservableList<Plato> leidos=FXCollections.observableArrayList();
         try(Connection con=Conexion.getConexion();
-            PreparedStatement ps=con.prepareStatement(SELECT_PLATOS+" WHERE p.id_plato = ?")){
-            ps.setInt(1,id);
-            ResultSet rs=ps.executeQuery();
-            // if en vez de while porque como mucho sale un plato
-            if(rs.next())return leerPlato(rs);
+            PreparedStatement ps=con.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery()){
+            while(rs.next()){
+                leidos.add(new Plato(rs.getInt("id_plato"),rs.getString("nombre"),rs.getString("descripcion"),
+                        rs.getString("alergenos"),rs.getDouble("precio"),rs.getBoolean("disponible"),rs.getString("categoria")));
+            }
         }catch(SQLException e){
-            System.out.println("Error al buscar el plato "+e.getMessage());
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+        PLATOS.setAll(leidos);
+        cargados=true;
+    }
+    public static Plato buscarPorId(int id){
+        for(Plato p:todos()){
+            if(p.getId()==id)return p;
         }
         return null;
+    }
+
+    // Los usa la gestion del menu del trabajador
+    public static Plato buscarPorNombre(String nombre){
+        for(Plato p:todos()){
+            if(p.getNombre().equalsIgnoreCase(nombre))return p;
+        }
+        return null;
+    }
+    public static int siguienteId(){
+        // El id de verdad lo pone MySQL al insertar (AUTO_INCREMENT)
+        int max=0;
+        for(Plato p:todos())max=Math.max(max,p.getId());
+        return max+1;
+    }
+    public static void anadir(Plato plato){
+        String sql="INSERT INTO plato (nombre,descripcion,alergenos,precio,disponible,id_categoria) "
+                +"VALUES (?,?,?,?,?,(SELECT id_categoria FROM categoria WHERE nombre=?))";
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)){
+            rellenar(ps,plato);
+            ps.executeUpdate();
+            try(ResultSet claves=ps.getGeneratedKeys()){
+                if(claves.next())plato.setId(claves.getInt(1));
+            }
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+        todos().add(plato);
+    }
+    public static void actualizar(Plato plato){
+        String sql="UPDATE plato SET nombre=?,descripcion=?,alergenos=?,precio=?,disponible=?,"
+                +"id_categoria=(SELECT id_categoria FROM categoria WHERE nombre=?) WHERE id_plato=?";
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(sql)){
+            rellenar(ps,plato);
+            ps.setInt(7,plato.getId());
+            ps.executeUpdate();
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+    }
+    public static void eliminar(Plato plato){
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement("DELETE FROM plato WHERE id_plato=?")){
+            ps.setInt(1,plato.getId());
+            ps.executeUpdate();
+        }catch(SQLIntegrityConstraintViolationException e){
+            // El plato esta en algun pedido (clave foranea de linea_pedido)
+            throw new RuntimeException("Este plato aparece en pedidos de clientes y no se puede eliminar. Desmarca «Disponible en la carta» para quitarlo de la carta.");
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+        todos().remove(plato);
+    }
+    private static void rellenar(PreparedStatement ps,Plato plato) throws SQLException{
+        ps.setString(1,plato.getNombre());
+        ps.setString(2,plato.getDescripcion());
+        ps.setString(3,plato.getAlergenos());
+        ps.setDouble(4,plato.getPrecio());
+        ps.setBoolean(5,plato.isDisponible());
+        ps.setString(6,plato.getCategoria());
     }
 }

@@ -687,3 +687,457 @@
     -fx-stroke-line-cap: round;
     -fx-stroke-line-join: round;
 }
+
+/* Todo lo del trabajador va dentro de .pantalla-trabajador para no cambiar las pantallas del cliente */
+/* ===== Panel del trabajador ===== */
+.pantalla-trabajador .barra-lateral {
+    -fx-background-color: #1f1b1c;
+}
+
+.pantalla-trabajador .marca-clara {
+    -fx-text-fill: white;
+    -fx-font-family: Georgia;
+    -fx-font-weight: bold;
+}
+
+.pantalla-trabajador .marca-sub-clara {
+    -fx-text-fill: #a9a2a3;
+    -fx-font-size: 9px;
+}
+
+.pantalla-trabajador .titulo-seccion-lateral {
+    -fx-text-fill: #8a8384;
+    -fx-font-size: 10px;
+    -fx-padding: 0 0 4 4;
+}
+
+.pantalla-trabajador .boton-lateral {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e9e3e4;
+    -fx-alignment: center-left;
+    -fx-padding: 9 12 9 12;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.pantalla-trabajador .boton-lateral:hover {
+    -fx-background-color: #3a3233;
+}
+
+.pantalla-trabajador .boton-lateral:selected {
+    -fx-background-color: #c8102e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.pantalla-trabajador .caja-usuario {
+    -fx-border-color: #3a3233 transparent transparent transparent;
+    -fx-padding: 12 0 0 0;
+}
+
+.pantalla-trabajador .avatar {
+    -fx-background-color: #3a3233;
+    -fx-background-radius: 50%;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+}
+
+.pantalla-trabajador .avatar-texto {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.pantalla-trabajador .boton-salir {
+    -fx-background-color: #3a3233;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.pantalla-trabajador .boton-salir:hover {
+    -fx-background-color: #c8102e;
+}
+
+/* ===== Gestion del menu ===== */
+.pantalla-trabajador .boton-secundario {
+    -fx-background-color: white;
+    -fx-border-color: #dcd6cf;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 9 14 9 14;
+    -fx-cursor: hand;
+}
+
+.pantalla-trabajador .boton-peligro {
+    -fx-background-color: white;
+    -fx-text-fill: #c8102e;
+    -fx-border-color: #c8102e;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 9 14 9 14;
+    -fx-cursor: hand;
+}
+
+.pantalla-trabajador .tabla {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: #e6e0d9;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.pantalla-trabajador .tabla .column-header, .pantalla-trabajador .tabla .column-header-background, .pantalla-trabajador .tabla .filler {
+    -fx-background-color: white;
+    -fx-text-fill: #8a8384;
+    -fx-font-size: 10px;
+}
+
+.pantalla-trabajador .tabla .table-row-cell {
+    -fx-cell-size: 52px;
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #f0ebe5 transparent;
+}
+
+.pantalla-trabajador .tabla .column-header .label {
+    -fx-padding: 0.166667em;
+}
+
+.pantalla-trabajador .tabla .table-row-cell:selected {
+    -fx-background-color: #fdecee;
+}
+
+.pantalla-trabajador .tabla .table-cell {
+    -fx-text-fill: black;
+    -fx-alignment: center-left;
+    -fx-padding: 0.166667em;
+}
+
+.pantalla-trabajador .plato-nombre {
+    -fx-font-weight: bold;
+}
+
+.pantalla-trabajador .plato-descripcion {
+    -fx-text-fill: #6b6b6b;
+    -fx-font-size: 11px;
+}
+
+.pantalla-trabajador .etiqueta-categoria {
+    -fx-background-color: #f3eee8;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8 2 8;
+    -fx-font-size: 11px;
+}
+
+.pantalla-trabajador .estado-disponible {
+    -fx-text-fill: #1f7a3a;
+    -fx-background-color: #e5f4e9;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+.pantalla-trabajador .estado-agotado {
+    -fx-text-fill: #c8102e;
+    -fx-background-color: #fdecee;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+/* ===== Formulario datos del plato ===== */
+.pantalla-trabajador .panel-formulario {
+    -fx-background-color: white;
+    -fx-border-color: #e6e0d9;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.pantalla-trabajador .titulo-formulario {
+    -fx-font-family: Georgia;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.pantalla-trabajador .etiqueta-modo {
+    -fx-text-fill: #c8102e;
+    -fx-background-color: #fdecee;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+.pantalla-trabajador .combo-box, .pantalla-trabajador .text-area {
+    -fx-background-color: white;
+    -fx-border-color: #dcd6cf;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.pantalla-trabajador .text-area .content {
+    -fx-background-color: white;
+}
+
+.pantalla-trabajador .combo-box:focused, .pantalla-trabajador .text-area:focused {
+    -fx-border-color: #c8102e;
+}
+
+.pantalla-trabajador .check-box:selected .box {
+    -fx-background-color: #c8102e;
+    -fx-background-radius: 3;
+}
+
+.pantalla-trabajador .check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+/* ===== Gestion de pedidos ===== */
+.pantalla-trabajador .badge-lateral {
+    -fx-background-color: #e3b341;
+    -fx-background-radius: 10;
+    -fx-text-fill: #1f1b1c;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 1 7 1 7;
+}
+
+.pantalla-trabajador .selector-pestanas {
+    -fx-background-color: #ece6de;
+    -fx-background-radius: 8;
+    -fx-padding: 4;
+}
+
+.pantalla-trabajador .pestana {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6b6b6b;
+    -fx-padding: 7 14 7 14;
+    -fx-content-display: right;
+    -fx-graphic-text-gap: 8;
+    -fx-cursor: hand;
+}
+
+.pantalla-trabajador .pestana:selected {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.pantalla-trabajador .badge-pestana {
+    -fx-background-color: #c8102e;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 1 7 1 7;
+}
+
+.pantalla-trabajador .badge-pestana-gris {
+    -fx-text-fill: #8a8384;
+    -fx-font-size: 10px;
+}
+
+.pantalla-trabajador .estado-recibido {
+    -fx-text-fill: #1d4ed8;
+    -fx-background-color: #e5edfd;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+.pantalla-trabajador .estado-preparacion {
+    -fx-text-fill: #9a6b00;
+    -fx-background-color: #fdf3d6;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+.pantalla-trabajador .estado-entregado {
+    -fx-text-fill: #6b6b6b;
+    -fx-background-color: #eeeeee;
+    -fx-background-radius: 10;
+    -fx-padding: 2 9 2 9;
+    -fx-font-size: 11px;
+}
+
+.pantalla-trabajador .nota-info {
+    -fx-background-color: #f8f4ef;
+    -fx-background-radius: 8;
+    -fx-text-fill: #6b6b6b;
+    -fx-font-size: 11px;
+    -fx-padding: 12;
+}
+
+.pantalla-trabajador .paso, .pantalla-trabajador .paso-actual, .pantalla-trabajador .paso-hecho {
+    -fx-min-width: 16px;
+    -fx-min-height: 16px;
+    -fx-max-width: 16px;
+    -fx-max-height: 16px;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-alignment: center;
+    -fx-font-size: 9px;
+    -fx-text-fill: white;
+}
+
+.pantalla-trabajador .paso {
+    -fx-background-color: white;
+    -fx-border-color: #cfc8c1;
+    -fx-border-width: 2;
+}
+
+.pantalla-trabajador .paso-actual {
+    -fx-background-color: white;
+    -fx-border-color: #c8102e;
+    -fx-border-width: 4;
+}
+
+.pantalla-trabajador .paso-hecho {
+    -fx-background-color: #c8102e;
+}
+
+.pantalla-trabajador .linea-paso, .pantalla-trabajador .linea-hecha {
+    -fx-min-height: 2px;
+    -fx-max-height: 2px;
+    -fx-translate-y: 7;
+}
+
+.pantalla-trabajador .linea-paso {
+    -fx-background-color: #e6e0d9;
+}
+
+.pantalla-trabajador .linea-hecha {
+    -fx-background-color: #c8102e;
+}
+
+.pantalla-trabajador .texto-paso {
+    -fx-text-fill: #8a8384;
+    -fx-font-size: 9px;
+}
+
+.pantalla-trabajador .texto-paso-actual {
+    -fx-text-fill: #c8102e;
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+}
+
+.pantalla-trabajador .scroll-lineas, .pantalla-trabajador .scroll-lineas > .viewport {
+    -fx-background-color: transparent;
+    -fx-background: white;
+}
+
+.pantalla-trabajador .fila-total {
+    -fx-border-color: #f0ebe5 transparent transparent transparent;
+    -fx-padding: 8 0 0 0;
+}
+
+.pantalla-trabajador .total-pedido {
+    -fx-font-family: Georgia;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #c8102e;
+}
+
+.pantalla-trabajador .caja-observaciones {
+    -fx-background-color: #fdf3d6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #7a5600;
+    -fx-font-size: 11px;
+    -fx-padding: 8;
+}
+
+.pantalla-trabajador .caja-observaciones-vacia {
+    -fx-text-fill: #8a8384;
+    -fx-font-size: 11px;
+}
+
+.pantalla-trabajador .ticket {
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 12px;
+}
+
+/* ===== Fotos de los platos en la gestion del menu ===== */
+.pantalla-trabajador .caja-foto {
+    -fx-background-color: #f3eee8;
+    -fx-background-radius: 8;
+    -fx-min-height: 120px;
+}
+
+.pantalla-trabajador .boton-foto {
+    -fx-background-color: rgba(255, 255, 255, 0.92);
+    -fx-background-radius: 6;
+    -fx-font-size: 11px;
+    -fx-padding: 4 8 4 8;
+    -fx-cursor: hand;
+}
+
+.pantalla-trabajador .boton-foto:hover {
+    -fx-background-color: white;
+}
+
+.pantalla-trabajador .hueco-foto-mini {
+    -fx-background-color: #f3eee8;
+    -fx-background-radius: 6;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+}
+
+/* ===== Gestion de reservas ===== */
+.pantalla-trabajador .tarjeta-resumen {
+    -fx-background-color: white;
+    -fx-border-color: #e6e0d9;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10 14 10 14;
+    -fx-spacing: 4;
+}
+
+.pantalla-trabajador .numero-resumen, .pantalla-trabajador .numero-resumen-amarillo, .pantalla-trabajador .numero-resumen-verde, .pantalla-trabajador .numero-resumen-rojo {
+    -fx-font-family: Georgia;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.pantalla-trabajador .numero-resumen-amarillo {
+    -fx-text-fill: #b7791f;
+}
+
+.pantalla-trabajador .numero-resumen-verde {
+    -fx-text-fill: #1f7a3a;
+}
+
+.pantalla-trabajador .numero-resumen-rojo {
+    -fx-text-fill: #c8102e;
+}
+
+.pantalla-trabajador .boton-filtrar {
+    -fx-background-color: #fdecee;
+    -fx-text-fill: #c8102e;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.pantalla-trabajador .boton-filtrar:hover {
+    -fx-background-color: #fbd9de;
+}
+
+.pantalla-trabajador .circulo-cliente {
+    -fx-background-color: #fdecee;
+    -fx-background-radius: 50%;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+}
+
+.pantalla-trabajador .inicial-cliente {
+    -fx-text-fill: #c8102e;
+    -fx-font-weight: bold;
+}
