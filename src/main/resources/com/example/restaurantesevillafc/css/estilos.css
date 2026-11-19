@@ -528,3 +528,107 @@
 .boton-anadido:hover {
     -fx-background-color: #176330;
 }
+
+
+/* ===== Reservar mesa ===== */
+/* Calendario para elegir el dia */
+.selector-fecha {
+    -fx-background-color: #dcd6cf, white;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 6;
+}
+
+.selector-fecha .text-field {
+    -fx-font-size: 14px;
+    -fx-border-color: transparent;
+}
+
+.selector-fecha .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 8 12 8 12;
+    -fx-cursor: hand;
+}
+
+/* El icono del calendario en rojo */
+.selector-fecha .arrow-button .arrow {
+    -fx-background-color: #c8102e;
+}
+
+/* Botones de las horas, el elegido sale en rojo */
+.boton-hora {
+    -fx-background-color: white;
+    -fx-border-color: #dcd6cf;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-min-width: 78px;
+    -fx-padding: 9 0 9 0;
+    -fx-cursor: hand;
+}
+
+.boton-hora:hover {
+    -fx-background-color: #fdecee;
+}
+
+.boton-hora:selected {
+    -fx-background-color: #c8102e;
+    -fx-border-color: #c8102e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Las horas sin mesas libres salen en gris y tachadas */
+.boton-hora:disabled {
+    -fx-background-color: #f1ece6;
+    -fx-border-color: #f1ece6;
+    -fx-opacity: 1;
+}
+
+.boton-hora:disabled .text {
+    -fx-strikethrough: true;
+    -fx-fill: #a8a29c;
+}
+
+/* Cuadro del menos, el numero de personas y el mas */
+.selector-personas {
+    -fx-background-color: white;
+    -fx-border-color: #dcd6cf;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 4;
+}
+
+.selector-personas .boton-cantidad {
+    -fx-border-color: transparent;
+}
+
+.num-personas {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Franja con el resumen de la reserva */
+.resumen-reserva {
+    -fx-background-color: #f7f2ec;
+    -fx-background-radius: 8;
+    -fx-padding: 12 14 12 14;
+}
+
+.texto-resumen {
+    -fx-font-weight: bold;
+}
+
+.icono-rojo {
+    -fx-fill: transparent;
+    -fx-stroke: #c8102e;
+    -fx-stroke-width: 1.5;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-line-join: round;
+}
+
+.icono-blanco {
+    -fx-fill: transparent;
+    -fx-stroke: white;
+    -fx-stroke-width: 2;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-line-join: round;
+}
