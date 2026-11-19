@@ -7,6 +7,7 @@ public class Usuario {
     private final StringProperty email = new SimpleStringProperty();
     private final StringProperty password = new SimpleStringProperty();
     private final StringProperty rol = new SimpleStringProperty();
+    private final StringProperty telefono = new SimpleStringProperty();
 
     public Usuario(int id,String nombre,String apellidos,String email,String password,String rol){
         setId(id);
@@ -35,4 +36,7 @@ public class Usuario {
     public String getRol(){return rol.get();}
     public void setRol(String v){rol.set(v);}
     public StringProperty rolProperty(){return rol;}
+    public String getTelefono(){return telefono.get();}
+    public void setTelefono(String v){telefono.set(v);}
+    public StringProperty telefonoProperty(){return telefono;}
 }

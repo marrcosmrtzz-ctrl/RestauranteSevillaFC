@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="640.0" prefWidth="1000.0" styleClass="fondo" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.restaurantesevillafc.controller.TrabajadorController">
+<BorderPane prefHeight="640.0" prefWidth="1000.0" styleClass="fondo, pantalla-trabajador" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.restaurantesevillafc.controller.TrabajadorController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>

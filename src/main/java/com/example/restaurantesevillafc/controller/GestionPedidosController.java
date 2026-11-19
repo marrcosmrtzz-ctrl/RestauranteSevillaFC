@@ -192,6 +192,9 @@ public class GestionPedidosController {
         Alert info = new Alert(Alert.AlertType.INFORMATION);
         info.setHeaderText("Ticket del pedido #" + pedido.getId());
         info.getDialogPane().setContent(ticket);
+        // El Alert es otra ventana: le ponemos la misma hoja de estilos y la clase del trabajador
+        info.getDialogPane().getStylesheets().addAll(tablaPedidos.getScene().getStylesheets());
+        info.getDialogPane().getStyleClass().add("pantalla-trabajador");
         info.showAndWait();
     }
 
