@@ -500,3 +500,86 @@
     -fx-font-family: "Consolas", "Courier New", monospace;
     -fx-font-size: 12px;
 }
+
+/* ===== Fotos de los platos en la gestion del menu ===== */
+.caja-foto {
+    -fx-background-color: #f3eee8;
+    -fx-background-radius: 8;
+    -fx-min-height: 120px;
+}
+
+.boton-foto {
+    -fx-background-color: rgba(255, 255, 255, 0.92);
+    -fx-background-radius: 6;
+    -fx-font-size: 11px;
+    -fx-padding: 4 8 4 8;
+    -fx-cursor: hand;
+}
+
+.boton-foto:hover {
+    -fx-background-color: white;
+}
+
+.hueco-foto-mini {
+    -fx-background-color: #f3eee8;
+    -fx-background-radius: 6;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+}
+
+/* ===== Gestion de reservas ===== */
+.tarjeta-resumen {
+    -fx-background-color: white;
+    -fx-border-color: #e6e0d9;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10 14 10 14;
+    -fx-spacing: 4;
+}
+
+.numero-resumen, .numero-resumen-amarillo, .numero-resumen-verde, .numero-resumen-rojo {
+    -fx-font-family: Georgia;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.numero-resumen-amarillo {
+    -fx-text-fill: #b7791f;
+}
+
+.numero-resumen-verde {
+    -fx-text-fill: #1f7a3a;
+}
+
+.numero-resumen-rojo {
+    -fx-text-fill: #c8102e;
+}
+
+.boton-filtrar {
+    -fx-background-color: #fdecee;
+    -fx-text-fill: #c8102e;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.boton-filtrar:hover {
+    -fx-background-color: #fbd9de;
+}
+
+.circulo-cliente {
+    -fx-background-color: #fdecee;
+    -fx-background-radius: 50%;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+}
+
+.inicial-cliente {
+    -fx-text-fill: #c8102e;
+    -fx-font-weight: bold;
+}

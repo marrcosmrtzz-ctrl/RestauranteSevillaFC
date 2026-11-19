@@ -10,8 +10,10 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <HBox spacing="16.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.restaurantesevillafc.controller.GestionMenuController">
@@ -80,6 +82,20 @@
                         <Insets bottom="6.0" />
                     </VBox.margin>
                 </HBox>
+                <StackPane prefHeight="120.0" styleClass="caja-foto">
+                    <children>
+                        <Label fx:id="lblSinFoto" styleClass="subtitulo" text="Sin foto" />
+                        <ImageView fx:id="imgFoto" fitHeight="120.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button fx:id="btnFoto" mnemonicParsing="false" onAction="#elegirFoto" styleClass="boton-foto" text="📷 Elegir foto" StackPane.alignment="BOTTOM_RIGHT">
+                            <tooltip>
+                                <Tooltip text="Elige una imagen JPG o PNG de tu ordenador (máx. 5 MB). Se guarda al pulsar Guardar" />
+                            </tooltip>
+                            <StackPane.margin>
+                                <Insets bottom="6.0" right="6.0" />
+                            </StackPane.margin>
+                        </Button>
+                    </children>
+                </StackPane>
                 <Label styleClass="etiqueta-campo" text="Nombre" />
                 <TextField fx:id="txtNombre" promptText="Ej: Rabo de toro" />
                 <Label styleClass="etiqueta-campo" text="Categoría" />

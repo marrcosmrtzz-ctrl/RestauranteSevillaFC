@@ -1,13 +1,21 @@
 package com.example.restaurantesevillafc.controller;
 
 import com.example.restaurantesevillafc.model.Plato;
+import com.example.restaurantesevillafc.service.FotoService;
 import com.example.restaurantesevillafc.service.PlatoService;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -23,8 +31,14 @@ public class GestionMenuController {
     @FXML private ComboBox<String> cmbCategoria;
     @FXML private TextArea txtDescripcion;
     @FXML private CheckBox chkDisponible;
+    @FXML private ImageView imgFoto;
+    @FXML private Label lblSinFoto;
+    @FXML private Button btnFoto;
 
     private final PlatoService platoService = new PlatoService();
+    private final FotoService fotoService = new FotoService();
+    // Foto que ha elegido el trabajador y que se guarda al pulsar Guardar (null si no ha elegido ninguna)
+    private File fotoElegida;
     private final NumberFormat formatoPrecio = NumberFormat.getCurrencyInstance(Locale.of("es", "ES"));
     // Plato que se esta editando en el formulario (null si es uno nuevo)
     private Plato platoEditando;
@@ -74,9 +88,14 @@ public class GestionMenuController {
                 ButtonType.YES, ButtonType.NO);
         confirm.setHeaderText("¿Eliminar este plato?");
         confirm.showAndWait().filter(b -> b == ButtonType.YES).ifPresent(b -> {
-            platoService.eliminar(seleccionado);
-            tablaPlatos.getSelectionModel().clearSelection();
-            limpiar();
+            try {
+                platoService.eliminar(seleccionado);
+                fotoService.eliminar(seleccionado);
+                tablaPlatos.getSelectionModel().clearSelection();
+                limpiar();
+            } catch (Exception e) {
+                mostrarError(e.getMessage());
+            }
         });
     }
 
@@ -84,19 +103,55 @@ public class GestionMenuController {
         try {
             if (platoEditando == null) {
                 Plato nuevo = platoService.crear(txtNombre.getText(), txtDescripcion.getText(), cmbCategoria.getValue(), txtPrecio.getText(), chkDisponible.isSelected());
+                // La foto se guarda antes de seleccionar el plato, porque al seleccionarlo se vacia la foto elegida
+                guardarFotoElegida(nuevo);
+                tablaPlatos.refresh();
                 tablaPlatos.getSelectionModel().select(nuevo);
                 tablaPlatos.scrollTo(nuevo);
             } else {
                 platoService.modificar(platoEditando, txtNombre.getText(), txtDescripcion.getText(), cmbCategoria.getValue(), txtPrecio.getText(), chkDisponible.isSelected());
+                guardarFotoElegida(platoEditando);
                 tablaPlatos.refresh();
                 cargarEnFormulario(platoEditando);
             }
             actualizarResumen();
         } catch (Exception e) {
-            lblError.setText(e.getMessage());
-            lblError.setVisible(true);
-            lblError.setManaged(true);
+            mostrarError(e.getMessage());
         }
+    }
+
+    @FXML private void elegirFoto() {
+        FileChooser selector = new FileChooser();
+        selector.setTitle("Elegir foto del plato");
+        selector.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imágenes (JPG, PNG)", "*.jpg", "*.jpeg", "*.png"));
+        File archivo = selector.showOpenDialog(imgFoto.getScene().getWindow());
+        if (archivo == null) return;
+        try {
+            fotoService.validar(archivo);
+            fotoElegida = archivo;
+            mostrarFoto(new Image(archivo.toURI().toString()));
+            ocultarError();
+        } catch (Exception e) {
+            mostrarError(e.getMessage());
+        }
+    }
+
+    private void guardarFotoElegida(Plato plato) throws Exception {
+        if (fotoElegida == null) return;
+        fotoService.guardar(plato, fotoElegida);
+        fotoElegida = null;
+    }
+
+    private void mostrarFoto(Image foto) {
+        imgFoto.setImage(foto);
+        lblSinFoto.setVisible(foto == null);
+        btnFoto.setText(foto == null ? "📷 Elegir foto" : "📷 Cambiar foto");
+    }
+
+    private void mostrarError(String mensaje) {
+        lblError.setText(mensaje);
+        lblError.setVisible(true);
+        lblError.setManaged(true);
     }
 
     @FXML private void limpiar() {
@@ -106,6 +161,8 @@ public class GestionMenuController {
         txtDescripcion.clear();
         cmbCategoria.setValue(null);
         chkDisponible.setSelected(true);
+        fotoElegida = null;
+        mostrarFoto(null);
         lblModo.setText("Nuevo");
         ocultarError();
     }
@@ -117,6 +174,8 @@ public class GestionMenuController {
         cmbCategoria.setValue(plato.getCategoria());
         txtPrecio.setText(String.format(Locale.of("es", "ES"), "%.2f", plato.getPrecio()));
         chkDisponible.setSelected(plato.isDisponible());
+        fotoElegida = null;
+        mostrarFoto(fotoService.cargar(plato, false));
         lblModo.setText("● Editando");
         ocultarError();
     }
@@ -144,7 +203,19 @@ public class GestionMenuController {
                 nombre.getStyleClass().add("plato-nombre");
                 Label descripcion = new Label(plato.getDescripcion());
                 descripcion.getStyleClass().add("plato-descripcion");
-                setGraphic(new VBox(2, nombre, descripcion));
+                // Foto pequeña a la izquierda, si el plato no tiene foto se deja el hueco gris
+                StackPane hueco = new StackPane();
+                hueco.getStyleClass().add("hueco-foto-mini");
+                Image foto = fotoService.cargar(plato, true);
+                if (foto != null) {
+                    ImageView mini = new ImageView(foto);
+                    mini.setFitWidth(40);
+                    mini.setFitHeight(40);
+                    hueco.getChildren().add(mini);
+                }
+                HBox fila = new HBox(10, hueco, new VBox(2, nombre, descripcion));
+                fila.setAlignment(Pos.CENTER_LEFT);
+                setGraphic(fila);
             }
         });
 

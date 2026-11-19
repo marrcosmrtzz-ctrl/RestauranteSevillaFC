@@ -7,6 +7,9 @@ target/
 ### Configuracion local con contraseñas (NO subir) ###
 config.properties
 
+### Fotos de platos que sube el trabajador desde la app ###
+fotos/
+
 ### IntelliJ IDEA ###
 .idea/
 *.iws

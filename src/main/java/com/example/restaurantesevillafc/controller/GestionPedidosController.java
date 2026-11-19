@@ -1,8 +1,8 @@
 package com.example.restaurantesevillafc.controller;
 
-import com.example.restaurantesevillafc.App;
 import com.example.restaurantesevillafc.model.LineaPedido;
 import com.example.restaurantesevillafc.model.Pedido;
+import com.example.restaurantesevillafc.service.FotoService;
 import com.example.restaurantesevillafc.service.GestionPedidosService;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
@@ -19,7 +19,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
-import java.net.URL;
 import java.util.Comparator;
 
 public class GestionPedidosController {
@@ -37,6 +36,7 @@ public class GestionPedidosController {
     @FXML private ComboBox<String> cmbEstado;
 
     private final GestionPedidosService pedidosService = new GestionPedidosService();
+    private final FotoService fotoService = new FotoService();
     private FilteredList<Pedido> filtrados;
     // Lo pone el panel del trabajador para actualizar el numero del menu lateral
     private Runnable alCambiarPedidos = () -> {};
@@ -44,7 +44,8 @@ public class GestionPedidosController {
     @FXML public void initialize() {
         configurarColumnas();
         // Los pedidos mas recientes arriba
-        filtrados = new FilteredList<>(pedidosService.listarPedidos());
+        javafx.collections.ObservableList<Pedido> pedidos = pedidosService.listarPedidos();
+        filtrados = new FilteredList<>(pedidos);
         SortedList<Pedido> ordenados = new SortedList<>(filtrados, Comparator.comparingInt(Pedido::getId).reversed());
         tablaPedidos.setItems(ordenados);
         tablaPedidos.setPlaceholder(new Label("No hay pedidos en esta pestaña"));
@@ -62,7 +63,7 @@ public class GestionPedidosController {
 
         tablaPedidos.getSelectionModel().selectedItemProperty().addListener((obs, antes, ahora) -> mostrarDetalle(ahora));
         // Si el cliente confirma un pedido nuevo aparece solo
-        pedidosService.listarPedidos().addListener((ListChangeListener<Pedido>) c -> actualizarContadores());
+        pedidos.addListener((ListChangeListener<Pedido>) c -> actualizarContadores());
 
         aplicarFiltro();
         actualizarContadores();
@@ -135,10 +136,10 @@ public class GestionPedidosController {
         for (LineaPedido l : pedido.getLineas()) {
             HBox fila = new HBox(8);
             fila.setAlignment(Pos.CENTER_LEFT);
-            // La foto pequeña del plato si esta en la carpeta de imagenes
-            URL foto = App.class.getResource("images/platos/plato" + l.getPlato().getId() + "_mini.jpg");
+            // La foto pequeña del plato (la de la carta o la que haya puesto el trabajador)
+            Image foto = fotoService.cargar(l.getPlato(), true);
             if (foto != null) {
-                ImageView img = new ImageView(new Image(foto.toExternalForm()));
+                ImageView img = new ImageView(foto);
                 img.setFitWidth(32);
                 img.setFitHeight(32);
                 fila.getChildren().add(img);
