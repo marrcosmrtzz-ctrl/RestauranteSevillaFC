@@ -1,50 +1,100 @@
 package com.example.restaurantesevillafc.dao;
+import com.example.restaurantesevillafc.config.Conexion;
 import com.example.restaurantesevillafc.model.Reserva;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
-// De momento las reservas se guardan en una lista, mas adelante iran a la base de datos
+// Las reservas se guardan en la tabla reserva. Se cargan una vez en la lista y cada reserva nueva
+// o cambio de estado (confirmar o cancelar) se guarda tambien en la base de datos
 public final class ReservaDAO {
 
     private static final ObservableList<Reserva> RESERVAS=FXCollections.observableArrayList();
-    private static int siguienteId=301;
-
-    // Unas reservas de prueba de Lucia (usuario 2) para ver la tabla de Mis reservas
-    static{
-        LocalDate hoy=LocalDate.now();
-        Reserva confirmada=insertar(2,hoy.minusDays(12),LocalTime.of(14,0),2,"");
-        confirmada.setEstado("CONFIRMADA");
-        Reserva cancelada=insertar(2,hoy.minusDays(5),LocalTime.of(21,30),6,"Cumpleaños");
-        cancelada.setEstado("CANCELADA");
-        insertar(2,hoy.plusDays(4),LocalTime.of(21,0),4,"Terraza si puede ser");
-        // Llenamos las dos de la tarde de pasado manana con reservas de otros clientes para probar una hora completa
-        for(int i=0;i<6;i++){
-            insertar(10+i,hoy.plusDays(2),LocalTime.of(14,0),2,"");
-        }
-    }
+    private static boolean cargadas=false;
     private ReservaDAO(){}
-    public static ObservableList<Reserva> todos(){return RESERVAS;}
+
+    public static ObservableList<Reserva> todos(){
+        if(!cargadas)recargar();
+        return RESERVAS;
+    }
+    public static void recargar(){
+        String sql="SELECT id_reserva,fecha,hora,num_personas,observaciones,estado,id_usuario FROM reserva ORDER BY id_reserva DESC";
+        List<Reserva> leidas=new ArrayList<>();
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery()){
+            while(rs.next()){
+                Reserva r=new Reserva(rs.getInt("id_reserva"),rs.getInt("id_usuario"),rs.getDate("fecha").toLocalDate(),
+                        rs.getTime("hora").toLocalTime(),rs.getInt("num_personas"),rs.getString("observaciones"));
+                r.setEstado(rs.getString("estado"));
+                guardarCambiosDeEstado(r);
+                leidas.add(r);
+            }
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+        RESERVAS.setAll(leidas);
+        cargadas=true;
+    }
     // La reserva nueva se mete la primera para que salga arriba en la tabla
     public static Reserva insertar(int idUsuario,LocalDate fecha,LocalTime hora,int numPersonas,String observaciones){
-        Reserva reserva=new Reserva(siguienteId++,idUsuario,fecha,hora,numPersonas,observaciones);
-        RESERVAS.add(0,reserva);
+        Reserva reserva=new Reserva(0,idUsuario,fecha,hora,numPersonas,observaciones);
+        String sql="INSERT INTO reserva (fecha,hora,num_personas,observaciones,estado,id_usuario) VALUES (?,?,?,?,?,?)";
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)){
+            ps.setDate(1,Date.valueOf(fecha));
+            ps.setTime(2,Time.valueOf(hora));
+            ps.setInt(3,numPersonas);
+            ps.setString(4,observaciones);
+            ps.setString(5,reserva.getEstado());
+            ps.setInt(6,idUsuario);
+            ps.executeUpdate();
+            try(ResultSet claves=ps.getGeneratedKeys()){
+                if(claves.next())reserva.setId(claves.getInt(1));
+            }
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+        guardarCambiosDeEstado(reserva);
+        todos().add(0,reserva);
         return reserva;
     }
     public static ObservableList<Reserva> buscarPorUsuario(int idUsuario){
         ObservableList<Reserva> resultado=FXCollections.observableArrayList();
-        for(Reserva r:RESERVAS){
+        for(Reserva r:todos()){
             if(r.getIdUsuario()==idUsuario)resultado.add(r);
         }
         return resultado;
     }
-    // Cuantas reservas sin cancelar hay ese dia a esa hora
+    // Cuantas reservas sin cancelar hay ese dia a esa hora (se pregunta a la base de datos por si otro cliente acaba de reservar)
     public static int contarReservas(LocalDate fecha,LocalTime hora){
-        int num=0;
-        for(Reserva r:RESERVAS){
-            if(!r.estaCancelada()&&r.getFecha().equals(fecha)&&r.getHora().equals(hora))num++;
+        String sql="SELECT COUNT(*) FROM reserva WHERE estado<>'CANCELADA' AND fecha=? AND hora=?";
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(sql)){
+            ps.setDate(1,Date.valueOf(fecha));
+            ps.setTime(2,Time.valueOf(hora));
+            try(ResultSet rs=ps.executeQuery()){
+                return rs.next()?rs.getInt(1):0;
+            }
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
         }
-        return num;
+    }
+    private static void guardarCambiosDeEstado(Reserva reserva){
+        reserva.estadoProperty().addListener((obs,antes,ahora)->{
+            if(ahora==null||ahora.equals(antes))return;
+            try(Connection con=Conexion.getConexion();
+                PreparedStatement ps=con.prepareStatement("UPDATE reserva SET estado=? WHERE id_reserva=?")){
+                ps.setString(1,ahora);
+                ps.setInt(2,reserva.getId());
+                ps.executeUpdate();
+            }catch(SQLException e){
+                throw new RuntimeException(ErrorBD.mensaje(e));
+            }
+        });
     }
 }
