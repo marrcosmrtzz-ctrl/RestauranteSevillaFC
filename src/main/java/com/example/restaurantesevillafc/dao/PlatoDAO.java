@@ -1,26 +1,41 @@
 package com.example.restaurantesevillafc.dao;
+import com.example.restaurantesevillafc.config.Conexion;
 import com.example.restaurantesevillafc.model.Plato;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.sql.*;
 
-// De momento los platos estan en una lista (los mismos del script SQL), mas adelante se cogeran de la base de datos
+// Los platos se leen de la tabla plato. Se cargan una vez en la lista y cada cambio se guarda tambien en la base de datos
 public final class PlatoDAO {
 
-    private static final ObservableList<Plato> PLATOS=FXCollections.observableArrayList(
-            new Plato(1,"Salmorejo","Con jamón ibérico y huevo duro","Gluten, Huevo",6.50,true,"Entrantes"),
-            new Plato(2,"Croquetas de puchero","Ración de 8, cremosas por dentro","Gluten, Lácteos",8.00,true,"Entrantes"),
-            new Plato(3,"Gazpacho andaluz","Fresquito, con su guarnición",null,5.50,true,"Entrantes"),
-            new Plato(4,"Rabo de toro","Guiso al vino tinto con patatas","Sulfitos",15.50,true,"Principales"),
-            new Plato(5,"Paella mixta","Marisco y pollo, mín. 2 personas","Crustáceos",13.90,true,"Principales"),
-            new Plato(6,"Pescaíto frito","Adobo, chocos y boquerones","Pescado, Gluten",12.50,true,"Principales"),
-            new Plato(7,"Torrijas","De leche, con miel y canela","Gluten, Huevo",5.00,true,"Postres"),
-            new Plato(8,"Tocino de cielo","Yema y almíbar, receta jerezana","Huevo",4.80,true,"Postres"),
-            new Plato(9,"Tinto de verano","Con limón o casera","Sulfitos",2.80,true,"Bebidas"),
-            new Plato(10,"Agua mineral","Botella de 50 cl",null,1.80,true,"Bebidas"));
+    private static final ObservableList<Plato> PLATOS=FXCollections.observableArrayList();
+    private static boolean cargados=false;
     private PlatoDAO(){}
-    public static ObservableList<Plato> todos(){return PLATOS;}
+
+    public static ObservableList<Plato> todos(){
+        if(!cargados)recargar();
+        return PLATOS;
+    }
+    // Vuelve a leer la carta de la base de datos (por si otro la ha cambiado)
+    public static void recargar(){
+        String sql="SELECT p.id_plato,p.nombre,p.descripcion,p.alergenos,p.precio,p.disponible,c.nombre AS categoria "
+                +"FROM plato p JOIN categoria c ON p.id_categoria=c.id_categoria ORDER BY p.id_plato";
+        ObservableList<Plato> leidos=FXCollections.observableArrayList();
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery()){
+            while(rs.next()){
+                leidos.add(new Plato(rs.getInt("id_plato"),rs.getString("nombre"),rs.getString("descripcion"),
+                        rs.getString("alergenos"),rs.getDouble("precio"),rs.getBoolean("disponible"),rs.getString("categoria")));
+            }
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+        PLATOS.setAll(leidos);
+        cargados=true;
+    }
     public static Plato buscarPorId(int id){
-        for(Plato p:PLATOS){
+        for(Plato p:todos()){
             if(p.getId()==id)return p;
         }
         return null;
@@ -28,16 +43,63 @@ public final class PlatoDAO {
 
     // Los usa la gestion del menu del trabajador
     public static Plato buscarPorNombre(String nombre){
-        for(Plato p:PLATOS){
+        for(Plato p:todos()){
             if(p.getNombre().equalsIgnoreCase(nombre))return p;
         }
         return null;
     }
     public static int siguienteId(){
+        // El id de verdad lo pone MySQL al insertar (AUTO_INCREMENT)
         int max=0;
-        for(Plato p:PLATOS)max=Math.max(max,p.getId());
+        for(Plato p:todos())max=Math.max(max,p.getId());
         return max+1;
     }
-    public static void anadir(Plato plato){PLATOS.add(plato);}
-    public static void eliminar(Plato plato){PLATOS.remove(plato);}
+    public static void anadir(Plato plato){
+        String sql="INSERT INTO plato (nombre,descripcion,alergenos,precio,disponible,id_categoria) "
+                +"VALUES (?,?,?,?,?,(SELECT id_categoria FROM categoria WHERE nombre=?))";
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)){
+            rellenar(ps,plato);
+            ps.executeUpdate();
+            try(ResultSet claves=ps.getGeneratedKeys()){
+                if(claves.next())plato.setId(claves.getInt(1));
+            }
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+        todos().add(plato);
+    }
+    public static void actualizar(Plato plato){
+        String sql="UPDATE plato SET nombre=?,descripcion=?,alergenos=?,precio=?,disponible=?,"
+                +"id_categoria=(SELECT id_categoria FROM categoria WHERE nombre=?) WHERE id_plato=?";
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(sql)){
+            rellenar(ps,plato);
+            ps.setInt(7,plato.getId());
+            ps.executeUpdate();
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+    }
+    public static void eliminar(Plato plato){
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement("DELETE FROM plato WHERE id_plato=?")){
+            ps.setInt(1,plato.getId());
+            ps.executeUpdate();
+        }catch(SQLIntegrityConstraintViolationException e){
+            // El plato esta en algun pedido (clave foranea de linea_pedido)
+            throw new RuntimeException("Este plato aparece en pedidos de clientes y no se puede eliminar. Desmarca «Disponible en la carta» para quitarlo de la carta.");
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+        todos().remove(plato);
+    }
+    private static void rellenar(PreparedStatement ps,Plato plato) throws SQLException{
+        ps.setString(1,plato.getNombre());
+        ps.setString(2,plato.getDescripcion());
+        ps.setString(3,plato.getAlergenos());
+        ps.setDouble(4,plato.getPrecio());
+        ps.setBoolean(5,plato.isDisponible());
+        ps.setString(6,plato.getCategoria());
+    }
 }

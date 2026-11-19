@@ -17,7 +17,9 @@ public class GestionPedidosService {
     public static final List<String> ESTADOS = List.of("RECIBIDO", "EN_PREPARACION", "LISTO", "ENTREGADO");
     private static final DateTimeFormatter HORA = DateTimeFormatter.ofPattern("HH:mm");
 
+    // Al abrir la pantalla se vuelven a leer los pedidos de la base de datos para ver los nuevos
     public ObservableList<Pedido> listarPedidos() {
+        PedidoDAO.recargar();
         return PedidoDAO.todos();
     }
 

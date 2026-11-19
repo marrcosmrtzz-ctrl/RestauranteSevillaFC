@@ -22,7 +22,11 @@ public class PlatoService {
     public Plato crear(String nombre, String descripcion, String categoria, String precioTexto, boolean disponible) throws Exception {
         double precio = validar(null, nombre, categoria, precioTexto);
         Plato plato = new Plato(PlatoDAO.siguienteId(), nombre.trim(), descripcion.trim(), null, precio, disponible, categoria);
-        PlatoDAO.anadir(plato);
+        try {
+            PlatoDAO.anadir(plato);
+        } catch (RuntimeException e) {
+            throw new Exception(e.getMessage());
+        }
         return plato;
     }
 
@@ -34,10 +38,21 @@ public class PlatoService {
         plato.setCategoria(categoria);
         plato.setPrecio(precio);
         plato.setDisponible(disponible);
+        try {
+            PlatoDAO.actualizar(plato);
+        } catch (RuntimeException e) {
+            // Si no se ha podido guardar, se vuelve a leer la carta para no enseñar datos que no estan en la base de datos
+            PlatoDAO.recargar();
+            throw new Exception(e.getMessage());
+        }
     }
 
-    public void eliminar(Plato plato) {
-        PlatoDAO.eliminar(plato);
+    public void eliminar(Plato plato) throws Exception {
+        try {
+            PlatoDAO.eliminar(plato);
+        } catch (RuntimeException e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     // Devuelve el precio ya convertido si todo esta bien, si no lanza una excepcion con el mensaje para el usuario

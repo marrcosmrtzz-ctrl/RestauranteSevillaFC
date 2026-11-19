@@ -1,28 +1,49 @@
 package com.example.restaurantesevillafc.dao;
+import com.example.restaurantesevillafc.config.Conexion;
 import com.example.restaurantesevillafc.model.Usuario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-// De momento los usuarios estan en una lista, mas adelante se cogeran de la base de datos
+// Los usuarios se leen de la tabla usuario de la base de datos
 public final class UsuarioDAO {
 
-    private static final ObservableList<Usuario> USUARIOS=FXCollections.observableArrayList(
-            new Usuario(1,"Antonio","Ruiz","antonio.ruiz@sevillafc.es","1234","TRABAJADOR"),
-            new Usuario(2,"Lucía","García Romero","lucia.garcia@correo.com","1234","CLIENTE"),
-            new Usuario(3,"Manuel","Pérez","manuel.perez@correo.com","1234","CLIENTE"),
-            new Usuario(4,"Carmen","Ruiz","carmen.ruiz@correo.com","1234","CLIENTE"));
+    private static final String SELECT="SELECT id_usuario,nombre,apellidos,email,password,rol FROM usuario";
     private UsuarioDAO(){}
-    public static ObservableList<Usuario> todos(){return USUARIOS;}
-    public static Usuario buscarPorId(int id){
-        for(Usuario u:USUARIOS){
-            if(u.getId()==id)return u;
+
+    public static ObservableList<Usuario> todos(){
+        ObservableList<Usuario> lista=FXCollections.observableArrayList();
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(SELECT+" ORDER BY id_usuario");
+            ResultSet rs=ps.executeQuery()){
+            while(rs.next())lista.add(crear(rs));
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
         }
-        return null;
+        return lista;
+    }
+    public static Usuario buscarPorId(int id){
+        return buscarUno(SELECT+" WHERE id_usuario=?",id);
     }
     public static Usuario buscarPorEmail(String email){
-        for(Usuario u:USUARIOS){
-            if(u.getEmail().equalsIgnoreCase(email))return u;
+        return buscarUno(SELECT+" WHERE email=?",email);
+    }
+    private static Usuario buscarUno(String sql,Object valor){
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(sql)){
+            ps.setObject(1,valor);
+            try(ResultSet rs=ps.executeQuery()){
+                return rs.next()?crear(rs):null;
+            }
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
         }
-        return null;
+    }
+    private static Usuario crear(ResultSet rs) throws SQLException{
+        return new Usuario(rs.getInt("id_usuario"),rs.getString("nombre"),rs.getString("apellidos"),
+                rs.getString("email"),rs.getString("password"),rs.getString("rol"));
     }
 }
