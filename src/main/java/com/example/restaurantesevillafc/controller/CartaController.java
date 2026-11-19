@@ -28,6 +28,12 @@ public class CartaController {
         contarCategorias();
         filtrar();
         actualizarContador();
+        // Si no ha llegado ningun plato es que no se ha podido conectar con MySQL
+        if(PlatoDAO.todos().isEmpty()){
+            Alert aviso=new Alert(Alert.AlertType.WARNING,"No se han podido cargar los platos.\nComprueba que MySQL está encendido en XAMPP.");
+            aviso.setHeaderText("Carta sin platos");
+            aviso.showAndWait();
+        }
     }
     // Pone al lado de cada categoria cuantos platos tiene
     private void contarCategorias(){
