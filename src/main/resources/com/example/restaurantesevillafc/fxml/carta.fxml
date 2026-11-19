@@ -43,7 +43,7 @@
                             <items>
                                 <MenuItem fx:id="itemVerCarta" disable="true" mnemonicParsing="false" text="Carta" />
                                 <MenuItem fx:id="itemVerPedido" accelerator="Shortcut+P" mnemonicParsing="false" onAction="#irAMiPedido" text="Mi pedido" />
-                                <MenuItem fx:id="itemVerReservar" mnemonicParsing="false" onAction="#pantallaPendiente" text="Reservar mesa" />
+                                <MenuItem fx:id="itemVerReservar" mnemonicParsing="false" onAction="#irAReservar" text="Reservar mesa" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Ayuda">
@@ -95,7 +95,7 @@
                                         <Tooltip text="Ver los platos que has añadido y confirmar el pedido" />
                                     </tooltip>
                                 </Button>
-                                <Button fx:id="btnReservar" graphicTextGap="8.0" mnemonicParsing="false" onAction="#pantallaPendiente" styleClass="nav-boton" text="Reservar mesa">
+                                <Button fx:id="btnReservar" graphicTextGap="8.0" mnemonicParsing="false" onAction="#irAReservar" styleClass="nav-boton" text="Reservar mesa">
                                     <graphic>
                                         <SVGPath content="M12.71 2.21H2.21C1.38 2.21 0.71 2.88 0.71 3.71V12.71C0.71 13.54 1.38 14.21 2.21 14.21H12.71C13.54 14.21 14.21 13.54 14.21 12.71V3.71C14.21 2.88 13.54 2.21 12.71 2.21Z M0.71 5.96H14.21M4.46 0.71V3.71M10.46 0.71V3.71" styleClass="icono" />
                                     </graphic>
