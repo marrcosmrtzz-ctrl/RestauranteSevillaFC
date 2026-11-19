@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane prefHeight="640.0" prefWidth="1000.0" styleClass="fondo" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.restaurantesevillafc.controller.ReservarMesaController">
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <MenuBar>
+                    <menus>
+                        <Menu mnemonicParsing="false" text="Archivo">
+                            <items>
+                                <MenuItem fx:id="itemCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem fx:id="itemSalir" accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#salir" text="Salir" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Ver">
+                            <items>
+                                <MenuItem fx:id="itemVerCarta" mnemonicParsing="false" onAction="#irACarta" text="Carta" />
+                                <MenuItem fx:id="itemVerPedido" accelerator="Shortcut+P" mnemonicParsing="false" onAction="#irAMiPedido" text="Mi pedido" />
+                                <MenuItem fx:id="itemVerReservar" disable="true" mnemonicParsing="false" text="Reservar mesa" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Ayuda">
+                            <items>
+                                <MenuItem fx:id="itemAcercaDe" mnemonicParsing="false" onAction="#acercaDe" text="Acerca de" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+                <!-- Barra de arriba igual que en la carta y Mi pedido, aqui el boton activo es Reservar mesa -->
+                <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="barra-cliente">
+                    <padding>
+                        <Insets bottom="12.0" left="24.0" right="24.0" top="12.0" />
+                    </padding>
+                    <children>
+                        <StackPane styleClass="logo">
+                            <children>
+                                <SVGPath content="M2.9 0.9V18.9M0.9 0.9V5.9C0.9 6.43 1.11 6.94 1.49 7.31C1.86 7.69 2.37 7.9 2.9 7.9C3.43 7.9 3.94 7.69 4.31 7.31C4.69 6.94 4.9 6.43 4.9 5.9V0.9M11.9 0.9C9.7 2.7 9.4 7.9 11.9 9.9V18.9" styleClass="icono-logo" />
+                            </children>
+                        </StackPane>
+                        <VBox>
+                            <children>
+                                <Label styleClass="marca" text="Sevilla FC" />
+                                <Label styleClass="marca-sub" text="RESTAURANTE" />
+                            </children>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="8.0">
+                            <children>
+                                <Button fx:id="btnCarta" graphicTextGap="8.0" mnemonicParsing="false" onAction="#irACarta" styleClass="nav-boton" text="Carta">
+                                    <graphic>
+                                        <SVGPath content="M0.79 10.79H15.79M2.46 10.79C2.46 9.24 3.07 7.76 4.17 6.67C5.26 5.57 6.74 4.96 8.29 4.96C9.84 4.96 11.32 5.57 12.42 6.67C13.51 7.76 14.13 9.24 14.13 10.79M8.29 2.46V0.79M6.63 0.79H9.96" styleClass="icono" />
+                                    </graphic>
+                                    <tooltip>
+                                        <Tooltip text="Ver la carta del restaurante" />
+                                    </tooltip>
+                                </Button>
+                                <Button fx:id="btnMiPedido" mnemonicParsing="false" onAction="#irAMiPedido" styleClass="nav-boton">
+                                    <graphic>
+                                        <HBox alignment="CENTER" spacing="8.0">
+                                            <children>
+                                                <SVGPath content="M0.8 1H3L5 10.2C5.1 10.8 5.6 11.2 6.2 11.2H12.6C13.2 11.2 13.7 10.8 13.8 10.2L15 4H3.7M5.6 14.2a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0M11.6 14.2a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0" styleClass="icono" />
+                                                <Label styleClass="texto-nav" text="Mi pedido" />
+                                                <Label fx:id="lblNumPlatos" styleClass="badge" text="0" />
+                                            </children>
+                                        </HBox>
+                                    </graphic>
+                                    <tooltip>
+                                        <Tooltip text="Ver los platos de tu pedido" />
+                                    </tooltip>
+                                </Button>
+                                <Button fx:id="btnReservar" graphicTextGap="8.0" mnemonicParsing="false" text="Reservar mesa">
+                                    <styleClass>
+                                        <String fx:value="nav-boton" />
+                                        <String fx:value="nav-boton-activo" />
+                                    </styleClass>
+                                    <graphic>
+                                        <SVGPath content="M12.71 2.21H2.21C1.38 2.21 0.71 2.88 0.71 3.71V12.71C0.71 13.54 1.38 14.21 2.21 14.21H12.71C13.54 14.21 14.21 13.54 14.21 12.71V3.71C14.21 2.88 13.54 2.21 12.71 2.21Z M0.71 5.96H14.21M4.46 0.71V3.71M10.46 0.71V3.71" styleClass="icono" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </HBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <StackPane styleClass="avatar">
+                            <children>
+                                <Label fx:id="lblInicial" styleClass="avatar-texto" text="L" />
+                            </children>
+                        </StackPane>
+                        <VBox>
+                            <children>
+                                <Label fx:id="lblSaludo" styleClass="saludo" text="Hola, Lucía" />
+                                <Label styleClass="marca-sub" text="Cliente" />
+                            </children>
+                        </VBox>
+                        <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" styleClass="boton-icono">
+                            <graphic>
+                                <SVGPath content="M10 1H13.5C14.3 1 15 1.7 15 2.5V13.5C15 14.3 14.3 15 13.5 15H10M5 4.5L1.5 8L5 11.5M1.5 8H10.5" styleClass="icono" />
+                            </graphic>
+                            <tooltip>
+                                <Tooltip text="Cerrar sesión" />
+                            </tooltip>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <VBox spacing="4.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="24.0" left="32.0" right="32.0" top="20.0" />
+            </padding>
+            <children>
+                <Label styleClass="titulo-pagina" text="Reserva tu mesa" />
+                <Label styleClass="subtitulo" text="Elige día, hora y número de comensales." />
+                <HBox spacing="24.0" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets top="16.0" />
+                    </VBox.margin>
+                    <children>
+                        <!-- Tarjeta de la izquierda con los datos de la reserva nueva -->
+                        <VBox maxHeight="-Infinity" spacing="8.0" styleClass="tarjeta" HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="16.0" />
+                            </padding>
+                            <children>
+                                <Label styleClass="etiqueta-campo" text="Día" />
+                                <DatePicker fx:id="dpFecha" editable="false" maxWidth="Infinity" promptText="Elige un día en el calendario" styleClass="selector-fecha">
+                                    <tooltip>
+                                        <Tooltip text="Pulsa el calendario para elegir el día de la reserva" />
+                                    </tooltip>
+                                </DatePicker>
+                                <Label styleClass="etiqueta-campo" text="Hora" />
+                                <!-- Las horas van en un ToggleGroup para que solo se pueda elegir una -->
+                                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                    <children>
+                                        <Label minWidth="56.0" styleClass="contador" text="Comida" />
+                                        <ToggleButton fx:id="btn1300" mnemonicParsing="false" styleClass="boton-hora" text="13:00">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="grupoHoras" />
+                                            </toggleGroup>
+                                        </ToggleButton>
+                                        <ToggleButton fx:id="btn1330" mnemonicParsing="false" styleClass="boton-hora" text="13:30" toggleGroup="$grupoHoras" />
+                                        <ToggleButton fx:id="btn1400" mnemonicParsing="false" styleClass="boton-hora" text="14:00" toggleGroup="$grupoHoras" />
+                                        <ToggleButton fx:id="btn1430" mnemonicParsing="false" styleClass="boton-hora" text="14:30" toggleGroup="$grupoHoras" />
+                                        <ToggleButton fx:id="btn1500" mnemonicParsing="false" styleClass="boton-hora" text="15:00" toggleGroup="$grupoHoras" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                    <children>
+                                        <Label minWidth="56.0" styleClass="contador" text="Cena" />
+                                        <ToggleButton fx:id="btn2030" mnemonicParsing="false" styleClass="boton-hora" text="20:30" toggleGroup="$grupoHoras" />
+                                        <ToggleButton fx:id="btn2100" mnemonicParsing="false" styleClass="boton-hora" text="21:00" toggleGroup="$grupoHoras" />
+                                        <ToggleButton fx:id="btn2130" mnemonicParsing="false" styleClass="boton-hora" text="21:30" toggleGroup="$grupoHoras" />
+                                        <ToggleButton fx:id="btn2200" mnemonicParsing="false" styleClass="boton-hora" text="22:00" toggleGroup="$grupoHoras" />
+                                    </children>
+                                </HBox>
+                                <Label fx:id="lblAvisoHoras" styleClass="contador" text="Las horas tachadas no tienen mesas libres." />
+                                <HBox spacing="20.0">
+                                    <children>
+                                        <VBox spacing="8.0">
+                                            <children>
+                                                <Label styleClass="etiqueta-campo" text="Comensales" />
+                                                <HBox alignment="CENTER" spacing="4.0" styleClass="selector-personas">
+                                                    <children>
+                                                        <Button fx:id="btnMenosPersonas" mnemonicParsing="false" onAction="#menosPersonas" styleClass="boton-cantidad" text="−">
+                                                            <tooltip>
+                                                                <Tooltip text="Una persona menos" />
+                                                            </tooltip>
+                                                        </Button>
+                                                        <Label fx:id="lblPersonas" alignment="CENTER" minWidth="40.0" styleClass="num-personas" text="2" />
+                                                        <Button fx:id="btnMasPersonas" mnemonicParsing="false" onAction="#masPersonas" styleClass="boton-cantidad" text="+">
+                                                            <tooltip>
+                                                                <Tooltip text="Una persona más" />
+                                                            </tooltip>
+                                                        </Button>
+                                                    </children>
+                                                </HBox>
+                                                <Label styleClass="contador" text="Máx. 10 por reserva" />
+                                            </children>
+                                        </VBox>
+                                        <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="etiqueta-campo" text="Observaciones" />
+                                                <TextField fx:id="txtObservaciones" promptText="Terraza, trona, alergias…">
+                                                    <tooltip>
+                                                        <Tooltip text="Cualquier cosa que el restaurante deba saber (máx. 255 caracteres)" />
+                                                    </tooltip>
+                                                </TextField>
+                                                <Label fx:id="lblContador" alignment="CENTER_RIGHT" maxWidth="Infinity" styleClass="contador" text="0 / 255" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                                <!-- Resumen de lo que va a reservar antes de pulsar el boton -->
+                                <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="resumen-reserva">
+                                    <children>
+                                        <SVGPath content="M12.71 2.21H2.21C1.38 2.21 0.71 2.88 0.71 3.71V12.71C0.71 13.54 1.38 14.21 2.21 14.21H12.71C13.54 14.21 14.21 13.54 14.21 12.71V3.71C14.21 2.88 13.54 2.21 12.71 2.21Z M0.71 5.96H14.21M4.46 0.71V3.71M10.46 0.71V3.71" styleClass="icono-rojo" />
+                                        <Label fx:id="lblResumen" styleClass="texto-resumen" text="Elige el día y la hora de tu reserva" wrapText="true" />
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="6.0" />
+                                    </VBox.margin>
+                                </HBox>
+                                <Button fx:id="btnSolicitar" graphicTextGap="10.0" maxWidth="Infinity" mnemonicParsing="false" onAction="#solicitar" styleClass="boton-principal" text="Solicitar reserva">
+                                    <graphic>
+                                        <SVGPath content="M1 6L4.5 9.5L11 1" styleClass="icono-blanco" />
+                                    </graphic>
+                                    <tooltip>
+                                        <Tooltip text="Enviar la reserva al restaurante para que la confirme" />
+                                    </tooltip>
+                                </Button>
+                            </children>
+                        </VBox>
+                        <!-- Tarjeta de la derecha con las reservas que ya tiene el cliente -->
+                        <VBox minWidth="360.0" prefWidth="390.0" spacing="10.0" styleClass="tarjeta">
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="16.0" />
+                            </padding>
+                            <children>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label styleClass="titulo-seccion" text="Mis reservas" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblNumReservas" styleClass="contador" text="0 reservas" />
+                                    </children>
+                                </HBox>
+                                <TableView fx:id="tablaReservas" fixedCellSize="48.0" prefHeight="250.0" styleClass="tabla" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="colFecha" prefWidth="100.0" text="FECHA" />
+                                        <TableColumn fx:id="colHora" prefWidth="60.0" text="HORA" />
+                                        <TableColumn fx:id="colPersonas" prefWidth="50.0" text="PERS." />
+                                        <TableColumn fx:id="colEstado" prefWidth="100.0" text="ESTADO" />
+                                    </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
+                                </TableView>
+                                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                    <children>
+                                        <SVGPath content="M8 0.75a7.25 7.25 0 1 0 0.01 0Z M8 7.25V11.25 M8 4.75V4.8" styleClass="icono" />
+                                        <Label styleClass="contador" text="Solo puedes cancelar reservas pendientes o confirmadas." wrapText="true" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT">
+                                    <children>
+                                        <Button fx:id="btnCancelar" graphicTextGap="8.0" mnemonicParsing="false" onAction="#cancelar" styleClass="boton-peligro" text="Cancelar reserva">
+                                            <graphic>
+                                                <SVGPath content="M1 1L10 10M10 1L1 10" styleClass="icono-rojo" />
+                                            </graphic>
+                                            <tooltip>
+                                                <Tooltip text="Cancelar la reserva seleccionada en la tabla" />
+                                            </tooltip>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
