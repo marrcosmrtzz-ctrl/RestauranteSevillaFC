@@ -1,8 +1,10 @@
 package com.example.restaurantesevillafc.controller;
+import com.example.restaurantesevillafc.App;
 import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.UsuarioService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 public class LoginController {
     @FXML private TextField txtCorreo;
@@ -30,16 +32,25 @@ public class LoginController {
     @FXML private void entrar(){
         try{
             Usuario u=usuarioService.iniciarSesion(txtCorreo.getText(),txtPassword.getText(),btnTrabajador.isSelected());
-            Alert alert=new Alert(Alert.AlertType.INFORMATION,"Has iniciado sesión como "+u.getRol().toLowerCase()+".");
-            alert.setHeaderText("¡Hola, "+u.getNombre()+"!");
-            alert.showAndWait();
+            if(u.esTrabajador()){
+                abrirPanelTrabajador();
+            }else{
+                abrirPantalla("fxml/carta.fxml");
+            }
         }catch(Exception e){
             lblError.setText(e.getMessage());
             lblError.setVisible(true);
             lblError.setManaged(true);
         }
     }
-    @FXML private void irARegistro(){new Alert(Alert.AlertType.INFORMATION,"El registro todavía no está hecho.").showAndWait();}
+    @FXML private void irARegistro(){abrirPantalla("fxml/registro.fxml");}
+    // El trabajador va a su panel (lo hace Marcos). Su nombre lo coge de UsuarioService.getUsuarioConectado()
+    private void abrirPanelTrabajador(){abrirPantalla("fxml/trabajador.fxml");}
+    // Cambia lo que se ve en la ventana por otra pantalla
+    private void abrirPantalla(String fxml){
+        try{ txtCorreo.getScene().setRoot(new FXMLLoader(App.class.getResource(fxml)).load()); }
+        catch(Exception e){ new Alert(Alert.AlertType.ERROR,"No se pudo abrir la pantalla: "+e.getMessage()).showAndWait(); }
+    }
     @FXML private void salir(){
         Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,"¿Seguro que quieres salir?",ButtonType.YES,ButtonType.NO);
         confirm.setHeaderText("Salir");

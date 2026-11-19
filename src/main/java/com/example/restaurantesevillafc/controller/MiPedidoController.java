@@ -1,11 +1,11 @@
 package com.example.restaurantesevillafc.controller;
 import com.example.restaurantesevillafc.App;
-import com.example.restaurantesevillafc.dao.UsuarioDAO;
 import com.example.restaurantesevillafc.model.LineaPedido;
 import com.example.restaurantesevillafc.model.Pedido;
 import com.example.restaurantesevillafc.model.Plato;
 import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.PedidoService;
+import com.example.restaurantesevillafc.service.UsuarioService;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -45,8 +45,8 @@ public class MiPedidoController {
             if(ahora.length()>PedidoService.MAX_OBSERVACIONES)txtObservaciones.setText(antes);
             else lblContador.setText(ahora.length()+" / "+PedidoService.MAX_OBSERVACIONES);
         });
-        // De momento, hasta que el login abra esta pantalla, usamos el cliente de prueba
-        setUsuario(UsuarioDAO.buscarPorEmail("lucia.garcia@correo.com"));
+        // El pedido es del usuario que ha entrado desde el login o el registro
+        setUsuario(UsuarioService.getUsuarioConectado());
         tablaPedido.getSelectionModel().selectFirst();
         actualizarResumen();
     }
@@ -152,6 +152,7 @@ public class MiPedidoController {
         confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->{
             // Al salir se borra el pedido para que el siguiente cliente empiece de cero
             pedidoService.vaciar();
+            UsuarioService.cerrarSesion();
             abrirPantalla("fxml/login.fxml");
         });
     }
