@@ -1,10 +1,10 @@
 package com.example.restaurantesevillafc.controller;
 import com.example.restaurantesevillafc.App;
-import com.example.restaurantesevillafc.dao.UsuarioDAO;
 import com.example.restaurantesevillafc.model.Reserva;
 import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.PedidoService;
 import com.example.restaurantesevillafc.service.ReservaService;
+import com.example.restaurantesevillafc.service.UsuarioService;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -66,8 +66,8 @@ public class ReservarMesaController {
         });
         // En el badge de Mi pedido sale cuantos platos lleva el cliente
         lblNumPlatos.setText(String.valueOf(pedidoService.totalArticulos()));
-        // De momento, hasta que el login abra esta pantalla, usamos el cliente de prueba
-        setUsuario(UsuarioDAO.buscarPorEmail("lucia.garcia@correo.com"));
+        // Las reservas son del usuario que ha entrado desde el login o el registro
+        setUsuario(UsuarioService.getUsuarioConectado());
         actualizarPersonas();
         actualizarResumen();
     }
@@ -205,7 +205,12 @@ public class ReservarMesaController {
     @FXML private void cerrarSesion(){
         Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,"¿Seguro que quieres cerrar sesión?",ButtonType.YES,ButtonType.NO);
         confirm.setHeaderText("Cerrar sesión");
-        confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->abrirPantalla("login.fxml"));
+        confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->{
+            // Al salir se borra el pedido y el usuario para que el siguiente cliente empiece de cero
+            pedidoService.vaciar();
+            UsuarioService.cerrarSesion();
+            abrirPantalla("login.fxml");
+        });
     }
     @FXML private void salir(){
         Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,"¿Seguro que quieres salir?",ButtonType.YES,ButtonType.NO);
