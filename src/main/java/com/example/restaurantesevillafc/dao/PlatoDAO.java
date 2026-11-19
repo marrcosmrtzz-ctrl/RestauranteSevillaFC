@@ -12,8 +12,15 @@ public final class PlatoDAO {
     private static boolean cargados=false;
     private PlatoDAO(){}
 
+    // Si MySQL falla devuelve la lista vacia (la carta del cliente avisa en ese caso)
     public static ObservableList<Plato> todos(){
-        if(!cargados)recargar();
+        if(!cargados){
+            try{
+                recargar();
+            }catch(RuntimeException e){
+                System.out.println("Error al cargar los platos "+e.getMessage());
+            }
+        }
         return PLATOS;
     }
     // Vuelve a leer la carta de la base de datos (por si otro la ha cambiado)

@@ -4,6 +4,7 @@ import com.example.restaurantesevillafc.App;
 import com.example.restaurantesevillafc.model.Pedido;
 import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.GestionPedidosService;
+import com.example.restaurantesevillafc.service.UsuarioService;
 import javafx.collections.ListChangeListener;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -75,6 +76,7 @@ public class TrabajadorController {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "¿Seguro que quieres cerrar sesión?", ButtonType.YES, ButtonType.NO);
         confirm.setHeaderText("Cerrar sesión");
         confirm.showAndWait().filter(b -> b == ButtonType.YES).ifPresent(b -> {
+            UsuarioService.cerrarSesion();
             try {
                 contenido.getScene().setRoot(FXMLLoader.load(App.class.getResource("fxml/login.fxml")));
             } catch (IOException e) {
