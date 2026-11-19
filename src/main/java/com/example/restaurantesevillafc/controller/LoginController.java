@@ -33,10 +33,7 @@ public class LoginController {
         try{
             Usuario u=usuarioService.iniciarSesion(txtCorreo.getText(),txtPassword.getText(),btnTrabajador.isSelected());
             if(u.esTrabajador()){
-                // Las pantallas del trabajador estan en la rama de Marcos, cuando se junten se abriran desde aqui
-                Alert alert=new Alert(Alert.AlertType.INFORMATION,"Has iniciado sesión como trabajador.");
-                alert.setHeaderText("¡Hola, "+u.getNombre()+"!");
-                alert.showAndWait();
+                abrirPanelTrabajador();
             }else{
                 abrirPantalla("fxml/carta.fxml");
             }
@@ -47,6 +44,8 @@ public class LoginController {
         }
     }
     @FXML private void irARegistro(){abrirPantalla("fxml/registro.fxml");}
+    // El trabajador va a su panel (lo hace Marcos). Su nombre lo coge de UsuarioService.getUsuarioConectado()
+    private void abrirPanelTrabajador(){abrirPantalla("fxml/trabajador.fxml");}
     // Cambia lo que se ve en la ventana por otra pantalla
     private void abrirPantalla(String fxml){
         try{ txtCorreo.getScene().setRoot(new FXMLLoader(App.class.getResource(fxml)).load()); }
