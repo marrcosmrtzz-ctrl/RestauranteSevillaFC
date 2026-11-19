@@ -48,7 +48,7 @@ public class TrabajadorController {
 
     @FXML private void mostrarReservas() {
         btnReservas.setSelected(true);
-        mostrarPendiente("Gestión de reservas");
+        cargarVista("fxml/gestion_reservas.fxml");
     }
 
     @FXML private void mostrarPedidos() {
@@ -70,12 +70,6 @@ public class TrabajadorController {
         }
     }
 
-    // Reservas y pedidos se haran en los siguientes avances
-    private void mostrarPendiente(String titulo) {
-        Label aviso = new Label(titulo + "\nEsta pantalla todavía está en desarrollo.");
-        aviso.getStyleClass().add("subtitulo");
-        contenido.getChildren().setAll(aviso);
-    }
 
     @FXML private void cerrarSesion() {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "¿Seguro que quieres cerrar sesión?", ButtonType.YES, ButtonType.NO);
