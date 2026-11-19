@@ -1,5 +1,6 @@
 package com.example.restaurantesevillafc.controller;
 import com.example.restaurantesevillafc.App;
+import com.example.restaurantesevillafc.config.Tema;
 import com.example.restaurantesevillafc.dao.PlatoDAO;
 import com.example.restaurantesevillafc.model.Plato;
 import com.example.restaurantesevillafc.model.Usuario;
@@ -18,6 +19,9 @@ public class CartaController {
     @FXML private Label lblSaludo,lblInicial;
     @FXML private ToggleGroup grupoCategoria;
     @FXML private ToggleButton btnEntrantes,btnPrincipales,btnPostres,btnBebidas;
+    @FXML private MenuItem itemDeshacer,itemRehacer;
+    @FXML private CheckMenuItem itemTemaOscuro;
+    @FXML private MenuItem itemAumentarLetra,itemReducirLetra,itemLetraNormal;
     private final PedidoService pedidoService=new PedidoService();
 
     @FXML public void initialize(){
@@ -31,6 +35,7 @@ public class CartaController {
         contarCategorias();
         filtrar();
         actualizarContador();
+        actualizarMenuTema();
         // Arriba sale el nombre del usuario que ha entrado
         Usuario u=UsuarioService.getUsuarioConectado();
         if(u!=null){
@@ -94,6 +99,20 @@ public class CartaController {
     // Lo llama la tarjeta cuando se anade un plato, el numero del boton Mi pedido son los platos que lleva el cliente
     public void actualizarContador(){
         lblNumPlatos.setText(String.valueOf(pedidoService.totalArticulos()));
+        // Deshacer y rehacer solo se pueden usar si hay algo que deshacer o rehacer
+        itemDeshacer.setDisable(!pedidoService.puedeDeshacer());
+        itemRehacer.setDisable(!pedidoService.puedeRehacer());
+    }
+    @FXML private void deshacer(){
+        pedidoService.deshacer();
+        // Se vuelven a crear las tarjetas para que los botones digan cuantos lleva
+        filtrar();
+        actualizarContador();
+    }
+    @FXML private void rehacer(){
+        pedidoService.rehacer();
+        filtrar();
+        actualizarContador();
     }
     @FXML private void vaciarPedido(){
         if(pedidoService.getCarrito().isEmpty()){
@@ -131,12 +150,11 @@ public class CartaController {
         confirm.setHeaderText("Cerrar sesión");
         confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->{
             // Al salir se borra el pedido para que el siguiente cliente empiece de cero
-            pedidoService.vaciar();
+            pedidoService.reiniciar();
             UsuarioService.cerrarSesion();
             abrirPantalla("fxml/login.fxml");
         });
     }
-    // Reservar mesa se conecta cuando este su pantalla
     // Abre la pantalla de Reservar mesa (la hace Eduardo)
     @FXML private void irAReservar(){abrirPantalla("fxml/reservar_mesa.fxml");}
     @FXML private void salir(){
@@ -145,6 +163,36 @@ public class CartaController {
         Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,mensaje,ButtonType.YES,ButtonType.NO);
         confirm.setHeaderText("Salir");
         confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->Platform.exit());
+    }
+    // Pone el menu Ver como esta ahora, la marca del tema oscuro y que opciones de letra se pueden usar
+    private void actualizarMenuTema(){
+        itemTemaOscuro.setSelected(Tema.isOscuro());
+        itemAumentarLetra.setDisable(Tema.esLetraMaxima());
+        itemReducirLetra.setDisable(Tema.esLetraMinima());
+        itemLetraNormal.setDisable(Tema.esLetraMinima());
+    }
+    @FXML private void cambiarTema(){
+        Tema.cambiarTema(panelPlatos.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void aumentarLetra(){
+        Tema.aumentarLetra(panelPlatos.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void reducirLetra(){
+        Tema.reducirLetra(panelPlatos.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void letraNormal(){
+        Tema.letraNormal(panelPlatos.getScene());
+        actualizarMenuTema();
+    }
+    // Explica en pocos pasos como se usa esta pantalla, se abre con F1
+    @FXML private void verAyuda(){
+        Alert ayuda=new Alert(Alert.AlertType.INFORMATION,"1. Elige una categoría a la izquierda o escribe en el buscador para encontrar un plato.\n2. Pulsa «Añadir» en un plato para meterlo en tu pedido. El número rojo de Mi pedido te dice cuántos llevas.\n3. Cuando termines, ve a Mi pedido (Ctrl+P) para revisarlo y confirmarlo.\n\nSi te equivocas, en Editar puedes deshacer (Ctrl+Z) y rehacer (Ctrl+Y).\n\nEn el menú Ver puedes poner el tema oscuro (Ctrl+T) y agrandar o reducir la letra (Ctrl + y Ctrl -).");
+        ayuda.setHeaderText("Cómo usar la carta");
+        ayuda.setTitle("Ayuda");
+        ayuda.showAndWait();
     }
     @FXML private void acercaDe(){
         Alert info=new Alert(Alert.AlertType.INFORMATION,"Proyecto de Desarrollo de Interfaces · 2.º DAM\nEquipo Sevilla FC");
