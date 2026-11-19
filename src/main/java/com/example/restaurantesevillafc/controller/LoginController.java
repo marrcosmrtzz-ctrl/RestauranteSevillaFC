@@ -32,18 +32,25 @@ public class LoginController {
     @FXML private void entrar(){
         try{
             Usuario u=usuarioService.iniciarSesion(txtCorreo.getText(),txtPassword.getText(),btnTrabajador.isSelected());
-            Alert alert=new Alert(Alert.AlertType.INFORMATION,"Has iniciado sesión como "+u.getRol().toLowerCase()+".");
-            alert.setHeaderText("¡Hola, "+u.getNombre()+"!");
-            alert.showAndWait();
+            if(u.esTrabajador()){
+                // Las pantallas del trabajador estan en la rama de Marcos, cuando se junten se abriran desde aqui
+                Alert alert=new Alert(Alert.AlertType.INFORMATION,"Has iniciado sesión como trabajador.");
+                alert.setHeaderText("¡Hola, "+u.getNombre()+"!");
+                alert.showAndWait();
+            }else{
+                abrirPantalla("fxml/carta.fxml");
+            }
         }catch(Exception e){
             lblError.setText(e.getMessage());
             lblError.setVisible(true);
             lblError.setManaged(true);
         }
     }
-    @FXML private void irARegistro(){
-        try{ txtCorreo.getScene().setRoot(new FXMLLoader(App.class.getResource("fxml/registro.fxml")).load()); }
-        catch(java.io.IOException e){ new Alert(Alert.AlertType.ERROR,"No se pudo abrir el registro.").showAndWait(); }
+    @FXML private void irARegistro(){abrirPantalla("fxml/registro.fxml");}
+    // Cambia lo que se ve en la ventana por otra pantalla
+    private void abrirPantalla(String fxml){
+        try{ txtCorreo.getScene().setRoot(new FXMLLoader(App.class.getResource(fxml)).load()); }
+        catch(Exception e){ new Alert(Alert.AlertType.ERROR,"No se pudo abrir la pantalla: "+e.getMessage()).showAndWait(); }
     }
     @FXML private void salir(){
         Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,"¿Seguro que quieres salir?",ButtonType.YES,ButtonType.NO);

@@ -3,12 +3,18 @@ import com.example.restaurantesevillafc.dao.UsuarioDAO;
 import com.example.restaurantesevillafc.model.Usuario;
 public class UsuarioService {
 
+    // El usuario que ha entrado. Es static para que lo usen todas las pantallas (igual que el carrito en PedidoService)
+    private static Usuario usuarioConectado;
+    public static Usuario getUsuarioConectado(){return usuarioConectado;}
+    public static void cerrarSesion(){usuarioConectado=null;}
+
     public Usuario iniciarSesion(String email,String password,boolean esTrabajador) throws Exception{
         if(email.isBlank()||password.isBlank())throw new Exception("Rellena el correo y la contraseña.");
         if(!email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"))throw new Exception("El correo no tiene un formato válido.");
         Usuario usuario=UsuarioDAO.buscarPorEmail(email.trim());
         if(usuario==null||!usuario.getPassword().equals(password))throw new Exception("Usuario o contraseña incorrectos.");
         if(esTrabajador!=usuario.esTrabajador())throw new Exception(esTrabajador?"Esta cuenta no es de trabajador.":"Esta cuenta es de trabajador, entra desde la pestaña Trabajador.");
+        usuarioConectado=usuario;
         return usuario;
     }
 
@@ -24,6 +30,8 @@ public class UsuarioService {
         Usuario nuevo=new Usuario(0,nombre.trim(),apellidos.trim(),email.trim().toLowerCase(),password,"CLIENTE");
         nuevo.setTelefono(telefono.replace(" ",""));
         UsuarioDAO.insertar(nuevo);
+        // Al registrarse ya entra directamente con su cuenta
+        usuarioConectado=nuevo;
         return nuevo;
     }
 

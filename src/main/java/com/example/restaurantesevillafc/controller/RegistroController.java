@@ -32,10 +32,11 @@ public class RegistroController {
         try{
             Usuario u=usuarioService.registrar(txtNombre.getText(),txtApellidos.getText(),txtCorreo.getText(),
                     txtTelefono.getText(),txtPassword.getText(),txtRepetir.getText(),chkPrivacidad.isSelected());
-            Alert ok=new Alert(Alert.AlertType.INFORMATION,"Ya puedes iniciar sesión con "+u.getEmail()+".");
+            Alert ok=new Alert(Alert.AlertType.INFORMATION,"Tu cuenta se ha guardado. Ya puedes pedir desde la carta.");
             ok.setHeaderText("¡Cuenta creada, "+u.getNombre()+"!");
             ok.showAndWait();
-            volver();
+            // Como en el Figma, al crear la cuenta se abre la carta
+            abrirPantalla("fxml/carta.fxml");
         }catch(Exception e){
             lblError.setText(e.getMessage());
             lblError.setVisible(true);
@@ -43,9 +44,11 @@ public class RegistroController {
         }
     }
     // Vuelve al inicio de sesión (botón Volver y enlace "Inicia sesión")
-    @FXML private void volver(){
-        try{ txtNombre.getScene().setRoot(new FXMLLoader(App.class.getResource("fxml/login.fxml")).load()); }
-        catch(IOException e){ new Alert(Alert.AlertType.ERROR,"No se pudo abrir el inicio de sesión.").showAndWait(); }
+    @FXML private void volver(){abrirPantalla("fxml/login.fxml");}
+    // Cambia lo que se ve en la ventana por otra pantalla
+    private void abrirPantalla(String fxml){
+        try{ txtNombre.getScene().setRoot(new FXMLLoader(App.class.getResource(fxml)).load()); }
+        catch(IOException e){ new Alert(Alert.AlertType.ERROR,"No se pudo abrir la pantalla.").showAndWait(); }
     }
     @FXML private void verPrivacidad(){
         Alert info=new Alert(Alert.AlertType.INFORMATION,"Tus datos solo se usan para gestionar tus pedidos y reservas en el restaurante.");

@@ -2,7 +2,9 @@ package com.example.restaurantesevillafc.controller;
 import com.example.restaurantesevillafc.App;
 import com.example.restaurantesevillafc.dao.PlatoDAO;
 import com.example.restaurantesevillafc.model.Plato;
+import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.PedidoService;
+import com.example.restaurantesevillafc.service.UsuarioService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,7 @@ public class CartaController {
     @FXML private FlowPane panelPlatos;
     @FXML private Label lblNumPlatos,lblSinResultados,lblNumTodos,lblNumEntrantes,lblNumPrincipales,lblNumPostres,lblNumBebidas;
     @FXML private TextField txtBuscar;
+    @FXML private Label lblSaludo,lblInicial;
     @FXML private ToggleGroup grupoCategoria;
     @FXML private ToggleButton btnEntrantes,btnPrincipales,btnPostres,btnBebidas;
     private final PedidoService pedidoService=new PedidoService();
@@ -28,6 +31,12 @@ public class CartaController {
         contarCategorias();
         filtrar();
         actualizarContador();
+        // Arriba sale el nombre del usuario que ha entrado
+        Usuario u=UsuarioService.getUsuarioConectado();
+        if(u!=null){
+            lblSaludo.setText("Hola, "+u.getNombre());
+            lblInicial.setText(u.getNombre().substring(0,1));
+        }
         // Si no ha llegado ningun plato es que no se ha podido conectar con MySQL
         if(PlatoDAO.todos().isEmpty()){
             Alert aviso=new Alert(Alert.AlertType.WARNING,"No se han podido cargar los platos.\nComprueba que MySQL está encendido en XAMPP.");
@@ -123,6 +132,7 @@ public class CartaController {
         confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->{
             // Al salir se borra el pedido para que el siguiente cliente empiece de cero
             pedidoService.vaciar();
+            UsuarioService.cerrarSesion();
             abrirPantalla("fxml/login.fxml");
         });
     }
