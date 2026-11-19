@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- C2 · Registro de clientes -->
+<BorderPane prefHeight="640.0" prefWidth="1000.0" styleClass="fondo" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.restaurantesevillafc.controller.RegistroController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="Archivo">
+                    <items>
+                        <MenuItem accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#salir" text="Salir" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ayuda">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#acercaDe" text="Acerca de" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <HBox BorderPane.alignment="CENTER">
+            <children>
+                <!-- Panel izquierdo: registro1 (foto) y encima registro2 (degradado) -->
+                <StackPane minWidth="300.0" prefWidth="360.0" styleClass="panel-registro">
+                    <children>
+                        <Region styleClass="capa-registro" />
+                        <VBox alignment="BOTTOM_LEFT" spacing="8.0">
+                            <padding>
+                                <Insets bottom="40.0" left="36.0" right="36.0" top="40.0" />
+                            </padding>
+                            <children>
+                                <Label styleClass="eslogan" text="Únete a la mesa" wrapText="true" />
+                                <Label styleClass="texto-claro" text="Crea tu cuenta para pedir y reservar&#10;en el restaurante en segundos." wrapText="true" />
+                            </children>
+                        </VBox>
+                    </children>
+                </StackPane>
+
+                <!-- Formulario -->
+                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+                    </padding>
+                    <children>
+                        <VBox maxWidth="540.0" spacing="6.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <StackPane styleClass="logo">
+                                            <children>
+                                                <Label styleClass="logo-texto" text="SF" />
+                                            </children>
+                                        </StackPane>
+                                        <VBox>
+                                            <children>
+                                                <Label styleClass="marca" text="Sevilla FC" />
+                                                <Label styleClass="marca-sub" text="RESTAURANTE" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                </HBox>
+                                <Label styleClass="titulo" text="Crea tu cuenta" />
+                                <Label styleClass="subtitulo" text="Los campos con * son obligatorios" />
+
+                                <GridPane hgap="20.0" vgap="4.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints percentWidth="50.0" />
+                                        <ColumnConstraints percentWidth="50.0" />
+                                    </columnConstraints>
+                                    <children>
+                                        <Label styleClass="etiqueta-campo" text="Nombre *" />
+                                        <TextField fx:id="txtNombre" maxWidth="Infinity" promptText="Tu nombre" GridPane.rowIndex="1" />
+                                        <Label styleClass="etiqueta-campo" text="Apellidos *" GridPane.columnIndex="1" />
+                                        <TextField fx:id="txtApellidos" maxWidth="Infinity" promptText="Tus apellidos" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                        <Label styleClass="etiqueta-campo" text="Correo electrónico *" GridPane.rowIndex="2" />
+                                        <TextField fx:id="txtCorreo" maxWidth="Infinity" promptText="usuario@correo.com" GridPane.rowIndex="3" />
+                                        <Label styleClass="etiqueta-campo" text="Teléfono" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <TextField fx:id="txtTelefono" maxWidth="Infinity" promptText="600 123 456" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                                        <Label styleClass="etiqueta-campo" text="Contraseña *" GridPane.rowIndex="4" />
+                                        <PasswordField fx:id="txtPassword" maxWidth="Infinity" promptText="Contraseña" GridPane.rowIndex="5">
+                                            <tooltip>
+                                                <Tooltip text="Mínimo 8 caracteres, una mayúscula y un número" />
+                                            </tooltip>
+                                        </PasswordField>
+                                        <Label styleClass="etiqueta-campo" text="Repetir contraseña *" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                        <PasswordField fx:id="txtRepetir" maxWidth="Infinity" promptText="Repite la contraseña" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                                        <Label styleClass="nota" text="Mínimo 8 caracteres, una mayúscula y un número" GridPane.rowIndex="6" />
+                                        <Label fx:id="lblCoinciden" styleClass="texto-ok" text="✓ Las contraseñas coinciden" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                                        <HBox spacing="6.0" GridPane.rowIndex="7">
+                                            <children>
+                                                <Region fx:id="seg1" styleClass="segmento" HBox.hgrow="ALWAYS" />
+                                                <Region fx:id="seg2" styleClass="segmento" HBox.hgrow="ALWAYS" />
+                                                <Region fx:id="seg3" styleClass="segmento" HBox.hgrow="ALWAYS" />
+                                                <Region fx:id="seg4" styleClass="segmento" HBox.hgrow="ALWAYS" />
+                                            </children>
+                                            <GridPane.margin>
+                                                <Insets top="2.0" />
+                                            </GridPane.margin>
+                                        </HBox>
+                                    </children>
+                                </GridPane>
+
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <CheckBox fx:id="chkPrivacidad" mnemonicParsing="false" text="Acepto la" />
+                                        <Hyperlink onAction="#verPrivacidad" styleClass="enlace" text="política de privacidad" />
+                                        <Label text="y el tratamiento de mis datos *" />
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="8.0" />
+                                    </VBox.margin>
+                                </HBox>
+
+                                <Label fx:id="lblError" managed="false" styleClass="mensaje-error" visible="false" wrapText="true" />
+
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Button cancelButton="true" mnemonicParsing="false" onAction="#volver" styleClass="boton-secundario" text="‹  Volver" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="btnCrear" defaultButton="true" mnemonicParsing="false" onAction="#crearCuenta" prefWidth="180.0" styleClass="boton-principal" text="Crear cuenta" />
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="8.0" />
+                                    </VBox.margin>
+                                </HBox>
+
+                                <HBox alignment="CENTER_LEFT" spacing="2.0">
+                                    <children>
+                                        <Label styleClass="subtitulo" text="¿Ya tienes cuenta?" />
+                                        <Hyperlink onAction="#volver" styleClass="enlace" text="Inicia sesión" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </center>
+</BorderPane>
