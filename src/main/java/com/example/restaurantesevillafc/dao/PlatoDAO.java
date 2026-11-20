@@ -76,6 +76,28 @@ public final class PlatoDAO {
         }
         todos().add(plato);
     }
+    // Vuelve a meter un plato borrado con su mismo id (lo usa deshacer), asi conserva su foto
+    public static void restaurar(Plato plato){
+        String sql="INSERT INTO plato (id_plato,nombre,descripcion,alergenos,precio,disponible,id_categoria) "
+                +"VALUES (?,?,?,?,?,?,(SELECT id_categoria FROM categoria WHERE nombre=?))";
+        try(Connection con=Conexion.getConexion();
+            PreparedStatement ps=con.prepareStatement(sql)){
+            ps.setInt(1,plato.getId());
+            ps.setString(2,plato.getNombre());
+            ps.setString(3,plato.getDescripcion());
+            ps.setString(4,plato.getAlergenos());
+            ps.setDouble(5,plato.getPrecio());
+            ps.setBoolean(6,plato.isDisponible());
+            ps.setString(7,plato.getCategoria());
+            ps.executeUpdate();
+        }catch(SQLException e){
+            throw new RuntimeException(ErrorBD.mensaje(e));
+        }
+        // Se pone en su sitio segun el id para que la tabla siga en el mismo orden
+        int i=0;
+        while(i<todos().size()&&todos().get(i).getId()<plato.getId())i++;
+        todos().add(i,plato);
+    }
     public static void actualizar(Plato plato){
         String sql="UPDATE plato SET nombre=?,descripcion=?,alergenos=?,precio=?,disponible=?,"
                 +"id_categoria=(SELECT id_categoria FROM categoria WHERE nombre=?) WHERE id_plato=?";

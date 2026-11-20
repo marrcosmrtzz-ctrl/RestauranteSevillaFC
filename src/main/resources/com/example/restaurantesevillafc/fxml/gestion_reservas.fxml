@@ -27,12 +27,12 @@
                     </children>
                 </VBox>
                 <Region HBox.hgrow="ALWAYS" />
-                <Button fx:id="btnConfirmar" mnemonicParsing="false" onAction="#confirmar" styleClass="boton-principal" text="✓  Confirmar">
+                <Button fx:id="btnConfirmar" accessibleText="Confirmar la reserva seleccionada y asignarle mesa" mnemonicParsing="false" onAction="#confirmar" styleClass="boton-principal" text="✓  Confirmar">
                     <tooltip>
                         <Tooltip text="Confirma la reserva seleccionada (pide confirmación)" />
                     </tooltip>
                 </Button>
-                <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" styleClass="boton-peligro" text="✕  Cancelar">
+                <Button fx:id="btnCancelar" accessibleText="Cancelar la reserva seleccionada" mnemonicParsing="false" onAction="#cancelar" styleClass="boton-peligro" text="✕  Cancelar">
                     <tooltip>
                         <Tooltip text="Cancela la reserva seleccionada (pide confirmación)" />
                     </tooltip>
@@ -72,24 +72,25 @@
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
             <children>
-                <DatePicker fx:id="dpFecha" prefWidth="140.0" promptText="Todos los días">
+                <DatePicker fx:id="dpFecha" accessibleText="Filtrar por día" prefWidth="140.0" promptText="Todos los días">
                     <tooltip>
                         <Tooltip text="Ver solo las reservas de un día" />
                     </tooltip>
                 </DatePicker>
-                <ComboBox fx:id="cmbEstado" prefWidth="160.0" />
-                <TextField fx:id="txtBuscar" onAction="#filtrar" promptText="Buscar cliente, correo o nº de reserva..." HBox.hgrow="ALWAYS" />
-                <Button mnemonicParsing="false" onAction="#filtrar" styleClass="boton-filtrar" text="Filtrar" />
-                <Button mnemonicParsing="false" onAction="#limpiarFiltros" styleClass="boton-secundario" text="Limpiar" />
+                <ComboBox fx:id="cmbEstado" accessibleText="Filtrar por estado" prefWidth="160.0" />
+                <TextField fx:id="txtBuscar" accessibleText="Buscar por cliente, correo o número de reserva" onAction="#filtrar" promptText="Buscar cliente, correo o nº de reserva..." HBox.hgrow="ALWAYS" />
+                <Button accessibleText="Aplicar los filtros" mnemonicParsing="false" onAction="#filtrar" styleClass="boton-filtrar" text="Filtrar" />
+                <Button accessibleText="Quitar los filtros" mnemonicParsing="false" onAction="#limpiarFiltros" styleClass="boton-secundario" text="Limpiar" />
             </children>
         </HBox>
-        <TableView fx:id="tablaReservas" styleClass="tabla" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tablaReservas" accessibleText="Tabla de reservas de los clientes" styleClass="tabla" VBox.vgrow="ALWAYS">
             <columns>
                 <TableColumn fx:id="colId" prefWidth="60.0" text="ID" />
-                <TableColumn fx:id="colCliente" prefWidth="220.0" text="CLIENTE" />
+                <TableColumn fx:id="colCliente" prefWidth="200.0" text="CLIENTE" />
                 <TableColumn fx:id="colFecha" prefWidth="100.0" text="FECHA" />
                 <TableColumn fx:id="colHora" prefWidth="70.0" text="HORA" />
                 <TableColumn fx:id="colPersonas" prefWidth="80.0" text="PERSONAS" />
+                <TableColumn fx:id="colMesa" prefWidth="70.0" text="MESA" />
                 <TableColumn fx:id="colEstado" prefWidth="120.0" text="ESTADO" />
             </columns>
             <columnResizePolicy>

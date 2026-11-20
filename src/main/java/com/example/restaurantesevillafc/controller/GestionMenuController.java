@@ -26,7 +26,8 @@ public class GestionMenuController {
     @FXML private TableColumn<Plato, Number> colPrecio;
     @FXML private TableColumn<Plato, Boolean> colEstado;
     @FXML private Label lblTotal, lblResumen, lblModo, lblError;
-    @FXML private Button btnModificar, btnEliminar;
+    @FXML private Button btnModificar, btnEliminar, btnDeshacer, btnRehacer;
+    @FXML private Tooltip tipDeshacer, tipRehacer;
     @FXML private TextField txtNombre, txtPrecio;
     @FXML private ComboBox<String> cmbCategoria;
     @FXML private TextArea txtDescripcion;
@@ -51,6 +52,12 @@ public class GestionMenuController {
         // Modificar y eliminar solo se pueden usar con un plato seleccionado
         btnModificar.disableProperty().bind(tablaPlatos.getSelectionModel().selectedItemProperty().isNull());
         btnEliminar.disableProperty().bind(tablaPlatos.getSelectionModel().selectedItemProperty().isNull());
+        // Deshacer y rehacer solo se pueden pulsar si hay algo que deshacer o rehacer
+        btnDeshacer.disableProperty().bind(PlatoService.puedeDeshacerProperty().not());
+        btnRehacer.disableProperty().bind(PlatoService.puedeRehacerProperty().not());
+        PlatoService.puedeDeshacerProperty().addListener((obs, a, b) -> actualizarTextosHistorial());
+        PlatoService.puedeRehacerProperty().addListener((obs, a, b) -> actualizarTextosHistorial());
+        actualizarTextosHistorial();
 
         // Al seleccionar un plato se cargan sus datos en el formulario
         tablaPlatos.getSelectionModel().selectedItemProperty().addListener((obs, antes, ahora) -> {
@@ -84,13 +91,14 @@ public class GestionMenuController {
         Plato seleccionado = tablaPlatos.getSelectionModel().getSelectedItem();
         if (seleccionado == null) return;
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
-                "Se va a eliminar \"" + seleccionado.getNombre() + "\" de la carta. Esta acción no se puede deshacer.",
+                "Se va a eliminar \"" + seleccionado.getNombre() + "\" de la carta.\nSi te equivocas puedes deshacerlo con Ctrl+Z.",
                 ButtonType.YES, ButtonType.NO);
         confirm.setHeaderText("¿Eliminar este plato?");
         confirm.showAndWait().filter(b -> b == ButtonType.YES).ifPresent(b -> {
             try {
+                // La foto no se borra para que siga ahí si se deshace el borrado
                 platoService.eliminar(seleccionado);
-                fotoService.eliminar(seleccionado);
+                actualizarTextosHistorial();
                 tablaPlatos.getSelectionModel().clearSelection();
                 limpiar();
             } catch (Exception e) {
@@ -115,6 +123,7 @@ public class GestionMenuController {
                 cargarEnFormulario(platoEditando);
             }
             actualizarResumen();
+            actualizarTextosHistorial();
         } catch (Exception e) {
             mostrarError(e.getMessage());
         }
@@ -183,6 +192,45 @@ public class GestionMenuController {
     private void ocultarError() {
         lblError.setVisible(false);
         lblError.setManaged(false);
+    }
+
+    // Deshace el ultimo cambio de la carta (Ctrl+Z) y selecciona el plato para que se vea lo que ha cambiado
+    @FXML public void deshacer() {
+        try {
+            mostrarCambio(platoService.deshacer());
+        } catch (Exception e) {
+            mostrarError(e.getMessage());
+        }
+    }
+
+    @FXML public void rehacer() {
+        try {
+            mostrarCambio(platoService.rehacer());
+        } catch (Exception e) {
+            mostrarError(e.getMessage());
+        }
+    }
+
+    private void mostrarCambio(Plato plato) {
+        tablaPlatos.refresh();
+        actualizarResumen();
+        actualizarTextosHistorial();
+        if (tablaPlatos.getItems().contains(plato)) {
+            tablaPlatos.getSelectionModel().select(plato);
+            tablaPlatos.scrollTo(plato);
+            cargarEnFormulario(plato);
+        } else {
+            tablaPlatos.getSelectionModel().clearSelection();
+            limpiar();
+        }
+    }
+
+    // El aviso de los botones dice que se va a deshacer, por ejemplo "Deshacer: Eliminar Salmorejo (Ctrl+Z)"
+    private void actualizarTextosHistorial() {
+        String d = platoService.textoDeshacer();
+        String r = platoService.textoRehacer();
+        tipDeshacer.setText(d.isEmpty() ? "Deshacer (Ctrl+Z)" : "Deshacer: " + d + " (Ctrl+Z)");
+        tipRehacer.setText(r.isEmpty() ? "Rehacer (Ctrl+Y)" : "Rehacer: " + r + " (Ctrl+Y)");
     }
 
     private void actualizarResumen() {

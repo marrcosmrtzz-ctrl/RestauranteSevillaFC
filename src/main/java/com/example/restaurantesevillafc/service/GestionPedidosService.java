@@ -23,6 +23,28 @@ public class GestionPedidosService {
         return PedidoDAO.todos();
     }
 
+    // Los pedidos que ya hay, sin volver a leerlos
+    public ObservableList<Pedido> pedidosActuales() {
+        return PedidoDAO.todos();
+    }
+
+    // Tarea que vuelve a leer los pedidos en segundo plano para que la pantalla no se quede congelada
+    public javafx.concurrent.Task<java.util.List<Pedido>> tareaRecargar() {
+        // Los platos se cargan antes aqui, porque los pedidos los necesitan y su lista la usa la pantalla
+        com.example.restaurantesevillafc.dao.PlatoDAO.todos();
+        javafx.concurrent.Task<java.util.List<Pedido>> tarea = new javafx.concurrent.Task<>() {
+            @Override protected java.util.List<Pedido> call() {
+                return PedidoDAO.leer();
+            }
+        };
+        return tarea;
+    }
+
+    // Pone en la lista los pedidos que ha leido la tarea (en el hilo de la pantalla)
+    public void ponerPedidos(java.util.List<Pedido> leidos) {
+        PedidoDAO.ponerPedidos(leidos);
+    }
+
     public static boolean estaFinalizado(Pedido pedido) {
         return "ENTREGADO".equals(pedido.getEstado());
     }

@@ -25,6 +25,15 @@ public final class PedidoDAO {
     }
     // Lee todos los pedidos con sus platos
     public static void recargar(){
+        ponerPedidos(leer());
+    }
+    // Pone en la lista los pedidos leidos (se llama en el hilo de la pantalla)
+    public static void ponerPedidos(List<Pedido> leidos){
+        PEDIDOS.setAll(leidos);
+        cargados=true;
+    }
+    // Solo lee de la base de datos, sin tocar la lista. Se puede llamar en segundo plano
+    public static List<Pedido> leer(){
         Map<Integer,List<LineaPedido>> lineas=new LinkedHashMap<>();
         List<Pedido> leidos=new ArrayList<>();
         try(Connection con=Conexion.getConexion()){
@@ -54,8 +63,7 @@ public final class PedidoDAO {
         }catch(SQLException e){
             throw new RuntimeException(ErrorBD.mensaje(e));
         }
-        PEDIDOS.setAll(leidos);
-        cargados=true;
+        return leidos;
     }
     // Inserta el pedido y sus lineas a la vez: si falla algo no se guarda nada
     public static Pedido insertar(int idUsuario,String observaciones,List<LineaPedido> lineas){
