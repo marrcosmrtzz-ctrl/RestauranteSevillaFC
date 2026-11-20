@@ -1,5 +1,6 @@
 package com.example.restaurantesevillafc.controller;
 import com.example.restaurantesevillafc.App;
+import com.example.restaurantesevillafc.config.Tema;
 import com.example.restaurantesevillafc.model.Reserva;
 import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.PedidoService;
@@ -25,6 +26,8 @@ public class ReservarMesaController {
     @FXML private ToggleGroup grupoHoras;
     @FXML private Button btnMenosPersonas,btnMasPersonas,btnSolicitar,btnCancelar;
     @FXML private TextField txtObservaciones;
+    @FXML private CheckMenuItem itemTemaOscuro;
+    @FXML private MenuItem itemAumentarLetra,itemReducirLetra,itemLetraNormal;
     private final ReservaService reservaService=new ReservaService();
     private final PedidoService pedidoService=new PedidoService();
     private final DateTimeFormatter formatoFecha=DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -70,6 +73,7 @@ public class ReservarMesaController {
         setUsuario(UsuarioService.getUsuarioConectado());
         actualizarPersonas();
         actualizarResumen();
+        actualizarMenuTema();
     }
     public void setUsuario(Usuario usuario){
         this.usuario=usuario;
@@ -188,8 +192,8 @@ public class ReservarMesaController {
             Parent root=loader.load();
             Stage stage=(Stage)tablaReservas.getScene().getWindow();
             Scene scene=new Scene(root,stage.getScene().getWidth(),stage.getScene().getHeight());
-            // Le ponemos los estilos igual que en App, porque el login no los trae en su FXML
-            scene.getStylesheets().add(App.class.getResource("css/estilos.css").toExternalForm());
+            // Le ponemos los estilos y el tema que haya elegido el usuario, porque el FXML no los trae
+            Tema.aplicar(scene);
             stage.setScene(scene);
             return loader.getController();
         }catch(Exception e){
@@ -207,7 +211,7 @@ public class ReservarMesaController {
         confirm.setHeaderText("Cerrar sesión");
         confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->{
             // Al salir se borra el pedido y el usuario para que el siguiente cliente empiece de cero
-            pedidoService.vaciar();
+            pedidoService.reiniciar();
             UsuarioService.cerrarSesion();
             abrirPantalla("login.fxml");
         });
@@ -216,6 +220,36 @@ public class ReservarMesaController {
         Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,"¿Seguro que quieres salir?",ButtonType.YES,ButtonType.NO);
         confirm.setHeaderText("Salir");
         confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->Platform.exit());
+    }
+    // Pone el menu Ver como esta ahora, la marca del tema oscuro y que opciones de letra se pueden usar
+    private void actualizarMenuTema(){
+        itemTemaOscuro.setSelected(Tema.isOscuro());
+        itemAumentarLetra.setDisable(Tema.esLetraMaxima());
+        itemReducirLetra.setDisable(Tema.esLetraMinima());
+        itemLetraNormal.setDisable(Tema.esLetraMinima());
+    }
+    @FXML private void cambiarTema(){
+        Tema.cambiarTema(tablaReservas.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void aumentarLetra(){
+        Tema.aumentarLetra(tablaReservas.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void reducirLetra(){
+        Tema.reducirLetra(tablaReservas.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void letraNormal(){
+        Tema.letraNormal(tablaReservas.getScene());
+        actualizarMenuTema();
+    }
+    // Explica en pocos pasos como se usa esta pantalla, se abre con F1
+    @FXML private void verAyuda(){
+        Alert ayuda=new Alert(Alert.AlertType.INFORMATION,"1. Elige el día en el calendario y después una hora. Las horas tachadas ya no tienen mesas libres.\n2. Con − y + eliges cuántas personas sois, de 1 a 10.\n3. Pulsa «Solicitar reserva». Cuando el restaurante la confirme lo verás en Mis reservas.\n\nPara cancelar una reserva, selecciónala en Mis reservas y pulsa «Cancelar reserva».\n\nEn el menú Ver puedes poner el tema oscuro (Ctrl+T) y agrandar o reducir la letra (Ctrl + y Ctrl -).");
+        ayuda.setHeaderText("Cómo reservar mesa");
+        ayuda.setTitle("Ayuda");
+        ayuda.showAndWait();
     }
     @FXML private void acercaDe(){
         Alert info=new Alert(Alert.AlertType.INFORMATION,"Proyecto de Desarrollo de Interfaces · 2.º DAM\nEquipo Sevilla FC");

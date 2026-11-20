@@ -1,0 +1,174 @@
+/* Letra grande. Se carga encima de estilos.css cuando el usuario agranda la letra en el menu Ver */
+/* Son las mismas clases de estilos.css con la letra un poco mas grande */
+
+.root {
+    -fx-font-size: 15px;
+}
+
+.etiqueta-dorada {
+    -fx-font-size: 13px;
+}
+
+.marca {
+    -fx-font-size: 18px;
+}
+
+.marca-sub {
+    -fx-font-size: 10px;
+}
+
+.nota {
+    -fx-font-size: 13px;
+}
+
+.texto-ok {
+    -fx-font-size: 13px;
+}
+
+.badge {
+    -fx-font-size: 12px;
+}
+
+.contador {
+    -fx-font-size: 13px;
+}
+
+.tabla .column-header .label {
+    -fx-font-size: 12px;
+}
+
+.etiqueta-total {
+    -fx-font-size: 17px;
+}
+
+.boton-cantidad {
+    -fx-font-size: 18px;
+}
+
+.etiqueta-seccion {
+    -fx-font-size: 12px;
+}
+
+.num-categoria {
+    -fx-font-size: 13px;
+}
+
+.menu-dia-hoy {
+    -fx-font-size: 12px;
+}
+
+.menu-dia-texto {
+    -fx-font-size: 13px;
+}
+
+.nombre-plato {
+    -fx-font-size: 18px;
+}
+
+.chip {
+    -fx-font-size: 12px;
+}
+
+.precio-plato {
+    -fx-font-size: 20px;
+}
+
+.selector-fecha .text-field {
+    -fx-font-size: 16px;
+}
+
+.num-personas {
+    -fx-font-size: 18px;
+}
+
+.pantalla-trabajador .marca-sub-clara {
+    -fx-font-size: 10px;
+}
+
+.pantalla-trabajador .titulo-seccion-lateral {
+    -fx-font-size: 12px;
+}
+
+.pantalla-trabajador .tabla .column-header, .pantalla-trabajador .tabla .column-header-background, .pantalla-trabajador .tabla .filler {
+    -fx-font-size: 12px;
+}
+
+.pantalla-trabajador .plato-descripcion {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .etiqueta-categoria {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .estado-disponible {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .estado-agotado {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .titulo-formulario {
+    -fx-font-size: 17px;
+}
+
+.pantalla-trabajador .etiqueta-modo {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .badge-lateral {
+    -fx-font-size: 12px;
+}
+
+.pantalla-trabajador .badge-pestana {
+    -fx-font-size: 12px;
+}
+
+.pantalla-trabajador .badge-pestana-gris {
+    -fx-font-size: 12px;
+}
+
+.pantalla-trabajador .estado-recibido {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .estado-preparacion {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .estado-entregado {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .nota-info {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .paso, .pantalla-trabajador .paso-actual, .pantalla-trabajador .paso-hecho {
+    -fx-font-size: 10px;
+}
+
+.pantalla-trabajador .texto-paso {
+    -fx-font-size: 10px;
+}
+
+.pantalla-trabajador .texto-paso-actual {
+    -fx-font-size: 10px;
+}
+
+.pantalla-trabajador .caja-observaciones {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .caja-observaciones-vacia {
+    -fx-font-size: 13px;
+}
+
+.pantalla-trabajador .ticket {
+    -fx-font-size: 14px;
+}
+
+.pantalla-trabajador .boton-foto {
+    -fx-font-size: 13px;
+}

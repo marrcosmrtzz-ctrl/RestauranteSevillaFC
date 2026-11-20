@@ -1,5 +1,6 @@
 package com.example.restaurantesevillafc.controller;
 import com.example.restaurantesevillafc.App;
+import com.example.restaurantesevillafc.config.Tema;
 import com.example.restaurantesevillafc.model.LineaPedido;
 import com.example.restaurantesevillafc.model.Pedido;
 import com.example.restaurantesevillafc.model.Plato;
@@ -24,6 +25,9 @@ public class MiPedidoController {
     @FXML private Label lblNumPlatos,lblTextoSubtotal,lblSubtotal,lblIva,lblTotal,lblContador,lblSaludo,lblInicial;
     @FXML private Button btnRestar,btnSumar,btnQuitar,btnConfirmar;
     @FXML private TextArea txtObservaciones;
+    @FXML private MenuItem itemDeshacer,itemRehacer;
+    @FXML private CheckMenuItem itemTemaOscuro;
+    @FXML private MenuItem itemAumentarLetra,itemReducirLetra,itemLetraNormal;
     private final PedidoService pedidoService=new PedidoService();
     private Usuario usuario;
 
@@ -49,6 +53,7 @@ public class MiPedidoController {
         setUsuario(UsuarioService.getUsuarioConectado());
         tablaPedido.getSelectionModel().selectFirst();
         actualizarResumen();
+        actualizarMenuTema();
     }
     // Busca la foto pequena del plato, se llama plato y el id con _mini, si no hay foto la columna se queda vacia
     private ImageView fotoPequena(Plato plato){
@@ -75,6 +80,9 @@ public class MiPedidoController {
         lblIva.setText(String.format("%.2f €",pedidoService.ivaIncluido()));
         lblTotal.setText(String.format("%.2f €",pedidoService.total()));
         btnConfirmar.setDisable(pedidoService.getCarrito().isEmpty());
+        // Deshacer y rehacer solo se pueden usar si hay algo que deshacer o rehacer
+        itemDeshacer.setDisable(!pedidoService.puedeDeshacer());
+        itemRehacer.setDisable(!pedidoService.puedeRehacer());
         tablaPedido.refresh();
     }
     @FXML private void sumar(){
@@ -114,6 +122,16 @@ public class MiPedidoController {
             actualizarResumen();
         });
     }
+    @FXML private void deshacer(){
+        pedidoService.deshacer();
+        tablaPedido.getSelectionModel().selectFirst();
+        actualizarResumen();
+    }
+    @FXML private void rehacer(){
+        pedidoService.rehacer();
+        tablaPedido.getSelectionModel().selectFirst();
+        actualizarResumen();
+    }
     @FXML private void confirmar(){
         Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,
                 "Vas a enviar a cocina "+pedidoService.totalArticulos()+" platos por "+String.format("%.2f €",pedidoService.total())+".\nUna vez enviado ya no podrás cambiarlo.",
@@ -151,12 +169,11 @@ public class MiPedidoController {
         confirm.setHeaderText("Cerrar sesión");
         confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->{
             // Al salir se borra el pedido para que el siguiente cliente empiece de cero
-            pedidoService.vaciar();
+            pedidoService.reiniciar();
             UsuarioService.cerrarSesion();
             abrirPantalla("fxml/login.fxml");
         });
     }
-    // Reservar mesa se conecta cuando este su pantalla
     // Abre la pantalla de Reservar mesa (la hace Eduardo)
     @FXML private void irAReservar(){abrirPantalla("fxml/reservar_mesa.fxml");}
     @FXML private void salir(){
@@ -165,6 +182,36 @@ public class MiPedidoController {
         Alert confirm=new Alert(Alert.AlertType.CONFIRMATION,mensaje,ButtonType.YES,ButtonType.NO);
         confirm.setHeaderText("Salir");
         confirm.showAndWait().filter(b->b==ButtonType.YES).ifPresent(b->Platform.exit());
+    }
+    // Pone el menu Ver como esta ahora, la marca del tema oscuro y que opciones de letra se pueden usar
+    private void actualizarMenuTema(){
+        itemTemaOscuro.setSelected(Tema.isOscuro());
+        itemAumentarLetra.setDisable(Tema.esLetraMaxima());
+        itemReducirLetra.setDisable(Tema.esLetraMinima());
+        itemLetraNormal.setDisable(Tema.esLetraMinima());
+    }
+    @FXML private void cambiarTema(){
+        Tema.cambiarTema(tablaPedido.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void aumentarLetra(){
+        Tema.aumentarLetra(tablaPedido.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void reducirLetra(){
+        Tema.reducirLetra(tablaPedido.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void letraNormal(){
+        Tema.letraNormal(tablaPedido.getScene());
+        actualizarMenuTema();
+    }
+    // Explica en pocos pasos como se usa esta pantalla, se abre con F1
+    @FXML private void verAyuda(){
+        Alert ayuda=new Alert(Alert.AlertType.INFORMATION,"1. Selecciona un plato en la tabla y cambia la cantidad con − y +, o quítalo con «Quitar plato».\n2. Si quieres algo especial, escríbelo en Observaciones para cocina.\n3. Pulsa «Confirmar pedido» para enviarlo a cocina. Una vez enviado ya no se puede cambiar.\n\nSi te equivocas, en Editar puedes deshacer (Ctrl+Z) y rehacer (Ctrl+Y).\n\nEn el menú Ver puedes poner el tema oscuro (Ctrl+T) y agrandar o reducir la letra (Ctrl + y Ctrl -).");
+        ayuda.setHeaderText("Cómo usar Mi pedido");
+        ayuda.setTitle("Ayuda");
+        ayuda.showAndWait();
     }
     @FXML private void acercaDe(){
         Alert info=new Alert(Alert.AlertType.INFORMATION,"Proyecto de Desarrollo de Interfaces · 2.º DAM\nEquipo Sevilla FC");

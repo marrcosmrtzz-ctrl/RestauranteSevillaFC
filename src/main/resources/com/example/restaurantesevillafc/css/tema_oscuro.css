@@ -1,0 +1,503 @@
+/* Tema oscuro. Se carga encima de estilos.css cuando el usuario lo elige en el menu Ver */
+/* Cambia los fondos claros por oscuros y las letras oscuras por claras, el rojo del Sevilla se queda */
+
+.root {
+    -fx-base: #2f2a28;
+    -fx-background: #171413;
+    -fx-control-inner-background: #2a2523;
+    -fx-control-inner-background-alt: #2f2926;
+    -fx-accent: #c8102e;
+    -fx-focus-color: #c8102e;
+    -fx-faint-focus-color: transparent;
+    -fx-prompt-text-fill: #a39a94;
+}
+
+/* Texto de ayuda de los campos, para que se lea sobre el fondo oscuro */
+.text-field, .password-field, .text-area, .date-picker .text-field {
+    -fx-prompt-text-fill: #a39a94;
+    -fx-text-fill: #f1ece6;
+}
+
+/* Tablas, listas y cuadros de texto */
+.table-view, .list-view, .text-area .content, .scroll-pane > .viewport {
+    -fx-background-color: #2a2523;
+}
+.table-view .column-header-background, .table-view .column-header {
+    -fx-background-color: #332d2a;
+}
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}
+.menu-bar {
+    -fx-background-color: #211d1c;
+}
+
+/* A partir de aqui son las mismas clases de estilos.css con los colores cambiados */
+
+.fondo {
+    -fx-background-color: #171413;
+}
+
+.marca-sub {
+    -fx-text-fill: #b9b0aa;
+}
+
+.subtitulo {
+    -fx-text-fill: #b9b0aa;
+}
+
+.text-field, .password-field {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.selector-rol {
+    -fx-background-color: #3a3330;
+}
+
+.selector-rol .toggle-button {
+    -fx-text-fill: #b9b0aa;
+}
+
+.selector-rol .toggle-button:selected {
+    -fx-background-color: #2a2523;
+    -fx-text-fill: #f1ece6;
+}
+
+.mensaje-error {
+    -fx-text-fill: #ff6b7d;
+    -fx-background-color: #4a1d25;
+}
+
+.enlace {
+    -fx-text-fill: #ff6b7d;
+}
+
+.nota {
+    -fx-text-fill: #b9b0aa;
+}
+
+.texto-ok {
+    -fx-text-fill: #6fcf8a;
+}
+
+.segmento {
+    -fx-background-color: #3a3330;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #2a2523;
+}
+
+.barra-cliente {
+    -fx-background-color: #2a2523;
+    -fx-border-color: transparent transparent #4a4340 transparent;
+}
+
+.nav-boton {
+    -fx-text-fill: #f1ece6;
+}
+
+.nav-boton:hover {
+    -fx-background-color: #332d2a;
+}
+
+.nav-boton-activo .badge {
+    -fx-background-color: #2a2523;
+    -fx-text-fill: #ff6b7d;
+}
+
+.avatar {
+    -fx-background-color: #4a1d25;
+}
+
+.avatar-texto {
+    -fx-text-fill: #ff6b7d;
+}
+
+.tarjeta {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.boton-secundario {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #332d2a;
+}
+
+.contador {
+    -fx-text-fill: #b9b0aa;
+}
+
+.text-area {
+    -fx-background-color: #4a4340, #2a2523;
+}
+
+.text-area:focused {
+    -fx-background-color: #c8102e, #2a2523;
+}
+
+.text-area .content {
+    -fx-background-color: #2a2523;
+}
+
+.tabla {
+    -fx-background-color: #3a3330, #2a2523;
+}
+
+.tabla .column-header-background, .tabla .filler {
+    -fx-background-color: #2a2523;
+}
+
+.tabla .column-header {
+    -fx-background-color: #2a2523;
+    -fx-border-color: transparent transparent #4a4340 transparent;
+}
+
+.tabla .column-header .label {
+    -fx-text-fill: #b9b0aa;
+}
+
+.tabla .table-row-cell {
+    -fx-background-color: #2a2523;
+    -fx-border-color: transparent transparent #4a4340 transparent;
+}
+
+.tabla .table-row-cell:selected {
+    -fx-background-color: #4a1d25;
+}
+
+.tabla .table-cell {
+    -fx-text-fill: #f1ece6;
+}
+
+.tabla .placeholder .label {
+    -fx-text-fill: #b9b0aa;
+}
+
+.precio-total {
+    -fx-text-fill: #ff6b7d;
+}
+
+.boton-cantidad {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+    -fx-text-fill: #ff6b7d;
+}
+
+.boton-cantidad:hover {
+    -fx-background-color: #4a1d25;
+}
+
+.boton-peligro {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #7a3542;
+    -fx-text-fill: #ff6b7d;
+}
+
+.boton-peligro:hover {
+    -fx-background-color: #4a1d25;
+}
+
+.etiqueta-seccion {
+    -fx-text-fill: #b9b0aa;
+}
+
+.boton-categoria {
+    -fx-text-fill: #f1ece6;
+}
+
+.boton-categoria:hover {
+    -fx-background-color: #332d2a;
+}
+
+.boton-categoria:selected {
+    -fx-background-color: #4a1d25;
+    -fx-text-fill: #ff6b7d;
+}
+
+.mensaje-ok {
+    -fx-text-fill: #6fcf8a;
+    -fx-background-color: #1c3b26;
+}
+
+.texto-nav {
+    -fx-text-fill: #f1ece6;
+}
+
+.boton-icono {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.boton-icono:hover {
+    -fx-background-color: #332d2a;
+}
+
+.texto-categoria {
+    -fx-text-fill: #f1ece6;
+}
+
+.num-categoria {
+    -fx-text-fill: #b9b0aa;
+}
+
+.boton-categoria:selected .texto-categoria, .boton-categoria:selected .num-categoria {
+    -fx-text-fill: #ff6b7d;
+}
+
+.boton-blanco {
+    -fx-background-color: #2a2523;
+    -fx-text-fill: #ff6b7d;
+}
+
+.boton-blanco:hover {
+    -fx-background-color: #4a1d25;
+}
+
+.tarjeta-plato {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.chip {
+    -fx-background-color: #332d2a;
+    -fx-text-fill: #b9b0aa;
+}
+
+.selector-fecha {
+    -fx-background-color: #4a4340, #2a2523;
+}
+
+.boton-hora {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.boton-hora:hover {
+    -fx-background-color: #4a1d25;
+}
+
+.boton-hora:disabled {
+    -fx-background-color: #332d2a;
+    -fx-border-color: #4a4340;
+}
+
+.selector-personas {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.resumen-reserva {
+    -fx-background-color: #332d2a;
+}
+
+.pantalla-trabajador .marca-sub-clara {
+    -fx-text-fill: #9c938e;
+}
+
+.pantalla-trabajador .titulo-seccion-lateral {
+    -fx-text-fill: #b9b0aa;
+}
+
+.pantalla-trabajador .boton-secundario {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.pantalla-trabajador .boton-peligro {
+    -fx-background-color: #2a2523;
+    -fx-text-fill: #ff6b7d;
+}
+
+.pantalla-trabajador .tabla {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.pantalla-trabajador .tabla .column-header, .pantalla-trabajador .tabla .column-header-background, .pantalla-trabajador .tabla .filler {
+    -fx-background-color: #2a2523;
+    -fx-text-fill: #b9b0aa;
+}
+
+.pantalla-trabajador .tabla .table-row-cell {
+    -fx-background-color: #2a2523;
+}
+
+.pantalla-trabajador .tabla .table-row-cell:selected {
+    -fx-background-color: #4a1d25;
+}
+
+.pantalla-trabajador .tabla .table-cell {
+    -fx-text-fill: #f1ece6;
+}
+
+.pantalla-trabajador .plato-descripcion {
+    -fx-text-fill: #b9b0aa;
+}
+
+.pantalla-trabajador .etiqueta-categoria {
+    -fx-background-color: #332d2a;
+}
+
+.pantalla-trabajador .estado-disponible {
+    -fx-text-fill: #6fcf8a;
+    -fx-background-color: #1c3b26;
+}
+
+.pantalla-trabajador .estado-agotado {
+    -fx-text-fill: #ff6b7d;
+    -fx-background-color: #4a1d25;
+}
+
+.pantalla-trabajador .panel-formulario {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.pantalla-trabajador .etiqueta-modo {
+    -fx-text-fill: #ff6b7d;
+    -fx-background-color: #4a1d25;
+}
+
+.pantalla-trabajador .combo-box, .pantalla-trabajador .text-area {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.pantalla-trabajador .text-area .content {
+    -fx-background-color: #2a2523;
+}
+
+.pantalla-trabajador .check-box:selected .mark {
+    -fx-background-color: #2a2523;
+}
+
+.pantalla-trabajador .badge-lateral {
+    -fx-text-fill: #f1ece6;
+}
+
+.pantalla-trabajador .selector-pestanas {
+    -fx-background-color: #3a3330;
+}
+
+.pantalla-trabajador .pestana {
+    -fx-text-fill: #b9b0aa;
+}
+
+.pantalla-trabajador .pestana:selected {
+    -fx-background-color: #2a2523;
+    -fx-text-fill: #f1ece6;
+}
+
+.pantalla-trabajador .badge-pestana-gris {
+    -fx-text-fill: #b9b0aa;
+}
+
+.pantalla-trabajador .estado-recibido {
+    -fx-text-fill: #8fb0ff;
+    -fx-background-color: #1e2a4d;
+}
+
+.pantalla-trabajador .estado-preparacion {
+    -fx-text-fill: #e8b84a;
+    -fx-background-color: #4a3c16;
+}
+
+.pantalla-trabajador .estado-entregado {
+    -fx-text-fill: #b9b0aa;
+    -fx-background-color: #332d2a;
+}
+
+.pantalla-trabajador .nota-info {
+    -fx-background-color: #332d2a;
+    -fx-text-fill: #b9b0aa;
+}
+
+.pantalla-trabajador .paso {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #5a524e;
+}
+
+.pantalla-trabajador .paso-actual {
+    -fx-background-color: #2a2523;
+}
+
+.pantalla-trabajador .linea-paso {
+    -fx-background-color: #4a4340;
+}
+
+.pantalla-trabajador .texto-paso {
+    -fx-text-fill: #b9b0aa;
+}
+
+.pantalla-trabajador .texto-paso-actual {
+    -fx-text-fill: #ff6b7d;
+}
+
+.pantalla-trabajador .total-pedido {
+    -fx-text-fill: #ff6b7d;
+}
+
+.pantalla-trabajador .caja-observaciones {
+    -fx-background-color: #4a3c16;
+    -fx-text-fill: #e8b84a;
+}
+
+.pantalla-trabajador .caja-observaciones-vacia {
+    -fx-text-fill: #b9b0aa;
+}
+
+.pantalla-trabajador .caja-foto {
+    -fx-background-color: #332d2a;
+}
+
+.pantalla-trabajador .boton-foto {
+    -fx-background-color: rgba(42, 37, 35, 0.92);
+}
+
+.pantalla-trabajador .boton-foto:hover {
+    -fx-background-color: #2a2523;
+}
+
+.pantalla-trabajador .hueco-foto-mini {
+    -fx-background-color: #332d2a;
+}
+
+.pantalla-trabajador .tarjeta-resumen {
+    -fx-background-color: #2a2523;
+    -fx-border-color: #4a4340;
+}
+
+.pantalla-trabajador .numero-resumen-amarillo {
+    -fx-text-fill: #e8b84a;
+}
+
+.pantalla-trabajador .numero-resumen-verde {
+    -fx-text-fill: #6fcf8a;
+}
+
+.pantalla-trabajador .numero-resumen-rojo {
+    -fx-text-fill: #ff6b7d;
+}
+
+.pantalla-trabajador .boton-filtrar {
+    -fx-background-color: #4a1d25;
+    -fx-text-fill: #ff6b7d;
+}
+
+.pantalla-trabajador .boton-filtrar:hover {
+    -fx-background-color: #5c2430;
+}
+
+.pantalla-trabajador .circulo-cliente {
+    -fx-background-color: #4a1d25;
+}
+
+.pantalla-trabajador .inicial-cliente {
+    -fx-text-fill: #ff6b7d;
+}
