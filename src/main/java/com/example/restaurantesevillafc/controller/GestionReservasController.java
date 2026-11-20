@@ -26,7 +26,7 @@ public class GestionReservasController {
     @FXML private TableView<Reserva> tablaReservas;
     @FXML private TableColumn<Reserva, Number> colId, colPersonas;
     @FXML private TableColumn<Reserva, Reserva> colCliente, colFecha, colHora;
-    @FXML private TableColumn<Reserva, String> colEstado;
+    @FXML private TableColumn<Reserva, String> colEstado, colMesa;
 
     private static final DateTimeFormatter FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter HORA = DateTimeFormatter.ofPattern("HH:mm");
@@ -35,6 +35,8 @@ public class GestionReservasController {
 
     @FXML public void initialize() {
         configurarColumnas();
+        // La mesa que tiene cada reserva confirmada
+        colMesa.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(reservasService.textoMesa(c.getValue())));
         // Ordenadas por dia y hora, las mas proximas arriba
         javafx.collections.ObservableList<Reserva> reservas = reservasService.listarReservas();
         filtradas = new FilteredList<>(reservas);
@@ -103,6 +105,12 @@ public class GestionReservasController {
         if (r == null) return;
         String texto = "Reserva #" + r.getId() + " de " + reservasService.nombreCliente(r) + "\n"
                 + r.getFecha().format(FECHA) + " a las " + r.getHora().format(HORA) + " · " + r.getNumPersonas() + " personas";
+        // Antes de confirmar se dice que mesa se le va a poner
+        if (confirmar && "PENDIENTE".equals(r.getEstado())) {
+            com.example.restaurantesevillafc.model.Mesa mesa = reservasService.mesaLibre(r);
+            texto += mesa == null ? "\n\nNo queda ninguna mesa libre para esas personas a esa hora."
+                    : "\n\nSe le asignará la mesa " + mesa.getNumero() + " (" + mesa.getCapacidad() + " personas).";
+        }
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, texto, ButtonType.YES, ButtonType.NO);
         confirm.setHeaderText(confirmar ? "¿Confirmar esta reserva?" : "¿Cancelar esta reserva? El cliente la verá como cancelada.");
         confirm.showAndWait().filter(b -> b == ButtonType.YES).ifPresent(b -> {
@@ -129,10 +137,11 @@ public class GestionReservasController {
         ocultarError();
         if (r == null) {
             lblObservaciones.setText("Selecciona una reserva para ver sus observaciones.");
-        } else if (r.getObservaciones() == null || r.getObservaciones().isBlank()) {
-            lblObservaciones.setText("Reserva #" + r.getId() + ": sin observaciones.");
         } else {
-            lblObservaciones.setText("Reserva #" + r.getId() + ": " + r.getObservaciones());
+            String mesa = reservasService.textoMesa(r);
+            String cabecera = "Reserva #" + r.getId() + ("—".equals(mesa) ? "" : " · " + mesa);
+            boolean sinObs = r.getObservaciones() == null || r.getObservaciones().isBlank();
+            lblObservaciones.setText(cabecera + ": " + (sinObs ? "sin observaciones." : r.getObservaciones()));
         }
     }
 
