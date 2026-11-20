@@ -31,26 +31,36 @@
                 </VBox>
                 <HBox alignment="CENTER_LEFT" spacing="8.0">
                     <children>
-                        <Button fx:id="btnAnadir" mnemonicParsing="false" onAction="#nuevoPlato" styleClass="boton-principal" text="+ Añadir plato">
+                        <Button fx:id="btnAnadir" minWidth="-Infinity" accessibleText="Añadir un plato nuevo" mnemonicParsing="false" onAction="#nuevoPlato" styleClass="boton-principal" text="+ Añadir plato">
                             <tooltip>
                                 <Tooltip text="Vacía el formulario para crear un plato nuevo" />
                             </tooltip>
                         </Button>
-                        <Button fx:id="btnModificar" mnemonicParsing="false" onAction="#modificarPlato" styleClass="boton-secundario" text="Modificar">
+                        <Button fx:id="btnModificar" minWidth="-Infinity" accessibleText="Modificar el plato seleccionado" mnemonicParsing="false" onAction="#modificarPlato" styleClass="boton-secundario" text="Modificar">
                             <tooltip>
                                 <Tooltip text="Edita el plato seleccionado" />
                             </tooltip>
                         </Button>
-                        <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminarPlato" styleClass="boton-peligro" text="Eliminar">
+                        <Button fx:id="btnEliminar" minWidth="-Infinity" accessibleText="Eliminar el plato seleccionado" mnemonicParsing="false" onAction="#eliminarPlato" styleClass="boton-peligro" text="Eliminar">
                             <tooltip>
                                 <Tooltip text="Elimina el plato seleccionado (pide confirmación)" />
+                            </tooltip>
+                        </Button>
+                        <Button fx:id="btnDeshacer" minWidth="-Infinity" accessibleText="Deshacer el último cambio" mnemonicParsing="false" onAction="#deshacer" styleClass="boton-secundario" text="↶">
+                            <tooltip>
+                                <Tooltip fx:id="tipDeshacer" text="Deshacer (Ctrl+Z)" />
+                            </tooltip>
+                        </Button>
+                        <Button fx:id="btnRehacer" minWidth="-Infinity" accessibleText="Rehacer el último cambio deshecho" mnemonicParsing="false" onAction="#rehacer" styleClass="boton-secundario" text="↷">
+                            <tooltip>
+                                <Tooltip fx:id="tipRehacer" text="Rehacer (Ctrl+Y)" />
                             </tooltip>
                         </Button>
                         <Region HBox.hgrow="ALWAYS" />
                         <Label fx:id="lblResumen" styleClass="subtitulo" />
                     </children>
                 </HBox>
-                <TableView fx:id="tablaPlatos" styleClass="tabla" VBox.vgrow="ALWAYS">
+                <TableView fx:id="tablaPlatos" accessibleText="Tabla de platos de la carta" styleClass="tabla" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colPlato" prefWidth="260.0" text="PLATO" />
                         <TableColumn fx:id="colCategoria" prefWidth="110.0" text="CATEGORÍA" />
@@ -86,7 +96,7 @@
                     <children>
                         <Label fx:id="lblSinFoto" styleClass="subtitulo" text="Sin foto" />
                         <ImageView fx:id="imgFoto" fitHeight="120.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true" />
-                        <Button fx:id="btnFoto" mnemonicParsing="false" onAction="#elegirFoto" styleClass="boton-foto" text="📷 Elegir foto" StackPane.alignment="BOTTOM_RIGHT">
+                        <Button fx:id="btnFoto" accessibleText="Elegir la foto del plato" mnemonicParsing="false" onAction="#elegirFoto" styleClass="boton-foto" text="📷 Elegir foto" StackPane.alignment="BOTTOM_RIGHT">
                             <tooltip>
                                 <Tooltip text="Elige una imagen JPG o PNG de tu ordenador (máx. 5 MB). Se guarda al pulsar Guardar" />
                             </tooltip>
@@ -97,18 +107,18 @@
                     </children>
                 </StackPane>
                 <Label styleClass="etiqueta-campo" text="Nombre" />
-                <TextField fx:id="txtNombre" promptText="Ej: Rabo de toro" />
+                <TextField fx:id="txtNombre" accessibleText="Nombre del plato" promptText="Ej: Rabo de toro" />
                 <Label styleClass="etiqueta-campo" text="Categoría" />
-                <ComboBox fx:id="cmbCategoria" maxWidth="Infinity" promptText="Elige una categoría" />
+                <ComboBox fx:id="cmbCategoria" accessibleText="Categoría del plato" maxWidth="Infinity" promptText="Elige una categoría" />
                 <Label styleClass="etiqueta-campo" text="Precio (€)" />
-                <TextField fx:id="txtPrecio" promptText="Ej: 15,50">
+                <TextField fx:id="txtPrecio" accessibleText="Precio del plato en euros" promptText="Ej: 15,50">
                     <tooltip>
                         <Tooltip text="Puedes usar coma o punto para los céntimos" />
                     </tooltip>
                 </TextField>
                 <Label styleClass="etiqueta-campo" text="Descripción" />
-                <TextArea fx:id="txtDescripcion" prefRowCount="3" promptText="Ingredientes o cómo se sirve" wrapText="true" />
-                <CheckBox fx:id="chkDisponible" mnemonicParsing="false" selected="true" text="Disponible en la carta">
+                <TextArea fx:id="txtDescripcion" accessibleText="Descripción del plato" prefRowCount="3" promptText="Ingredientes o cómo se sirve" wrapText="true" />
+                <CheckBox fx:id="chkDisponible" accessibleText="Plato disponible en la carta" mnemonicParsing="false" selected="true" text="Disponible en la carta">
                     <VBox.margin>
                         <Insets top="6.0" />
                     </VBox.margin>
@@ -117,8 +127,8 @@
                 <Region VBox.vgrow="ALWAYS" />
                 <HBox spacing="8.0">
                     <children>
-                        <Button fx:id="btnGuardar" defaultButton="true" maxWidth="Infinity" mnemonicParsing="false" onAction="#guardar" styleClass="boton-principal" text="Guardar" HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" onAction="#limpiar" styleClass="boton-secundario" text="Limpiar" />
+                        <Button fx:id="btnGuardar" accessibleText="Guardar el plato" defaultButton="true" maxWidth="Infinity" mnemonicParsing="false" onAction="#guardar" styleClass="boton-principal" text="Guardar" HBox.hgrow="ALWAYS" />
+                        <Button accessibleText="Vaciar el formulario" mnemonicParsing="false" onAction="#limpiar" styleClass="boton-secundario" text="Limpiar" />
                     </children>
                 </HBox>
             </children>
