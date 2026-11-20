@@ -34,6 +34,7 @@ public class GestionPedidosController {
     @FXML private VBox panelDetalle, panelLineas;
     @FXML private HBox panelProgreso;
     @FXML private ComboBox<String> cmbEstado;
+    @FXML private ProgressIndicator indicadorCarga;
 
     private final GestionPedidosService pedidosService = new GestionPedidosService();
     private final FotoService fotoService = new FotoService();
@@ -44,7 +45,7 @@ public class GestionPedidosController {
     @FXML public void initialize() {
         configurarColumnas();
         // Los pedidos mas recientes arriba
-        javafx.collections.ObservableList<Pedido> pedidos = pedidosService.listarPedidos();
+        javafx.collections.ObservableList<Pedido> pedidos = pedidosService.pedidosActuales();
         filtrados = new FilteredList<>(pedidos);
         SortedList<Pedido> ordenados = new SortedList<>(filtrados, Comparator.comparingInt(Pedido::getId).reversed());
         tablaPedidos.setItems(ordenados);
@@ -68,6 +69,27 @@ public class GestionPedidosController {
         aplicarFiltro();
         actualizarContadores();
         tablaPedidos.getSelectionModel().selectFirst();
+        recargarPedidos();
+    }
+
+    // Vuelve a leer los pedidos en segundo plano y mientras tanto enseña el indicador de carga
+    private void recargarPedidos() {
+        javafx.concurrent.Task<java.util.List<Pedido>> tarea = pedidosService.tareaRecargar();
+        indicadorCarga.visibleProperty().bind(tarea.runningProperty());
+        tablaPedidos.disableProperty().bind(tarea.runningProperty());
+        Pedido antes = tablaPedidos.getSelectionModel().getSelectedItem();
+        int idAntes = antes == null ? -1 : antes.getId();
+        tarea.setOnSucceeded(e -> {
+            pedidosService.ponerPedidos(tarea.getValue());
+            // Se vuelve a seleccionar el mismo pedido que estaba seleccionado
+            tablaPedidos.getItems().stream().filter(p -> p.getId() == idAntes).findFirst()
+                    .ifPresentOrElse(p -> tablaPedidos.getSelectionModel().select(p), () -> tablaPedidos.getSelectionModel().selectFirst());
+            alCambiarPedidos.run();
+        });
+        tarea.setOnFailed(e -> mostrarError(tarea.getException().getMessage()));
+        Thread hilo = new Thread(tarea, "cargar-pedidos");
+        hilo.setDaemon(true);
+        hilo.start();
     }
 
     public void setAlCambiarPedidos(Runnable accion) { this.alCambiarPedidos = accion; }
