@@ -501,3 +501,8 @@
 .pantalla-trabajador .inicial-cliente {
     -fx-text-fill: #ff6b7d;
 }
+
+/* Fila seleccionada del panel del trabajador: el texto se calcula a partir de este fondo para que se lea bien */
+.pantalla-trabajador .tabla .table-row-cell:selected {
+    -fx-background: #4a1d25;
+}

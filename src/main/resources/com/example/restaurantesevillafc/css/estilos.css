@@ -807,6 +807,8 @@
 
 .pantalla-trabajador .tabla .table-row-cell:selected {
     -fx-background-color: #fdecee;
+    /* Para que el texto de la fila seleccionada no se ponga blanco y se pueda leer */
+    -fx-background: #fdecee;
 }
 
 .pantalla-trabajador .tabla .table-cell {
