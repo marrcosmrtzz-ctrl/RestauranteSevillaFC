@@ -1,5 +1,6 @@
 package com.example.restaurantesevillafc.controller;
 import com.example.restaurantesevillafc.App;
+import com.example.restaurantesevillafc.config.Tema;
 import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.UsuarioService;
 import javafx.application.Platform;
@@ -7,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import java.io.IOException;
 public class LoginController {
     @FXML private TextField txtCorreo;
@@ -16,9 +18,12 @@ public class LoginController {
     @FXML private Label lblTitulo,lblSubtitulo,lblError;
     @FXML private Button btnEntrar;
     @FXML private Hyperlink linkRegistro;
+    @FXML private CheckMenuItem itemTemaOscuro;
+    @FXML private MenuItem itemAumentarLetra,itemReducirLetra,itemLetraNormal;
     private final UsuarioService usuarioService=new UsuarioService();
 
     @FXML public void initialize(){
+        actualizarMenuTema();
         btnEntrar.disableProperty().bind(txtCorreo.textProperty().isEmpty().or(txtPassword.textProperty().isEmpty()));
         grupoRol.selectedToggleProperty().addListener((obs,antes,ahora)->{if(ahora==null)antes.setSelected(true);});
         txtCorreo.textProperty().addListener((obs,a,b)->ocultarError());
@@ -70,6 +75,38 @@ public class LoginController {
         }catch(IOException e){
             new Alert(Alert.AlertType.ERROR,"No se ha podido abrir el panel del trabajador.").showAndWait();
         }
+    }
+    // Menu Ver: tema oscuro y tamano de letra con la clase Tema de Rubén (se mantiene al cambiar de pantalla)
+    private void actualizarMenuTema(){
+        itemTemaOscuro.setSelected(Tema.isOscuro());
+        itemAumentarLetra.setDisable(Tema.esLetraMaxima());
+        itemReducirLetra.setDisable(Tema.esLetraMinima());
+        itemLetraNormal.setDisable(Tema.esLetraMinima());
+    }
+    @FXML private void cambiarTema(){
+        Tema.cambiarTema(txtCorreo.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void aumentarLetra(){
+        Tema.aumentarLetra(txtCorreo.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void reducirLetra(){
+        Tema.reducirLetra(txtCorreo.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void letraNormal(){
+        Tema.letraNormal(txtCorreo.getScene());
+        actualizarMenuTema();
+    }
+    // Ayuda (F1): explica en pocas lineas como se usa esta pantalla
+    @FXML private void verAyuda(){
+        Alert ayuda=new Alert(Alert.AlertType.INFORMATION,"1. Elige arriba si entras como Cliente o como Trabajador.\n2. Escribe tu correo y tu contraseña y pulsa «Entrar» (o la tecla Intro).\n3. Si eres cliente y todavía no tienes cuenta, pulsa «Regístrate».\n\nSi algo está mal, sale un aviso en rojo debajo de la contraseña.\n\nEn el menú Ver puedes poner el tema oscuro (Ctrl+T) y agrandar o reducir la letra (Ctrl + y Ctrl -).");
+        ayuda.setHeaderText("Cómo iniciar sesión");
+        ayuda.setTitle("Ayuda");
+        // Para que la ventana crezca y se lea todo el texto
+        ayuda.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        ayuda.showAndWait();
     }
     private void ocultarError(){lblError.setVisible(false);lblError.setManaged(false);}
 }

@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -9,6 +10,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
@@ -29,8 +31,18 @@
                         <MenuItem accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#salir" text="Salir" />
                     </items>
                 </Menu>
+                <Menu mnemonicParsing="false" text="Ver">
+                    <items>
+                        <CheckMenuItem fx:id="itemTemaOscuro" accelerator="Shortcut+T" mnemonicParsing="false" onAction="#cambiarTema" text="Tema oscuro" />
+                        <MenuItem fx:id="itemAumentarLetra" accelerator="Shortcut+Plus" mnemonicParsing="false" onAction="#aumentarLetra" text="Aumentar letra" />
+                        <MenuItem fx:id="itemReducirLetra" accelerator="Shortcut+Minus" mnemonicParsing="false" onAction="#reducirLetra" text="Reducir letra" />
+                        <MenuItem fx:id="itemLetraNormal" accelerator="Shortcut+0" mnemonicParsing="false" onAction="#letraNormal" text="Letra normal" />
+                    </items>
+                </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
                     <items>
+                        <MenuItem accelerator="F1" mnemonicParsing="false" onAction="#verAyuda" text="Cómo usar esta pantalla" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#acercaDe" text="Acerca de" />
                     </items>
                 </Menu>
@@ -92,25 +104,25 @@
                                     </columnConstraints>
                                     <children>
                                         <Label styleClass="etiqueta-campo" text="Nombre *" />
-                                        <TextField fx:id="txtNombre" maxWidth="Infinity" promptText="Tu nombre" GridPane.rowIndex="1" />
+                                        <TextField fx:id="txtNombre" accessibleText="Nombre, obligatorio" maxWidth="Infinity" promptText="Tu nombre" GridPane.rowIndex="1" />
                                         <Label styleClass="etiqueta-campo" text="Apellidos *" GridPane.columnIndex="1" />
-                                        <TextField fx:id="txtApellidos" maxWidth="Infinity" promptText="Tus apellidos" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <TextField fx:id="txtApellidos" accessibleText="Apellidos, obligatorio" maxWidth="Infinity" promptText="Tus apellidos" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                                         <Label styleClass="etiqueta-campo" text="Correo electrónico *" GridPane.rowIndex="2" />
-                                        <TextField fx:id="txtCorreo" maxWidth="Infinity" promptText="usuario@correo.com" GridPane.rowIndex="3" />
+                                        <TextField fx:id="txtCorreo" accessibleText="Correo electrónico, obligatorio" maxWidth="Infinity" promptText="usuario@correo.com" GridPane.rowIndex="3" />
                                         <Label styleClass="etiqueta-campo" text="Teléfono" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                        <TextField fx:id="txtTelefono" maxWidth="Infinity" promptText="600 123 456" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <TextField fx:id="txtTelefono" accessibleText="Teléfono, no es obligatorio" maxWidth="Infinity" promptText="600 123 456" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
                                         <Label styleClass="etiqueta-campo" text="Contraseña *" GridPane.rowIndex="4" />
-                                        <PasswordField fx:id="txtPassword" maxWidth="Infinity" promptText="Contraseña" GridPane.rowIndex="5">
+                                        <PasswordField fx:id="txtPassword" accessibleText="Contraseña: mínimo 8 caracteres, una mayúscula y un número" maxWidth="Infinity" promptText="Contraseña" GridPane.rowIndex="5">
                                             <tooltip>
                                                 <Tooltip text="Mínimo 8 caracteres, una mayúscula y un número" />
                                             </tooltip>
                                         </PasswordField>
                                         <Label styleClass="etiqueta-campo" text="Repetir contraseña *" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                        <PasswordField fx:id="txtRepetir" maxWidth="Infinity" promptText="Repite la contraseña" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                        <PasswordField fx:id="txtRepetir" accessibleText="Repetir la contraseña" maxWidth="Infinity" promptText="Repite la contraseña" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                                        <Label styleClass="nota" text="Mínimo 8 caracteres, una mayúscula y un número" GridPane.rowIndex="6" />
+                                        <Label styleClass="nota" text="Mínimo 8 caracteres, una mayúscula y un número" wrapText="true" GridPane.rowIndex="6" />
                                         <Label fx:id="lblCoinciden" styleClass="texto-ok" text="✓ Las contraseñas coinciden" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
                                         <HBox spacing="6.0" GridPane.rowIndex="7">
@@ -129,8 +141,8 @@
 
                                 <HBox alignment="CENTER_LEFT">
                                     <children>
-                                        <CheckBox fx:id="chkPrivacidad" mnemonicParsing="false" text="Acepto la" />
-                                        <Hyperlink onAction="#verPrivacidad" styleClass="enlace" text="política de privacidad" />
+                                        <CheckBox fx:id="chkPrivacidad" accessibleText="Aceptar la política de privacidad" mnemonicParsing="false" text="Acepto la" />
+                                        <Hyperlink accessibleText="Ver la política de privacidad" onAction="#verPrivacidad" styleClass="enlace" text="política de privacidad" />
                                         <Label text="y el tratamiento de mis datos *" />
                                     </children>
                                     <VBox.margin>
@@ -142,9 +154,9 @@
 
                                 <HBox alignment="CENTER_LEFT">
                                     <children>
-                                        <Button cancelButton="true" mnemonicParsing="false" onAction="#volver" styleClass="boton-secundario" text="‹  Volver" />
+                                        <Button accessibleText="Volver al inicio de sesión" cancelButton="true" mnemonicParsing="false" onAction="#volver" styleClass="boton-secundario" text="‹  Volver" />
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="btnCrear" defaultButton="true" mnemonicParsing="false" onAction="#crearCuenta" prefWidth="180.0" styleClass="boton-principal" text="Crear cuenta" />
+                                        <Button fx:id="btnCrear" accessibleText="Crear la cuenta" defaultButton="true" mnemonicParsing="false" onAction="#crearCuenta" prefWidth="180.0" styleClass="boton-principal" text="Crear cuenta" />
                                     </children>
                                     <VBox.margin>
                                         <Insets top="8.0" />
@@ -154,7 +166,7 @@
                                 <HBox alignment="CENTER_LEFT" spacing="2.0">
                                     <children>
                                         <Label styleClass="subtitulo" text="¿Ya tienes cuenta?" />
-                                        <Hyperlink onAction="#volver" styleClass="enlace" text="Inicia sesión" />
+                                        <Hyperlink accessibleText="Ir al inicio de sesión" onAction="#volver" styleClass="enlace" text="Inicia sesión" />
                                     </children>
                                 </HBox>
                             </children>

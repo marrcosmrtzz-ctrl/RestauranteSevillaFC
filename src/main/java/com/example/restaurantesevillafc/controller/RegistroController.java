@@ -1,5 +1,6 @@
 package com.example.restaurantesevillafc.controller;
 import com.example.restaurantesevillafc.App;
+import com.example.restaurantesevillafc.config.Tema;
 import com.example.restaurantesevillafc.model.Usuario;
 import com.example.restaurantesevillafc.service.UsuarioService;
 import javafx.application.Platform;
@@ -15,9 +16,12 @@ public class RegistroController {
     @FXML private Region seg1,seg2,seg3,seg4;
     @FXML private CheckBox chkPrivacidad;
     @FXML private Button btnCrear;
+    @FXML private CheckMenuItem itemTemaOscuro;
+    @FXML private MenuItem itemAumentarLetra,itemReducirLetra,itemLetraNormal;
     private final UsuarioService usuarioService=new UsuarioService();
 
     @FXML public void initialize(){
+        actualizarMenuTema();
         // Binding: Crear cuenta desactivado hasta aceptar la política de privacidad
         btnCrear.disableProperty().bind(chkPrivacidad.selectedProperty().not());
         // Binding: el aviso verde solo se ve cuando las dos contraseñas son iguales
@@ -71,6 +75,38 @@ public class RegistroController {
         String color=nivel<=1?"#c8102e":nivel==2?"#e3a008":"#1e7b45";
         Region[] segs={seg1,seg2,seg3,seg4};
         for(int i=0;i<4;i++)segs[i].setStyle(i<nivel?"-fx-background-color:"+color+";":"");
+    }
+    // Menu Ver: tema oscuro y tamano de letra con la clase Tema de Rubén (se mantiene al cambiar de pantalla)
+    private void actualizarMenuTema(){
+        itemTemaOscuro.setSelected(Tema.isOscuro());
+        itemAumentarLetra.setDisable(Tema.esLetraMaxima());
+        itemReducirLetra.setDisable(Tema.esLetraMinima());
+        itemLetraNormal.setDisable(Tema.esLetraMinima());
+    }
+    @FXML private void cambiarTema(){
+        Tema.cambiarTema(txtNombre.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void aumentarLetra(){
+        Tema.aumentarLetra(txtNombre.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void reducirLetra(){
+        Tema.reducirLetra(txtNombre.getScene());
+        actualizarMenuTema();
+    }
+    @FXML private void letraNormal(){
+        Tema.letraNormal(txtNombre.getScene());
+        actualizarMenuTema();
+    }
+    // Ayuda (F1): explica en pocas lineas como se usa esta pantalla
+    @FXML private void verAyuda(){
+        Alert ayuda=new Alert(Alert.AlertType.INFORMATION,"1. Rellena los campos con * (nombre, apellidos, correo y contraseña). El teléfono no es obligatorio.\n2. La contraseña tiene que tener mínimo 8 caracteres, una mayúscula y un número. La barra de colores te dice si es segura y debajo verás si las dos contraseñas coinciden.\n3. Marca la casilla de la política de privacidad y pulsa «Crear cuenta».\n\nAl crear la cuenta entras directamente a la carta. Con «Volver» regresas al inicio de sesión.\n\nEn el menú Ver puedes poner el tema oscuro (Ctrl+T) y agrandar o reducir la letra (Ctrl + y Ctrl -).");
+        ayuda.setHeaderText("Cómo crear una cuenta");
+        ayuda.setTitle("Ayuda");
+        // Para que la ventana crezca y se lea todo el texto
+        ayuda.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        ayuda.showAndWait();
     }
     private void ocultarError(){lblError.setVisible(false);lblError.setManaged(false);}
 }
