@@ -2,12 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -27,8 +29,18 @@
                         <MenuItem accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#salir" text="Salir" />
                     </items>
                 </Menu>
+                <Menu mnemonicParsing="false" text="Ver">
+                    <items>
+                        <CheckMenuItem fx:id="itemTemaOscuro" accelerator="Shortcut+T" mnemonicParsing="false" onAction="#cambiarTema" text="Tema oscuro" />
+                        <MenuItem fx:id="itemAumentarLetra" accelerator="Shortcut+Plus" mnemonicParsing="false" onAction="#aumentarLetra" text="Aumentar letra" />
+                        <MenuItem fx:id="itemReducirLetra" accelerator="Shortcut+Minus" mnemonicParsing="false" onAction="#reducirLetra" text="Reducir letra" />
+                        <MenuItem fx:id="itemLetraNormal" accelerator="Shortcut+0" mnemonicParsing="false" onAction="#letraNormal" text="Letra normal" />
+                    </items>
+                </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
                     <items>
+                        <MenuItem accelerator="F1" mnemonicParsing="false" onAction="#verAyuda" text="Cómo usar esta pantalla" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#acercaDe" text="Acerca de" />
                     </items>
                 </Menu>
@@ -84,27 +96,27 @@
                                 <Label fx:id="lblSubtitulo" styleClass="subtitulo" text="Inicia sesión para continuar" />
                                 <HBox styleClass="selector-rol">
                                     <children>
-                                        <ToggleButton fx:id="btnCliente" maxWidth="Infinity" mnemonicParsing="false" onAction="#cambiarRol" selected="true" text="Cliente" HBox.hgrow="ALWAYS">
+                                        <ToggleButton fx:id="btnCliente" accessibleText="Entrar como cliente" maxWidth="Infinity" mnemonicParsing="false" onAction="#cambiarRol" selected="true" text="Cliente" HBox.hgrow="ALWAYS">
                                             <toggleGroup>
                                                 <ToggleGroup fx:id="grupoRol" />
                                             </toggleGroup>
                                         </ToggleButton>
-                                        <ToggleButton fx:id="btnTrabajador" maxWidth="Infinity" mnemonicParsing="false" onAction="#cambiarRol" text="Trabajador" toggleGroup="$grupoRol" HBox.hgrow="ALWAYS" />
+                                        <ToggleButton fx:id="btnTrabajador" accessibleText="Entrar como trabajador" maxWidth="Infinity" mnemonicParsing="false" onAction="#cambiarRol" text="Trabajador" toggleGroup="$grupoRol" HBox.hgrow="ALWAYS" />
                                     </children>
                                     <VBox.margin>
                                         <Insets bottom="6.0" top="10.0" />
                                     </VBox.margin>
                                 </HBox>
                                 <Label styleClass="etiqueta-campo" text="Correo electrónico" />
-                                <TextField fx:id="txtCorreo" promptText="usuario@correo.com">
+                                <TextField fx:id="txtCorreo" accessibleText="Correo electrónico" promptText="usuario@correo.com">
                                     <tooltip>
                                         <Tooltip text="El correo con el que te registraste" />
                                     </tooltip>
                                 </TextField>
                                 <Label styleClass="etiqueta-campo" text="Contraseña" />
-                                <PasswordField fx:id="txtPassword" onAction="#entrar" promptText="Contraseña" />
+                                <PasswordField fx:id="txtPassword" accessibleText="Contraseña" onAction="#entrar" promptText="Contraseña" />
                                 <Label fx:id="lblError" managed="false" styleClass="mensaje-error" visible="false" wrapText="true" />
-                                <Button fx:id="btnEntrar" defaultButton="true" maxWidth="Infinity" mnemonicParsing="false" onAction="#entrar" styleClass="boton-principal" text="Entrar">
+                                <Button fx:id="btnEntrar" accessibleText="Entrar con el correo y la contraseña escritos" defaultButton="true" maxWidth="Infinity" mnemonicParsing="false" onAction="#entrar" styleClass="boton-principal" text="Entrar">
                                     <VBox.margin>
                                         <Insets top="8.0" />
                                     </VBox.margin>
@@ -112,7 +124,7 @@
                                 <HBox alignment="CENTER" spacing="2.0">
                                     <children>
                                         <Label styleClass="subtitulo" text="¿No tienes cuenta?" />
-                                        <Hyperlink fx:id="linkRegistro" onAction="#irARegistro" styleClass="enlace" text="Regístrate" />
+                                        <Hyperlink fx:id="linkRegistro" accessibleText="Ir a crear una cuenta nueva" onAction="#irARegistro" styleClass="enlace" text="Regístrate" />
                                     </children>
                                 </HBox>
                             </children>
